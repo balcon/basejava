@@ -2,18 +2,27 @@
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    int size = 0;
-    Resume[] storage = new Resume[10000];
+
+    private static final int CAPACITY=10000;
+    private int size = 0;
+    private Resume[] storage = new Resume[CAPACITY];
 
     void clear() {
     }
 
     void save(Resume r) {
-        storage[size] = r;
-        size++;
+        if (size<CAPACITY) {
+            storage[size] = r;
+            size++;
+        }
     }
 
     Resume get(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid.equals(uuid)){
+                return storage[i];
+            }
+        }
         return null;
     }
 
