@@ -2,12 +2,15 @@
  * Array based storage for Resumes
  */
 public class ArrayStorage {
+    int size = 0;
     Resume[] storage = new Resume[10000];
 
     void clear() {
     }
 
     void save(Resume r) {
+        storage[size] = r;
+        size++;
     }
 
     Resume get(String uuid) {
@@ -25,6 +28,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        return 0;
+        return size;
     }
 }
