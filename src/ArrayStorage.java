@@ -4,14 +4,15 @@
 public class ArrayStorage {
 
     private static final int CAPACITY = 10000;
+
     private int size = 0;
     private Resume[] storage = new Resume[CAPACITY];
 
     void clear() {
         for (int i = 0; i < size; i++) {
-            storage[i]=null;
+            storage[i] = null;
         }
-        size=0;
+        size = 0;
     }
 
     void save(Resume r) {
@@ -31,6 +32,21 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+        boolean isFound = false;
+
+        for (int i = 0; i < size; i++) {
+            if (isFound) {
+                storage[i - 1] = storage[i];
+            }
+            if (storage[i].uuid.equals(uuid)) {
+                isFound = true;
+            }
+        }
+
+        if (isFound) {
+            storage[size - 1] = null;
+            size--;
+        }
     }
 
     /**
@@ -38,7 +54,11 @@ public class ArrayStorage {
      */
     Resume[] getAll() {
         Resume[] trimmedStorage = new Resume[size];
-        System.arraycopy(storage, 0, trimmedStorage, 0, size);
+        for (int i = 0; i < size; i++) {
+            trimmedStorage[i] = storage[i];
+        }
+        // Or use arraycopy
+        // System.arraycopy(storage, 0, trimmedStorage, 0, size);
         return trimmedStorage;
     }
 
