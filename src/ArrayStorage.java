@@ -3,15 +3,19 @@
  */
 public class ArrayStorage {
 
-    private static final int CAPACITY=10000;
+    private static final int CAPACITY = 10000;
     private int size = 0;
     private Resume[] storage = new Resume[CAPACITY];
 
     void clear() {
+        for (int i = 0; i < size; i++) {
+            storage[i]=null;
+        }
+        size=0;
     }
 
     void save(Resume r) {
-        if (size<CAPACITY) {
+        if (size < CAPACITY) {
             storage[size] = r;
             size++;
         }
@@ -19,7 +23,7 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)){
+            if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
         }
@@ -33,7 +37,9 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return new Resume[0];
+        Resume[] trimmedStorage = new Resume[size];
+        System.arraycopy(storage, 0, trimmedStorage, 0, size);
+        return trimmedStorage;
     }
 
     int size() {
