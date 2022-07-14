@@ -34,18 +34,17 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        boolean isFound = false;
+        int index = -1;
 
         for (int i = 0; i < size; i++) {
-            if (isFound) {
-                storage[i - 1] = storage[i];
-            }
             if (storage[i].uuid.equals(uuid)) {
-                isFound = true;
+                index = i;
+                break;
             }
         }
 
-        if (isFound) {
+        if (index != -1) {
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
         }
