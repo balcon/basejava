@@ -29,10 +29,17 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (size < CAPACITY) {
-            storage[size] = r;
-            size++;
+        int index=indexOf(r.uuid);
+        if (index!=-1){
+            System.out.println("Resume [" + r.uuid + "] is already in the storage");
+            return;
         }
+        if (size >= CAPACITY) {
+            System.out.println("Storage contains maximum number of resumes");
+            return;
+        }
+        storage[size] = r;
+        size++;
     }
 
     public Resume get(String uuid) {
@@ -45,6 +52,12 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
+        int index=indexOf(resume.uuid);
+        if (index!=-1){
+            storage[index]=resume;
+        } else {
+            System.out.println("Resume [" + resume.uuid + "] is not contained in the storage");
+        }
 
     }
 
