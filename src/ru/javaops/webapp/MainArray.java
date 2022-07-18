@@ -1,9 +1,14 @@
+package ru.javaops.webapp;
+
+import ru.javaops.webapp.model.Resume;
+import ru.javaops.webapp.storage.ArrayStorage;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Interactive test for ArrayStorage implementation
+ * Interactive test for ru.javaops.webapp.storage.ArrayStorage implementation
  * (just run, no need to understand)
  */
 public class MainArray {
