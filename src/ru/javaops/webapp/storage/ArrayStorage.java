@@ -29,8 +29,8 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        int index=indexOf(r.uuid);
-        if (index!=-1){
+        int index = indexOf(r.uuid);
+        if (index != -1) {
             System.out.println("Resume [" + r.uuid + "] is already in the storage");
             return;
         }
@@ -52,9 +52,9 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int index=indexOf(resume.uuid);
-        if (index!=-1){
-            storage[index]=resume;
+        int index = indexOf(resume.uuid);
+        if (index != -1) {
+            storage[index] = resume;
         } else {
             System.out.println("Resume [" + resume.uuid + "] is not contained in the storage");
         }
