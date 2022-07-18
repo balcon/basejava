@@ -14,6 +14,15 @@ public class ArrayStorage {
     private int size = 0;
     private final Resume[] storage = new Resume[CAPACITY];
 
+    private int indexOf(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
@@ -29,28 +38,26 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                return storage[i];
-            }
+        int index = indexOf(uuid);
+        if (index != -1) {
+            return storage[index];
         }
+        System.out.println("Resume [" + uuid + "] is not contained in the storage");
         return null;
     }
 
+    public void update(Resume resume) {
+
+    }
+
     public void delete(String uuid) {
-        int index = -1;
-
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                index = i;
-                break;
-            }
-        }
-
+        int index = indexOf(uuid);
         if (index != -1) {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
+        } else {
+            System.out.println("Resume [" + uuid + "] is not contained in the storage");
         }
     }
 
