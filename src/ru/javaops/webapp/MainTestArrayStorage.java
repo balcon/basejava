@@ -18,15 +18,18 @@ public class MainTestArrayStorage {
         r3.uuid = "uuid3";
         Resume r4 = new Resume();
         r4.uuid = "uuid2";
-        Resume r5= new Resume();
-        r5.uuid="uuid2";
+        Resume r5 = new Resume();
+        r5.uuid = "uuid5";
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
+        ARRAY_STORAGE.update(r4);
 
         System.out.println("Save duplicate");
         ARRAY_STORAGE.save(r4);
+        System.out.println("Update wrong resume");
+        ARRAY_STORAGE.update(r5);
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.uuid));
         System.out.println("Size: " + ARRAY_STORAGE.size());
