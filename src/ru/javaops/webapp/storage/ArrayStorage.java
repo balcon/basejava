@@ -9,10 +9,10 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
 
-    private static final int CAPACITY = 10000;
+    private static final int STORAGE_CAPACITY = 10000;
 
     private int size = 0;
-    private final Resume[] storage = new Resume[CAPACITY];
+    private final Resume[] storage = new Resume[STORAGE_CAPACITY];
 
     private int indexOf(String uuid) {
         for (int i = 0; i < size; i++) {
@@ -28,47 +28,45 @@ public class ArrayStorage {
         size = 0;
     }
 
-    public void save(Resume r) {
-        int index = indexOf(r.uuid);
-        if (index != -1) {
-            System.out.println("Resume [" + r.uuid + "] is already in the storage");
-            return;
-        }
-        if (size >= CAPACITY) {
+    public void save(Resume resume) {
+        int index = indexOf(resume.uuid);
+        if (size >= STORAGE_CAPACITY) {
             System.out.println("Storage contains maximum number of resumes");
-            return;
+        } else if (index != -1) {
+            System.out.println("Resume [" + resume.uuid + "] already exists");
+        } else {
+            storage[size] = resume;
+            size++;
         }
-        storage[size] = r;
-        size++;
     }
 
     public Resume get(String uuid) {
         int index = indexOf(uuid);
-        if (index != -1) {
-            return storage[index];
+        if (index == -1) {
+            System.out.println("Resume [" + uuid + "] is not contained in the storage");
+            return null;
         }
-        System.out.println("Resume [" + uuid + "] is not contained in the storage");
-        return null;
+        return storage[index];
     }
 
     public void update(Resume resume) {
         int index = indexOf(resume.uuid);
-        if (index != -1) {
-            storage[index] = resume;
-        } else {
+        if (index == -1) {
             System.out.println("Resume [" + resume.uuid + "] is not contained in the storage");
+        } else {
+            storage[index] = resume;
         }
 
     }
 
     public void delete(String uuid) {
         int index = indexOf(uuid);
-        if (index != -1) {
+        if (index == -1) {
+            System.out.println("Resume [" + uuid + "] is not contained in the storage");
+        } else {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
-        } else {
-            System.out.println("Resume [" + uuid + "] is not contained in the storage");
         }
     }
 
