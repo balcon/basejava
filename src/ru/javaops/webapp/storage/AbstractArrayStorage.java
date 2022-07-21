@@ -26,7 +26,7 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     @Override
-    public void save(Resume resume) {
+    public final void save(Resume resume) {
         int index = indexOf(resume.getUuid());
         if (size >= STORAGE_CAPACITY) {
             System.out.println("Storage contains maximum number of resumes");
