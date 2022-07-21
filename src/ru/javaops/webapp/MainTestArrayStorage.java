@@ -1,15 +1,14 @@
 package ru.javaops.webapp;
 
 import ru.javaops.webapp.model.Resume;
-import ru.javaops.webapp.storage.SortedArrayStorage;
+import ru.javaops.webapp.storage.ArrayStorage;
 import ru.javaops.webapp.storage.Storage;
 
 /**
  * Test for your ru.javaops.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final Storage ARRAY_STORAGE = new SortedArrayStorage();
-    static final Storage SORTED_ARRAY_STORAGE = new SortedArrayStorage();
+    static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume();
@@ -23,9 +22,9 @@ public class MainTestArrayStorage {
         Resume r5 = new Resume();
         r5.setUuid("uuid5");
 
-        ARRAY_STORAGE.save(r1);
-        ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
+        ARRAY_STORAGE.save(r2);
+        ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.update(r4);
 
         System.out.println("Save duplicate");
