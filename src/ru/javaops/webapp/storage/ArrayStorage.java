@@ -16,7 +16,7 @@ public class ArrayStorage {
 
     private int indexOf(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }
@@ -29,11 +29,11 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        int index = indexOf(resume.uuid);
+        int index = indexOf(resume.getUuid());
         if (size >= STORAGE_CAPACITY) {
             System.out.println("Storage contains maximum number of resumes");
         } else if (index != -1) {
-            System.out.println("Resume [" + resume.uuid + "] already exists");
+            System.out.println("Resume [" + resume.getUuid() + "] already exists");
         } else {
             storage[size] = resume;
             size++;
@@ -50,9 +50,9 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int index = indexOf(resume.uuid);
+        int index = indexOf(resume.getUuid());
         if (index == -1) {
-            System.out.println("Resume [" + resume.uuid + "] is not contained in the storage");
+            System.out.println("Resume [" + resume.getUuid() + "] is not contained in the storage");
         } else {
             storage[index] = resume;
         }
