@@ -17,4 +17,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         storage[index] = resume;
     }
 
+    @Override
+    protected void deleteFromStorage(int index) {
+
+    }
+
 }
