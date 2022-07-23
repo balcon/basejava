@@ -8,8 +8,7 @@ import ru.javaops.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
     @Override
     protected int indexOf(String uuid) {
-        Resume resume = new Resume();
-        resume.setUuid(uuid);
+        Resume resume = new Resume(uuid);
         for (int i = 0; i < size; i++) {
             if (storage[i].equals(resume)) {
                 return i;
