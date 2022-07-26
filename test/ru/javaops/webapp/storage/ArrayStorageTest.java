@@ -1,4 +1,8 @@
-import static org.junit.Assert.*;
-public class ArrayStorageTest {
-  
+package ru.javaops.webapp.storage;
+
+public class ArrayStorageTest extends AbstractArrayStorageTest {
+
+    public ArrayStorageTest() {
+        super(new ArrayStorage());
+    }
 }
