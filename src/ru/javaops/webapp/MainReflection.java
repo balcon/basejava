@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class MainReflection {
-    public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
         Resume resume = new Resume("uuid1");
 
         // Resume fields
@@ -20,5 +20,7 @@ public class MainReflection {
         // invoke toString()
         Method resumeToString = resume.getClass().getDeclaredMethod("toString");
         System.out.println(resumeToString.invoke(resume));
+
+
     }
 }
