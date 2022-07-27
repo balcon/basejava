@@ -104,9 +104,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] resumes = {new Resume(UUID_1),
-                new Resume(UUID_2),
-                new Resume(UUID_3)};
+        Resume[] resumes = {new Resume(UUID_1), new Resume(UUID_2), new Resume(UUID_3)};
         assertArrayEquals(resumes, storage.getAll());
     }
 }
