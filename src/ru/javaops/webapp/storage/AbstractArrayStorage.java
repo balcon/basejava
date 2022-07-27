@@ -44,9 +44,10 @@ public abstract class AbstractArrayStorage implements Storage {
 
     @Override
     public final Resume get(String uuid) {
-        int index = indexOf(new Resume(uuid));
+        Resume resume = new Resume(uuid);
+        int index = indexOf(resume);
         if (index < 0) {
-            throw new NotExistsStorageException(uuid);
+            throw new NotExistsStorageException(resume);
         }
         return storage[index];
     }
@@ -64,9 +65,10 @@ public abstract class AbstractArrayStorage implements Storage {
 
     @Override
     public final void delete(String uuid) {
-        int index = indexOf(new Resume(uuid));
+        Resume resume = new Resume(uuid);
+        int index = indexOf(resume);
         if (index < 0) {
-            throw new NotExistsStorageException(uuid);
+            throw new NotExistsStorageException(resume);
         } else {
             removeResume(index);
             size--;
