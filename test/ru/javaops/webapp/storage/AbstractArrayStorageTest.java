@@ -56,11 +56,9 @@ public abstract class AbstractArrayStorageTest {
         Field storage_capacity = AbstractArrayStorage.class.getDeclaredField("STORAGE_CAPACITY");
         storage_capacity.setAccessible(true);
         int maxCapacity = (int) storage_capacity.get(null);
-        storage.clear();
-        // Очень странная конструкция с fail(), но так требует задание
         try {
-            for (int i = 0; i < maxCapacity; i++) {
-                storage.save(new Resume("_uuid" + i));
+            for (int i = 4; i <= maxCapacity; i++) {
+                storage.save(new Resume("uuid" + i));
             }
         } catch (StorageException e) {
             fail("Unexpected overflow");
