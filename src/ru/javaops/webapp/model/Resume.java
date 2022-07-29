@@ -35,4 +35,8 @@ public class Resume implements Comparable<Resume> {
     public int compareTo(Resume resume) {
         return uuid.compareTo(resume.uuid);
     }
+
+    public String getUuid() {
+        return uuid;
+    }
 }
