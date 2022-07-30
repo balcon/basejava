@@ -32,7 +32,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void save_(Resume resume, int index) {
+    protected void save_(int index, Resume resume) {
         storage.add(resume);
     }
 

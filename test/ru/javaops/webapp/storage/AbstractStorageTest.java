@@ -17,11 +17,11 @@ public abstract class AbstractStorageTest {
     private static final String UUID_4 = "uuid4";
     private static final String UUID_NOT_EXISTS = "uuid_not_exists";
 
-    public static final Resume RESUME_1 = new Resume(UUID_1);
-    public static final Resume RESUME_2 = new Resume(UUID_2);
-    public static final Resume RESUME_3 = new Resume(UUID_3);
-    public static final Resume RESUME_4 = new Resume(UUID_4);
-
+    protected static final Resume RESUME_1 = new Resume(UUID_1);
+    protected static final Resume RESUME_2 = new Resume(UUID_2);
+    protected static final Resume RESUME_3 = new Resume(UUID_3);
+    protected static final Resume RESUME_4 = new Resume(UUID_4);
+    protected static final Resume RESUME_NOT_EXISTS = new Resume(UUID_NOT_EXISTS);
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -47,11 +47,6 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getSize() {
-        assertSize(3);
-    }
-
-    @Test
     public void save() {
         storage.save(RESUME_4);
         assertGet(RESUME_4);
@@ -74,16 +69,6 @@ public abstract class AbstractStorageTest {
     public void getNotExisting() {
         storage.get(UUID_NOT_EXISTS);
     }
-    @Test
-    public void delete() {
-        storage.delete(UUID_1);
-        assertSize(2);
-    }
-
-    @Test(expected = NotExistsStorageException.class)
-    public void deleteNotExisting() {
-        storage.delete(UUID_NOT_EXISTS);
-    }
 
     @Test
     public void update() {
@@ -94,17 +79,35 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistsStorageException.class)
     public void updateNotExisting() {
-        storage.update(RESUME_4);
+        storage.update(RESUME_NOT_EXISTS);
+    }
+
+    @Test(expected = NotExistsStorageException.class)
+    public void delete() {
+        storage.delete(UUID_1);
+        assertSize(2);
+        storage.get(UUID_1);
+    }
+
+    @Test(expected = NotExistsStorageException.class)
+    public void deleteNotExisting() {
+        storage.delete(UUID_NOT_EXISTS);
     }
 
     @Test
-    public void getAll() {
-        assertGetAll(new Resume[]{RESUME_1, RESUME_2, RESUME_3});
+    public void getSize() {
+        assertSize(3);
     }
+
     @Test
     public void clear() {
         storage.clear();
         assertSize(0);
         assertGetAll(new Resume[0]);
+    }
+
+    @Test
+    public void getAll() {
+        assertGetAll(new Resume[]{RESUME_1, RESUME_2, RESUME_3});
     }
 }

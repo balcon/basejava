@@ -8,7 +8,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract int indexOf(Resume resume);
 
-    protected abstract void save_(Resume resume, int index);
+    protected abstract void save_(int index, Resume resume);
 
     protected abstract Resume get_(int index);
 
@@ -22,7 +22,7 @@ public abstract class AbstractStorage implements Storage {
         if (index >= 0) {
             throw new ExistsStorageException(resume);
         } else {
-            save_(resume, index);
+            save_(index, resume);
         }
     }
 
