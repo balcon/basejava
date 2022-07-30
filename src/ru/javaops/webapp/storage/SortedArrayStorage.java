@@ -4,6 +4,9 @@ import ru.javaops.webapp.model.Resume;
 
 import java.util.Arrays;
 
+/**
+ * Sorted array based storage for Resumes
+ */
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected int indexOf(Resume resume) {
