@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * LCollection ist based storage for Resumes
+ * Collection List based storage for Resumes
  */
 public class ListStorage extends AbstractStorage {
     private final List<Resume> storage = new ArrayList<>();
@@ -31,23 +31,24 @@ public class ListStorage extends AbstractStorage {
         return storage.indexOf(resume);
     }
 
+    // TODO Unused int index... ¯\_(ツ)_/¯
     @Override
-    protected void save_(int index, Resume resume) {
+    protected void insertResume(int index, Resume resume) {
         storage.add(resume);
     }
 
     @Override
-    protected Resume get_(int index) {
+    protected Resume getResume(int index) {
         return storage.get(index);
     }
 
     @Override
-    protected void delete_(int index) {
+    protected void removeResume(int index) {
         storage.remove(index);
     }
 
     @Override
-    protected void update_(int index, Resume resume) {
+    protected void updateResume(int index, Resume resume) {
         storage.set(index, resume);
     }
 }

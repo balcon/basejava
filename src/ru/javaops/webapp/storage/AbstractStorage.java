@@ -6,15 +6,15 @@ import ru.javaops.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
+    protected abstract void insertResume(int index, Resume resume);
+
+    protected abstract Resume getResume(int index);
+
+    protected abstract void updateResume(int index, Resume resume);
+
+    protected abstract void removeResume(int index);
+
     protected abstract int indexOf(Resume resume);
-
-    protected abstract void save_(int index, Resume resume);
-
-    protected abstract Resume get_(int index);
-
-    protected abstract void delete_(int index);
-
-    protected abstract void update_(int index, Resume resume);
 
     @Override
     public final void save(Resume resume) {
@@ -22,7 +22,7 @@ public abstract class AbstractStorage implements Storage {
         if (index >= 0) {
             throw new ExistsStorageException(resume);
         } else {
-            save_(index, resume);
+            insertResume(index, resume);
         }
     }
 
@@ -33,7 +33,7 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistsStorageException(resume);
         }
-        return get_(index);
+        return getResume(index);
     }
 
     @Override
@@ -43,7 +43,7 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistsStorageException(resume);
         } else {
-            delete_(index);
+            removeResume(index);
         }
     }
 
@@ -53,9 +53,8 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistsStorageException(resume);
         } else {
-            update_(index, resume);
+            updateResume(index, resume);
         }
-
     }
 }
 

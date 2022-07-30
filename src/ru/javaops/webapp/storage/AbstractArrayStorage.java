@@ -14,42 +14,42 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
     protected int size = 0;
 
+    protected abstract void insertResumeToArray(Resume resume, int index);
+
+    protected abstract void removeResumeFromArray(int index);
+
     protected abstract int indexOf(Resume resume);
 
-    protected abstract void insertResume(Resume resume, int index);
-
-    protected abstract void removeResume(int index);
-
     @Override
-    public final void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-    }
-
-    @Override
-    protected final void save_(int index, Resume resume) {
+    protected final void insertResume(int index, Resume resume) {
         if (size >= STORAGE_CAPACITY) {
             throw new StorageException("Storage overflow");
         } else {
-            insertResume(resume, index);
+            insertResumeToArray(resume, index);
             size++;
         }
     }
 
     @Override
-    protected Resume get_(int index) {
+    protected Resume getResume(int index) {
         return storage[index];
     }
 
     @Override
-    protected void delete_(int index) {
-        removeResume(index);
+    protected void removeResume(int index) {
+        removeResumeFromArray(index);
         size--;
     }
 
     @Override
-    protected void update_(int index, Resume resume) {
+    protected void updateResume(int index, Resume resume) {
         storage[index] = resume;
+    }
+
+    @Override
+    public final void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
     }
 
     /**

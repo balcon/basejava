@@ -14,7 +14,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insertResume(Resume resume, int index) {
+    protected void insertResumeToArray(Resume resume, int index) {
         int newIndex = -index - 1;
         if (newIndex != size) { // Don't call arraycopy() if resume inserted to last place of storage
             System.arraycopy(storage, newIndex, storage, newIndex + 1, size - newIndex);
@@ -23,7 +23,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void removeResume(int index) {
+    protected void removeResumeFromArray(int index) {
         if (index != size - 1) { // Don't call arraycopy() if resume removed from last place of storage
             System.arraycopy(storage, index + 1, storage, index, size - index - 1);
         }

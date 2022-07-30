@@ -4,15 +4,13 @@ package ru.javaops.webapp.model;
  * Initial resume class
  */
 public class Resume implements Comparable<Resume> {
-
     private final String uuid;
 
     public Resume(String uuid) {
         this.uuid = uuid;
     }
 
-    @Override
-    public String toString() {
+    public String getUuid() {
         return uuid;
     }
 
@@ -20,9 +18,7 @@ public class Resume implements Comparable<Resume> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Resume resume = (Resume) o;
-
         return uuid.equals(resume.uuid);
     }
 
@@ -36,7 +32,8 @@ public class Resume implements Comparable<Resume> {
         return uuid.compareTo(resume.uuid);
     }
 
-    public String getUuid() {
+    @Override
+    public String toString() {
         return uuid;
     }
 }
