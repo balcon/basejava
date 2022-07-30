@@ -12,6 +12,10 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Resume get_(int index);
 
+    protected abstract void delete_(int index);
+
+    protected abstract void update_(int index, Resume resume);
+
     @Override
     public final void save(Resume resume) {
         int index = indexOf(resume);
@@ -32,5 +36,26 @@ public abstract class AbstractStorage implements Storage {
         return get_(index);
     }
 
+    @Override
+    public final void delete(String uuid) {
+        Resume resume = new Resume(uuid);
+        int index = indexOf(resume);
+        if (index < 0) {
+            throw new NotExistsStorageException(resume);
+        } else {
+            delete_(index);
+        }
+    }
+
+    @Override
+    public final void update(Resume resume) {
+        int index = indexOf(resume);
+        if (index < 0) {
+            throw new NotExistsStorageException(resume);
+        } else {
+            update_(index, resume);
+        }
+
+    }
 }
 

@@ -1,6 +1,5 @@
 package ru.javaops.webapp.storage;
 
-import ru.javaops.webapp.exception.NotExistsStorageException;
 import ru.javaops.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -15,30 +14,6 @@ public class ListStorage extends AbstractStorage {
     @Override
     public void clear() {
         storage.clear();
-    }
-
-//    @Override
-//    public void save(Resume resume) {
-//        if (storage.contains(resume)) {
-//            throw new ExistsStorageException(resume);
-//        }
-//        storage.add(resume);
-//    }
-
-    @Override
-    public void update(Resume resume) {
-        int index = storage.indexOf(resume);
-        if (index == -1) {
-            throw new NotExistsStorageException(resume);
-        }
-        storage.set(index, resume);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        if (!storage.remove(new Resume(uuid))) {
-            throw new NotExistsStorageException(new Resume(uuid));
-        }
     }
 
     @Override
@@ -64,5 +39,15 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected Resume get_(int index) {
         return storage.get(index);
+    }
+
+    @Override
+    protected void delete_(int index) {
+        storage.remove(index);
+    }
+
+    @Override
+    protected void update_(int index, Resume resume) {
+        storage.set(index, resume);
     }
 }
