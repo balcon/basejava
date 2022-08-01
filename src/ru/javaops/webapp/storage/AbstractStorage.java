@@ -16,58 +16,40 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract int indexOf(String uuid);
 
-    //    protected abstract boolean isExist(Object searchKey);
-////
-//    private int getExisting(String uuid) {
-//        Resume resume = new Resume(uuid);
-//        int index = indexOf(resume);
-//        if (index < 0) {
-//            throw new NotExistsStorageException(resume);
-//        }
-//        return
-//    }
+    private int getExistingIndex(String uuid) {
+        int index = indexOf(uuid);
+        if (index < 0) {
+            throw new NotExistsStorageException(uuid);
+        }
+        return index;
+    }
 
-//    private int notExistingSearchKey(String uuid) {
-//        if (indexOf(new Resume(uuid)))
-//    }
+    private int getNotExistingIndex(String uuid) {
+        int index = indexOf(uuid);
+        if (index >= 0) {
+            throw new ExistsStorageException(uuid);
+        }
+        return index;
+    }
 
     @Override
     public final void save(Resume resume) {
-        int index = indexOf(resume.getUuid());
-        if (index >= 0) {
-            throw new ExistsStorageException(resume.getUuid());
-        } else {
-            insertResume(index, resume);
-        }
+        insertResume(getNotExistingIndex(resume.getUuid()), resume);
     }
 
     @Override
     public final Resume get(String uuid) {
-        int index = indexOf(uuid);
-        if (index < 0) {
-            throw new NotExistsStorageException(uuid);
-        }
-        return getResume(index);
+        return getResume(getExistingIndex(uuid));
     }
 
     @Override
     public final void delete(String uuid) {
-        int index = indexOf(uuid);
-        if (index < 0) {
-            throw new NotExistsStorageException(uuid);
-        } else {
-            removeResume(index);
-        }
+        removeResume(getExistingIndex(uuid));
     }
 
     @Override
     public final void update(Resume resume) {
-        int index = indexOf(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistsStorageException(resume.getUuid());
-        } else {
-            updateResume(index, resume);
-        }
+        updateResume(getExistingIndex(resume.getUuid()), resume);
     }
 }
 
