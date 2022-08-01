@@ -18,8 +18,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void removeResumeFromArray(int index);
 
-    protected abstract int indexOf(Resume resume);
-
     @Override
     protected final void insertResume(int index, Resume resume) {
         if (size >= STORAGE_CAPACITY) {

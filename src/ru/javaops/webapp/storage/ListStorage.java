@@ -27,8 +27,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int indexOf(Resume resume) {
-        return storage.indexOf(resume);
+    protected int indexOf(String uuid) {
+        return storage.indexOf(new Resume(uuid));
     }
 
     // TODO Unused int index... ¯\_(ツ)_/¯
