@@ -6,8 +6,9 @@ import ru.javaops.webapp.model.Resume;
  * Unsorted array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
+
     @Override
-    protected int indexOf(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
@@ -17,13 +18,20 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insertResumeToArray(Resume resume, int index) {
+    protected boolean isExist(Object searchKey) {
+        return (int) searchKey >= 0;
+    }
+
+
+    @Override
+    protected void insertResumeToArray(Object searchKey, Resume resume) {
         storage[size] = resume;
     }
 
+
     @Override
-    protected void removeResumeFromArray(int index) {
-        storage[index] = storage[size - 1];
+    protected void removeResumeFromArray(Object searchKey) {
+        storage[(int) searchKey] = storage[size - 1];
         storage[size - 1] = null;
     }
 }

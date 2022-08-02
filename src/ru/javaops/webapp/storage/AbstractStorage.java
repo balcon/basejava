@@ -6,50 +6,52 @@ import ru.javaops.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract void insertResume(int index, Resume resume);
+    protected abstract void insertResume(Object searchKey, Resume resume);
 
-    protected abstract Resume getResume(int index);
+    protected abstract Resume getResume(Object searchKey);
 
-    protected abstract void updateResume(int index, Resume resume);
+    protected abstract void updateResume(Object searchKey, Resume resume);
 
-    protected abstract void removeResume(int index);
+    protected abstract void removeResume(Object searchKey);
 
-    protected abstract int indexOf(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
-    private int getExistingIndex(String uuid) {
-        int index = indexOf(uuid);
-        if (index < 0) {
+    protected abstract boolean isExist(Object searchKey);
+
+    private Object getExistingSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {
             throw new NotExistsStorageException(uuid);
         }
-        return index;
+        return searchKey;
     }
 
-    private int getNotExistingIndex(String uuid) {
-        int index = indexOf(uuid);
-        if (index >= 0) {
+    private Object getNotExistingSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
             throw new ExistsStorageException(uuid);
         }
-        return index;
+        return searchKey;
     }
 
     @Override
     public final void save(Resume resume) {
-        insertResume(getNotExistingIndex(resume.getUuid()), resume);
+        insertResume(getNotExistingSearchKey(resume.getUuid()), resume);
     }
 
     @Override
     public final Resume get(String uuid) {
-        return getResume(getExistingIndex(uuid));
-    }
-
-    @Override
-    public final void delete(String uuid) {
-        removeResume(getExistingIndex(uuid));
+        return getResume(getExistingSearchKey(uuid));
     }
 
     @Override
     public final void update(Resume resume) {
-        updateResume(getExistingIndex(resume.getUuid()), resume);
+        updateResume(getExistingSearchKey(resume.getUuid()), resume);
+    }
+
+    @Override
+    public final void delete(String uuid) {
+        removeResume(getExistingSearchKey(uuid));
     }
 }
 

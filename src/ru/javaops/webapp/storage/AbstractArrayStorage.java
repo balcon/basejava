@@ -14,34 +14,45 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
     protected int size = 0;
 
-    protected abstract void insertResumeToArray(Resume resume, int index);
+    protected abstract void insertResumeToArray(Object searchKey, Resume resume);
 
-    protected abstract void removeResumeFromArray(int index);
+    protected abstract void removeResumeFromArray(Object searchKey);
 
     @Override
-    protected final void insertResume(int index, Resume resume) {
+    protected void insertResume(Object searchKey, Resume resume) {
         if (size >= STORAGE_CAPACITY) {
             throw new StorageException("Storage overflow");
         } else {
-            insertResumeToArray(resume, index);
+            insertResumeToArray(searchKey, resume);
             size++;
         }
     }
 
     @Override
-    protected Resume getResume(int index) {
-        return storage[index];
+    protected Resume getResume(Object searchKey) {
+        return storage[(int) searchKey];
     }
 
     @Override
-    protected void removeResume(int index) {
-        removeResumeFromArray(index);
+    protected void updateResume(Object searchKey, Resume resume) {
+        storage[(int) searchKey] = resume;
+    }
+
+    @Override
+    protected void removeResume(Object searchKey) {
+        removeResumeFromArray(searchKey);
         size--;
     }
 
+
     @Override
-    protected void updateResume(int index, Resume resume) {
-        storage[index] = resume;
+    protected Object getSearchKey(String uuid) {
+        return null;
+    }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return false;
     }
 
     @Override
@@ -50,9 +61,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     @Override
     public final Resume[] getAll() {
         return Arrays.copyOf(storage, size);
