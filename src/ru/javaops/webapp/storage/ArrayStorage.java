@@ -22,16 +22,14 @@ public class ArrayStorage extends AbstractArrayStorage {
         return (int) searchKey >= 0;
     }
 
-
     @Override
-    protected void insertResumeToArray(Object searchKey, Resume resume) {
+    protected void insertResumeToArray(int index, Resume resume) { //TODO unused index
         storage[size] = resume;
     }
 
-
     @Override
-    protected void removeResumeFromArray(Object searchKey) {
-        storage[(int) searchKey] = storage[size - 1];
+    protected void removeResumeFromArray(int index) {
+        storage[index] = storage[size - 1];
         storage[size - 1] = null;
     }
 }
