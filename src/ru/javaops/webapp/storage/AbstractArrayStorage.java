@@ -14,17 +14,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
     protected int size = 0;
 
-    protected abstract void insertResumeToArray(int index, Resume resume);
+    protected abstract void insertResumeToArray(Resume resume);
 
     protected abstract void removeResumeFromArray(int index);
 
+
     @Override
-    protected final void insertResume(Object searchKey, Resume resume) {
-        int index = (int) searchKey;
+    protected void insertResume(Resume resume) {
         if (size >= STORAGE_CAPACITY) {
             throw new StorageException("Storage overflow");
         } else {
-            insertResumeToArray(index, resume);
+            insertResumeToArray(resume);
             size++;
         }
     }

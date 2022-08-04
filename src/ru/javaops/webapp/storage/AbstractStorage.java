@@ -6,7 +6,7 @@ import ru.javaops.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract void insertResume(Object searchKey, Resume resume);
+    protected abstract void insertResume(Resume resume);
 
     protected abstract Object getResume(Object searchKey);
 
@@ -26,17 +26,18 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
-    private Object getNotExistingSearchKey(String uuid) {
+    private void getNotExistingSearchKey(String uuid) {
         Object searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
             throw new ExistsStorageException(uuid);
         }
-        return searchKey;
+       // return searchKey;
     }
 
     @Override
     public final void save(Resume resume) {
-        insertResume(getNotExistingSearchKey(resume.getUuid()), resume);
+        getNotExistingSearchKey(resume.getUuid());
+        insertResume(resume);
     }
 
     @Override

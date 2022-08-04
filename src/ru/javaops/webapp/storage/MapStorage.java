@@ -8,7 +8,17 @@ public class MapStorage extends AbstractStorage {
     private final HashMap<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected void insertResume(Object searchKey, Resume resume) {
+    protected Object getSearchKey(String uuid) {
+        return uuid;
+    }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return storage.containsKey((String) searchKey);
+    }
+
+    @Override
+    protected void insertResume(Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
@@ -19,22 +29,12 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void updateResume(Object searchKey, Resume resume) {
-        insertResume(searchKey, resume);
+        storage.put((String) searchKey, resume);
     }
 
     @Override
     protected void removeResume(Object searchKey) {
         storage.remove((String) searchKey);
-    }
-
-    @Override
-    protected Object getSearchKey(String uuid) {
-        return uuid;
-    }
-
-    @Override
-    protected boolean isExist(Object searchKey) {
-        return storage.containsKey((String) searchKey);
     }
 
     @Override

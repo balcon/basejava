@@ -1,11 +1,12 @@
 package ru.javaops.webapp.storage;
 
-import org.junit.Assert;
 import org.junit.Test;
 import ru.javaops.webapp.model.Resume;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 public class MapStorageTest extends AbstractStorageTest {
     public MapStorageTest() {
@@ -15,10 +16,10 @@ public class MapStorageTest extends AbstractStorageTest {
     @Override
     @Test
     public void getAll() {
-        Resume[] resumes=storage.getAll();
+        Resume[] resumes = storage.getAll();
         List<Resume> resumesList = Arrays.asList(resumes);
-        Assert.assertTrue(resumesList.contains(RESUME_1));
-        Assert.assertTrue(resumesList.contains(RESUME_2));
-        Assert.assertTrue(resumesList.contains(RESUME_3));
+        assertTrue(resumesList.contains(RESUME_1));
+        assertTrue(resumesList.contains(RESUME_2));
+        assertTrue(resumesList.contains(RESUME_3));
     }
 }
