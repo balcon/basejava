@@ -8,7 +8,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void insertResume(Object searchKey, Resume resume);
 
-    protected abstract Resume getResume(Object searchKey);
+    protected abstract Object getResume(Object searchKey);
 
     protected abstract void updateResume(Object searchKey, Resume resume);
 
@@ -40,7 +40,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     @Override
-    public final Resume get(String uuid) {
+    public final Object get(String uuid) {
         return getResume(getExistingSearchKey(uuid));
     }
 

@@ -30,7 +30,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected final Resume getResume(Object searchKey) {
+    protected final Object getResume(Object searchKey) {
         return storage[(int) searchKey];
     }
 
