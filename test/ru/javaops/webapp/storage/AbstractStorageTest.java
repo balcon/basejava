@@ -36,7 +36,7 @@ public abstract class AbstractStorageTest {
     }
 
     private void assertGetAll(Resume[] resumes) {
-        assertArrayEquals(resumes, storage.getAll());
+        assertArrayEquals(resumes, storage.getAllSorted().toArray());
     }
 
     @Before
@@ -107,8 +107,8 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
+    public void getAllSorted() {
         Resume[] resumes = {RESUME_1, RESUME_2, RESUME_3};
-        assertArrayEquals(resumes, storage.getAll());
+        assertArrayEquals(resumes, storage.getAllSorted().toArray());
     }
 }
