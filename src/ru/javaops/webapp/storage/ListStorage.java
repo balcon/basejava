@@ -49,11 +49,21 @@ public class ListStorage extends AbstractStorage {
     @Override
     public void clear() {
         storage.clear();
+
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        return storage;
+        ArrayList<Resume> sortedStorage = new ArrayList<>(storage);
+        sortedStorage.sort((o1, o2) -> {
+            int c = o1.getFullName().compareTo(o2.getFullName());
+            if (c != 0) {
+                return c;
+            } else {
+                return o1.getUuid().compareTo(o2.getUuid());
+            }
+        });
+        return sortedStorage;
     }
 
     @Override

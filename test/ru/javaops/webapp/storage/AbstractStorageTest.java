@@ -18,7 +18,7 @@ public abstract class AbstractStorageTest {
     private static final String UUID_NOT_EXISTS = "uuid_not_exists";
 
     protected static final Resume RESUME_1 = new Resume(UUID_1, "John Doe");
-    protected static final Resume RESUME_2 = new Resume(UUID_2, "John Smith");
+    protected static final Resume RESUME_2 = new Resume(UUID_2, "John Doe");
     protected static final Resume RESUME_3 = new Resume(UUID_3, "Homer Simpson");
     protected static final Resume RESUME_4 = new Resume(UUID_4, "Philip Fry");
     protected static final Resume RESUME_NOT_EXISTS = new Resume(UUID_NOT_EXISTS, "Anonymous");
@@ -108,7 +108,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        Resume[] resumes = {RESUME_1, RESUME_2, RESUME_3};
-        assertArrayEquals(resumes, storage.getAllSorted().toArray());
+        Resume[] resumes = {RESUME_3, RESUME_1, RESUME_2};
+        assertGetAll(resumes);
     }
 }
