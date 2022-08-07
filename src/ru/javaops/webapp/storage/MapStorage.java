@@ -46,7 +46,9 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return new ArrayList<>(storage.values());
+        ArrayList<Resume> sortedStorage = new ArrayList<>(storage.values());
+        sortedStorage.sort(AbstractStorage.resumeComparator);
+        return sortedStorage;
     }
 
     @Override
