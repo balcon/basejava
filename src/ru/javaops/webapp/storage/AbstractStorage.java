@@ -4,7 +4,18 @@ import ru.javaops.webapp.exception.ExistsStorageException;
 import ru.javaops.webapp.exception.NotExistsStorageException;
 import ru.javaops.webapp.model.Resume;
 
+import java.util.Comparator;
+
 public abstract class AbstractStorage implements Storage {
+
+    protected static final Comparator<Resume> resumeComparator = (o1, o2) -> {
+        int c = o1.getFullName().compareTo(o2.getFullName());
+        if (c != 0) {
+            return c;
+        } else {
+            return o1.getUuid().compareTo(o2.getUuid());
+        }
+    };
 
     protected abstract void insertResume(Resume resume);
 
@@ -31,7 +42,7 @@ public abstract class AbstractStorage implements Storage {
         if (isExist(searchKey)) {
             throw new ExistsStorageException(uuid);
         }
-       // return searchKey;
+        // return searchKey;
     }
 
     @Override
