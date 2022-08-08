@@ -2,12 +2,7 @@ package ru.javaops.webapp.storage;
 
 import ru.javaops.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-public class ResumeMapStorage extends AbstractStorage {
-    private final HashMap<String, Resume> storage = new HashMap<>();
+public class ResumeMapStorage extends AbstractMapStorage {
 
     @Override
     protected Resume getSearchKey(String uuid) {
@@ -17,11 +12,6 @@ public class ResumeMapStorage extends AbstractStorage {
     @Override
     protected boolean isExist(Object searchKey) {
         return storage.containsValue((Resume) searchKey);
-    }
-
-    @Override
-    protected void insertResume(Resume resume) {
-        storage.put(resume.getUuid(), resume);
     }
 
     @Override
@@ -37,22 +27,5 @@ public class ResumeMapStorage extends AbstractStorage {
     @Override
     protected void removeResume(Object searchKey) {
         storage.values().remove((Resume) searchKey);
-    }
-
-    @Override
-    public void clear() {
-        storage.clear();
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        ArrayList<Resume> sortedStorage = new ArrayList<>(storage.values());
-        sortedStorage.sort(AbstractStorage.resumeComparator);
-        return sortedStorage;
-    }
-
-    @Override
-    public int getSize() {
-        return storage.size();
     }
 }
