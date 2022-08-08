@@ -4,6 +4,7 @@ import ru.javaops.webapp.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Collection List based storage for Resumes
@@ -13,9 +14,10 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Integer getSearchKey(String uuid) {
-        for (int i = 0; i < storage.size(); i++) {
-            if (storage.get(i).getUuid().equals(uuid)) {
-                return i;
+        ListIterator<Resume> iterator = storage.listIterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getUuid().equals(uuid)) {
+                return iterator.nextIndex() - 1;
             }
         }
         return -1;
