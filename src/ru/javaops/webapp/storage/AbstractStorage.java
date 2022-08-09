@@ -8,8 +8,8 @@ import java.util.Comparator;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected static final Comparator<Resume> resumeComparator = (o1, o2) ->
-            Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid).compare(o1, o2);
+    protected static final Comparator<Resume> resumeComparator =
+            Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     protected abstract void insertResume(Resume resume);
 
