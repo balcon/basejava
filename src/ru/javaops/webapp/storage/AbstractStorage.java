@@ -5,11 +5,9 @@ import ru.javaops.webapp.exception.NotExistsStorageException;
 import ru.javaops.webapp.model.Resume;
 
 import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
-
-    protected static final Comparator<Resume> resumeComparator =
-            Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     protected abstract void insertResume(Resume resume);
 
@@ -18,6 +16,8 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void updateResume(Object searchKey, Resume resume);
 
     protected abstract void removeResume(Object searchKey);
+
+    protected abstract List<Resume> getAll();
 
     protected abstract Object getSearchKey(String uuid);
 
@@ -58,6 +58,13 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public final void delete(String uuid) {
         removeResume(getExistingSearchKey(uuid));
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> resumes = getAll();
+        resumes.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
+        return resumes;
     }
 }
 
