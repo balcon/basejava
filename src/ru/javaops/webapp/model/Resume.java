@@ -1,5 +1,7 @@
 package ru.javaops.webapp.model;
 
+import java.util.UUID;
+
 /**
  * Initial resume class
  */
@@ -10,6 +12,10 @@ public class Resume implements Comparable<Resume> {
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
+    }
+
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
     }
 
     public String getUuid() {
@@ -43,6 +49,6 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return uuid+" : "+fullName;
+        return uuid + " : " + fullName;
     }
 }
