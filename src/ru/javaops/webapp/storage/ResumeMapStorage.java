@@ -11,7 +11,7 @@ public class ResumeMapStorage extends AbstractMapStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return storage.containsValue((Resume) searchKey);
+        return searchKey!=null;
     }
 
     @Override
