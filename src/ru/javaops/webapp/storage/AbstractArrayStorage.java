@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Abstract array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_CAPACITY = 10000;
 
     protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
@@ -31,18 +31,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected final Object getResume(Object searchKey) {
-        return storage[(int) searchKey];
+    protected final Resume getResume(Integer searchKey) {
+        return storage[searchKey];
     }
 
     @Override
-    protected final void updateResume(Object searchKey, Resume resume) {
-        storage[(int) searchKey] = resume;
+    protected final void updateResume(Integer searchKey, Resume resume) {
+        storage[searchKey] = resume;
     }
 
     @Override
-    protected final void removeResume(Object searchKey) {
-        int index = (int) searchKey;
+    protected final void removeResume(Integer searchKey) {
+        int index = searchKey;
         removeResumeFromArray(index);
         size--;
     }

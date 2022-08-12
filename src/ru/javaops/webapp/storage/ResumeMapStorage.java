@@ -2,7 +2,10 @@ package ru.javaops.webapp.storage;
 
 import ru.javaops.webapp.model.Resume;
 
-public class ResumeMapStorage extends AbstractMapStorage {
+/**
+ * HashMap based storage for Resumes, searched by resume
+ */
+public class ResumeMapStorage extends AbstractMapStorage<Resume> {
 
     @Override
     protected Resume getSearchKey(String uuid) {
@@ -10,22 +13,22 @@ public class ResumeMapStorage extends AbstractMapStorage {
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return searchKey!=null;
+    protected boolean isExist(Resume searchKey) {
+        return searchKey != null;
     }
 
     @Override
-    protected Resume getResume(Object searchKey) {
-        return (Resume) searchKey;
+    protected Resume getResume(Resume searchKey) {
+        return searchKey;
     }
 
     @Override
-    protected void updateResume(Object searchKey, Resume resume) {
-        storage.put(((Resume) searchKey).getUuid(), resume);
+    protected void updateResume(Resume searchKey, Resume resume) {
+        storage.put(searchKey.getUuid(), resume);
     }
 
     @Override
-    protected void removeResume(Object searchKey) {
-        storage.values().remove((Resume) searchKey);
+    protected void removeResume(Resume searchKey) {
+        storage.values().remove(searchKey);
     }
 }

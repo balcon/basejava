@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class AbstractMapStorage extends AbstractStorage {
+public abstract class AbstractMapStorage<K> extends AbstractStorage<K> {
     protected final HashMap<String, Resume> storage = new HashMap<>();
 
     @Override

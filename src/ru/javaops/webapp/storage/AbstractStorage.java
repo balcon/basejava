@@ -7,24 +7,24 @@ import ru.javaops.webapp.model.Resume;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<K> implements Storage {
 
     protected abstract void insertResume(Resume resume);
 
-    protected abstract Object getResume(Object searchKey);
+    protected abstract Resume getResume(K searchKey);
 
-    protected abstract void updateResume(Object searchKey, Resume resume);
+    protected abstract void updateResume(K searchKey, Resume resume);
 
-    protected abstract void removeResume(Object searchKey);
+    protected abstract void removeResume(K searchKey);
 
     protected abstract List<Resume> getAll();
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract K getSearchKey(String uuid);
 
-    protected abstract boolean isExist(Object searchKey);
+    protected abstract boolean isExist(K searchKey);
 
-    private Object getExistingSearchKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private K getExistingSearchKey(String uuid) {
+        K searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
             throw new NotExistsStorageException(uuid);
         }
@@ -32,7 +32,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private void getNotExistingSearchKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+        K searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
             throw new ExistsStorageException(uuid);
         }
@@ -46,7 +46,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     @Override
-    public final Object get(String uuid) {
+    public final Resume get(String uuid) {
         return getResume(getExistingSearchKey(uuid));
     }
 

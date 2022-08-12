@@ -15,18 +15,18 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return (int) searchKey >= 0;
+    protected boolean isExist(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     @Override
     protected void insertResumeToArray(Resume resume) {
         int searchKey = getSearchKey(resume.getUuid());
-        int indes = -searchKey - 1;
-        if (indes != size) { // Don't call arraycopy() if resume inserted to last place of storage
-            System.arraycopy(storage, indes, storage, indes + 1, size - indes);
+        int index = -searchKey - 1;
+        if (index != size) { // Don't call arraycopy() if resume inserted to last place of storage
+            System.arraycopy(storage, index, storage, index + 1, size - index);
         }
-        storage[indes] = resume;
+        storage[index] = resume;
     }
 
     @Override
