@@ -18,17 +18,17 @@ public class UuidMapStorage extends AbstractMapStorage<String> {
     }
 
     @Override
-    protected Resume getResume(String searchKey) {
+    protected Resume doGet(String searchKey) {
         return storage.get(searchKey);
     }
 
     @Override
-    protected void updateResume(String searchKey, Resume resume) {
+    protected void doUpdate(String searchKey, Resume resume) {
         storage.put(searchKey, resume);
     }
 
     @Override
-    protected void removeResume(String searchKey) {
+    protected void doDelete(String searchKey) {
         storage.remove(searchKey);
     }
 }
