@@ -18,12 +18,12 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected boolean isExist(Integer searchKey) {
-        return searchKey >= 0;
+    protected boolean isExist(Integer index) {
+        return index >= 0;
     }
 
     @Override
-    protected void insertResume(Resume resume) {
+    protected void insertResume(int index, Resume resume) {
         storage[size] = resume;
     }
 

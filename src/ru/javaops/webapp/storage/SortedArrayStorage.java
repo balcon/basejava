@@ -15,14 +15,13 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected boolean isExist(Integer searchKey) {
-        return searchKey >= 0;
+    protected boolean isExist(Integer index) {
+        return index >= 0;
     }
 
     @Override
-    protected void insertResume(Resume resume) {
-        int searchKey = getSearchKey(resume.getUuid());
-        int index = -searchKey - 1;
+    protected void insertResume(int index, Resume resume) {
+        index = -index - 1;
         if (index != size) { // Don't call arraycopy() if resume inserted to last place of storage
             System.arraycopy(storage, index, storage, index + 1, size - index);
         }

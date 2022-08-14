@@ -13,22 +13,22 @@ public class UuidMapStorage extends AbstractMapStorage<String> {
     }
 
     @Override
-    protected boolean isExist(String searchKey) {
-        return storage.containsKey(searchKey);
+    protected boolean isExist(String key) {
+        return storage.containsKey(key);
     }
 
     @Override
-    protected Resume doGet(String searchKey) {
-        return storage.get(searchKey);
+    protected Resume doGet(String key) {
+        return storage.get(key);
     }
 
     @Override
-    protected void doUpdate(String searchKey, Resume resume) {
-        storage.put(searchKey, resume);
+    protected void doUpdate(String key, Resume resume) {
+        storage.put(key, resume);
     }
 
     @Override
-    protected void doDelete(String searchKey) {
-        storage.remove(searchKey);
+    protected void doDelete(String key) {
+        storage.remove(key);
     }
 }

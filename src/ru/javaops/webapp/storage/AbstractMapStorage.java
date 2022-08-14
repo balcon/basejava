@@ -10,7 +10,7 @@ public abstract class AbstractMapStorage<K> extends AbstractStorage<K> {
     protected final HashMap<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected void doSave(Resume resume) {
+    protected void doSave(K key, Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 

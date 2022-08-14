@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class AbstractStorage<K> implements Storage {
 
-    protected abstract void doSave(Resume resume);
+    protected abstract void doSave(K searchKey, Resume resume);
 
     protected abstract Resume doGet(K searchKey);
 
@@ -41,8 +41,8 @@ public abstract class AbstractStorage<K> implements Storage {
 
     @Override
     public final void save(Resume resume) {
-        getNotExistingSearchKey(resume.getUuid());
-        doSave(resume);
+        K searchKey = getNotExistingSearchKey(resume.getUuid());
+        doSave(searchKey, resume);
     }
 
     @Override

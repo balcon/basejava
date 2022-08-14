@@ -13,22 +13,22 @@ public class ResumeMapStorage extends AbstractMapStorage<Resume> {
     }
 
     @Override
-    protected boolean isExist(Resume searchKey) {
-        return searchKey != null;
+    protected boolean isExist(Resume key) {
+        return key != null;
     }
 
     @Override
-    protected Resume doGet(Resume searchKey) {
-        return searchKey;
+    protected Resume doGet(Resume key) {
+        return key;
     }
 
     @Override
-    protected void doUpdate(Resume searchKey, Resume resume) {
-        storage.put(searchKey.getUuid(), resume);
+    protected void doUpdate(Resume key, Resume resume) {
+        storage.put(key.getUuid(), resume);
     }
 
     @Override
-    protected void doDelete(Resume searchKey) {
-        storage.values().remove(searchKey);
+    protected void doDelete(Resume key) {
+        storage.values().remove(key);
     }
 }
