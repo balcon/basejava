@@ -2,9 +2,9 @@ package ru.javaops.webapp.model;
 
 public enum ContactType {
     PHONE("Телефон"),
-    TELEGRAM("Telegram"),
+    SKYPE("Skype"),
     MAIL("E-mail"),
-    SKYPE("Skype");
+    TELEGRAM("Telegram");
 
     private final String title;
 
