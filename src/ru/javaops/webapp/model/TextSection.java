@@ -1,18 +1,13 @@
 package ru.javaops.webapp.model;
 
 public class TextSection extends AbstractSection {
-    private String text;
+    private final String text;
 
-    public TextSection(String title, String text) {
-        super(title);
+    public TextSection(String text) {
         this.text = text;
     }
 
     public String getText() {
         return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 }

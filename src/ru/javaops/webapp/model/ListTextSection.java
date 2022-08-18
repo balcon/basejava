@@ -7,7 +7,6 @@ public class ListTextSection extends AbstractSection {
     private final List<String> texts = new ArrayList<>();
 
     public ListTextSection(String title) {
-        super(title);
     }
 
     public void newText(String text) {

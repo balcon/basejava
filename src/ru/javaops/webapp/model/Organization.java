@@ -5,10 +5,12 @@ import java.util.List;
 
 public class Organization {
     private final String name;
+    private final String website;
     private final List<Period> periods = new ArrayList<>();
 
-    public Organization(String name) {
+    public Organization(String name, String website) {
         this.name = name;
+        this.website = website;
     }
 
     public String getName() {

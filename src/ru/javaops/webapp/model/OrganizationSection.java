@@ -6,7 +6,6 @@ import java.util.List;
 public class OrganizationSection extends AbstractSection {
     private final List<Organization> organizations = new ArrayList<>();
 
-    public OrganizationSection(String title) {
-        super(title);
+    public OrganizationSection() {
     }
 }
