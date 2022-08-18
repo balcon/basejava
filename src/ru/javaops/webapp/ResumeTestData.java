@@ -7,9 +7,7 @@ import ru.javaops.webapp.model.TextSection;
 
 public class ResumeTestData {
     static void printResume(Resume resume) {
-        // FullName
         System.out.println(resume.getFullName());
-        // Contacts
         for (ContactType contactType : ContactType.values()) {
             String title = contactType.getTitle();
             String contact = resume.getContact(contactType);
@@ -17,10 +15,11 @@ public class ResumeTestData {
                 System.out.println(title + ": " + contact);
             }
         }
-        // Sections
-        for (SectionType sectionType : SectionType.values()) {
+        for (SectionType sectionType : new SectionType[]{SectionType.OBJECTIVE, SectionType.PERSONAL}) {
             String title = sectionType.getTitle();
+            String text = ((TextSection)resume.getSection(sectionType)).getText();
             System.out.println(title);
+            System.out.println(text);
         }
     }
 
