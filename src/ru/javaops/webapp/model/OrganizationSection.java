@@ -2,10 +2,17 @@ package ru.javaops.webapp.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class OrganizationSection extends AbstractSection {
     private final List<Organization> organizations = new ArrayList<>();
 
-    public OrganizationSection() {
+    public void add(Organization organization) {
+        Objects.requireNonNull(organization);
+        organizations.add(organization);
+    }
+
+    public List<Organization> getOrganizations() {
+        return organizations;
     }
 }

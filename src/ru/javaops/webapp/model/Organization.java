@@ -2,13 +2,16 @@ package ru.javaops.webapp.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Organization {
     private final String name;
-    private final String website;
+    private String website;
     private final List<Period> periods = new ArrayList<>();
 
     public Organization(String name, String website) {
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(website);
         this.name = name;
         this.website = website;
     }
@@ -17,10 +20,37 @@ public class Organization {
         return name;
     }
 
+    public String getWebsite() {
+        return website;
+    }
+
+    public List<Period> getPeriods() {
+        return periods;
+    }
+
     public void addPeriod(Period period) {
         periods.add(period);
     }
 
-    // TODO do update period
-    // TODO for getting Periods implement Iterator
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Organization that = (Organization) o;
+
+        if (!name.equals(that.name)) return false;
+        return website.equals(that.website);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + website.hashCode();
+        return result;
+    }
 }
