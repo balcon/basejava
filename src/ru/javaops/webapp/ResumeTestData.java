@@ -36,7 +36,7 @@ public class ResumeTestData {
                     }
                     break;
                 case EXPERIENCE:
-//                case EDUCATION:
+                case EDUCATION:
                     List<Organization> organizations = resume.getSection(sectionType).getContent();
 
                     System.out.println(title);
@@ -105,25 +105,28 @@ public class ResumeTestData {
         qualification.add("Родной русский, английский upper intermediate");
         resume.setSection(SectionType.QUALIFICATION, qualification);
 
-
         OrganizationSection experience = new OrganizationSection();
-        Organization organization = new Organization("Alcatel", "http://www.alcatel.ru/");
-        organization.addPeriod(new Period("Инженер по аппаратному и программному тестированию",
-                LocalDate.of(1997, 9, 1), LocalDate.of(2005, 1, 1),
-                "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."));
-        experience.add(organization);
-
-        organization = new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html");
-        organization.addPeriod(new Period("Разработчик ПО", LocalDate.of(2005, 1, 1), LocalDate.of(2007, 2, 1),
-                "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной " +
-                        "IN платформе Siemens @vantage (Java, Unix)."));
-        experience.add(organization);
-
-        organization = new Organization("Java Online Projects", "http://javaops.ru/");
-        organization.addPeriod(new Period("Автор проекта.", LocalDate.of(2013, 10, 1),
-                "Создание, организация и проведение Java онлайн проектов и стажировок."));
-        experience.add(organization);
+//        experience.add(new Organization("Alcatel", "http://www.alcatel.ru/")
+//                .addPeriod(new Period("Инженер по аппаратному и программному тестированию",
+//                        LocalDate.of(1997, 9, 1), LocalDate.of(2005, 1, 1),
+//                "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).")));
+//        experience.add(new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html")
+//                .addPeriod(new Period("Разработчик ПО", LocalDate.of(2005, 1, 1), LocalDate.of(2007, 2, 1),
+//                        "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной " +
+//                                "IN платформе Siemens @vantage (Java, Unix).")));
+//        experience.add(new Organization("Java Online Projects", "http://javaops.ru/")
+//                .addPeriod(new Period("Автор проекта.", LocalDate.of(2013, 10, 1),
+//                        "Создание, организация и проведение Java онлайн проектов и стажировок.")));
         resume.setSection(SectionType.EXPERIENCE, experience);
+
+        OrganizationSection education=new OrganizationSection();
+//        education.add(new Organization("Заочная физико-техническая школа при МФТИ","http://www.school.mipt.ru/")
+//                .addPeriod(new Period("Закончил с отличием", LocalDate.of(1984,9,1), LocalDate.of(1987,6,1),null)));
+
+        resume.setSection(SectionType.EDUCATION, education);
+
+
+
 
         printResume(resume);
     }

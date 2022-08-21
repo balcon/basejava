@@ -21,6 +21,10 @@ public class Period {
     public Period(String title, LocalDate startDate, String description) {
         this(title, startDate, null, description);
     }
+//
+//    public Period(String title, LocalDate startDate, LocalDate endDate) {
+//        this(title, startDate, endDate, "");
+//    }
 
     public String getTitle() {
         return title;
