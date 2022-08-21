@@ -10,6 +10,7 @@ public class TextSection extends AbstractSection {
         this.content = content;
     }
 
+    @Override
     public String getContent() {
         return content;
     }

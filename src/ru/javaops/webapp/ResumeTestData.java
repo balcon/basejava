@@ -4,6 +4,7 @@ import ru.javaops.webapp.model.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ResumeTestData {
     static void printResume(Resume resume) {
@@ -17,41 +18,45 @@ public class ResumeTestData {
             }
         }
 
-        for (SectionType sectionType : new SectionType[]{SectionType.OBJECTIVE, SectionType.PERSONAL}) {
+        for (SectionType sectionType : SectionType.values()) {
             String title = sectionType.getTitle();
-            String text = ((TextSection) resume.getSection(sectionType)).getContent();
-            System.out.println(title);
-            System.out.println(text);
-        }
-
-        for (SectionType sectionType : new SectionType[]{SectionType.ACHIEVEMENT, SectionType.QUALIFICATION}) {
-            String title = sectionType.getTitle();
-            ListTextSection listTextSection = (ListTextSection) resume.getSection(sectionType);
-            System.out.println(title);
-            for (String content : listTextSection.getContent()) {
-                System.out.println("* " + content);
-            }
-        }
-
-        for (SectionType sectionType : new SectionType[]{SectionType.EXPERIENCE}) {
-            String title = sectionType.getTitle();
-            OrganizationSection organizationSection = (OrganizationSection) resume.getSection(sectionType);
-            System.out.println(title);
-            for (Organization organization : organizationSection.getOrganizations()) {
-                System.out.println(organization.getName());
-                for (Period period : organization.getPeriods()) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
-                    String startDateStr = period.getStartDate().format(formatter);
-                    LocalDate endDate = period.getEndDate();
-                    String endDateStr;
-                    if (endDate == null) {
-                        endDateStr = "Сейчас";
-                    } else {
-                        endDateStr = period.getEndDate().format(formatter);
+            switch (sectionType) {
+                case OBJECTIVE:
+                case PERSONAL:
+                    String text = resume.getSection(sectionType).getContent();
+                    System.out.println(title);
+                    System.out.println(text);
+                    break;
+                case ACHIEVEMENT:
+                case QUALIFICATION:
+                    List<String> lines = resume.getSection(sectionType).getContent();
+                    System.out.println(title);
+                    for (String line : lines) {
+                        System.out.println("* " + line);
                     }
-                    System.out.println(startDateStr + " - " + endDateStr + " " + period.getTitle());
-                    System.out.println(period.getDescription());
-                }
+                    break;
+                case EXPERIENCE:
+//                case EDUCATION:
+                    List<Organization> organizations = resume.getSection(sectionType).getContent();
+
+                    System.out.println(title);
+                    for (Organization organization : organizations) {
+                        System.out.println(organization.getName());
+                        for (Period period : organization.getPeriods()) {
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
+                            String startDateStr = period.getStartDate().format(formatter);
+                            LocalDate endDate = period.getEndDate();
+                            String endDateStr;
+                            if (endDate == null) {
+                                endDateStr = "Сейчас";
+                            } else {
+                                endDateStr = period.getEndDate().format(formatter);
+                            }
+                            System.out.println(startDateStr + " - " + endDateStr + " " + period.getTitle());
+                            System.out.println(period.getDescription());
+                        }
+                    }
+                    break;
             }
         }
     }
