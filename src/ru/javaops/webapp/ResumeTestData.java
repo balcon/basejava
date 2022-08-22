@@ -53,7 +53,10 @@ public class ResumeTestData {
                                 endDateStr = period.getEndDate().format(formatter);
                             }
                             System.out.println(startDateStr + " - " + endDateStr + " " + period.getTitle());
-                            System.out.println(period.getDescription());
+                            String description = period.getDescription();
+                            if (description != null) {
+                                System.out.println(description);
+                            }
                         }
                     }
                     break;
@@ -105,28 +108,35 @@ public class ResumeTestData {
         qualification.add("Родной русский, английский upper intermediate");
         resume.setSection(SectionType.QUALIFICATION, qualification);
 
+        Organization organization;
         OrganizationSection experience = new OrganizationSection();
-//        experience.add(new Organization("Alcatel", "http://www.alcatel.ru/")
-//                .addPeriod(new Period("Инженер по аппаратному и программному тестированию",
-//                        LocalDate.of(1997, 9, 1), LocalDate.of(2005, 1, 1),
-//                "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).")));
-//        experience.add(new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html")
-//                .addPeriod(new Period("Разработчик ПО", LocalDate.of(2005, 1, 1), LocalDate.of(2007, 2, 1),
-//                        "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной " +
-//                                "IN платформе Siemens @vantage (Java, Unix).")));
-//        experience.add(new Organization("Java Online Projects", "http://javaops.ru/")
-//                .addPeriod(new Period("Автор проекта.", LocalDate.of(2013, 10, 1),
-//                        "Создание, организация и проведение Java онлайн проектов и стажировок.")));
+        organization = new Organization("Alcatel", "http://www.alcatel.ru/");
+        organization.addPeriod(new Period("Инженер по аппаратному и программному тестированию", LocalDate.of(1997, 9, 1), LocalDate.of(2005, 1, 1), "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."));
+        experience.add(organization);
+        organization = new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html");
+        organization.addPeriod(new Period("Разработчик ПО", LocalDate.of(2005, 1, 1), LocalDate.of(2007, 2, 1),
+                "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной " +
+                        "IN платформе Siemens @vantage (Java, Unix)."));
+        experience.add(organization);
+        organization = new Organization("Java Online Projects", "http://javaops.ru/");
+        organization.addPeriod(new Period("Автор проекта.", LocalDate.of(2013, 10, 1), null,
+                "Создание, организация и проведение Java онлайн проектов и стажировок."));
+        experience.add(organization);
         resume.setSection(SectionType.EXPERIENCE, experience);
 
-        OrganizationSection education=new OrganizationSection();
-//        education.add(new Organization("Заочная физико-техническая школа при МФТИ","http://www.school.mipt.ru/")
-//                .addPeriod(new Period("Закончил с отличием", LocalDate.of(1984,9,1), LocalDate.of(1987,6,1),null)));
-
+        OrganizationSection education = new OrganizationSection();
+        organization = new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/");
+        organization.addPeriod(new Period("Закончил с отличием", LocalDate.of(1984, 9, 1),
+                LocalDate.of(1987, 6, 1), null));
+        education.add(organization);
+        organization = new Organization("Санкт-Петербургский национальный исследовательский университет информационных " +
+                "технологий, механики и оптики", "http://www.ifmo.ru/");
+        organization.addPeriod(new Period("Аспирантура (программист С, С++)", LocalDate.of(1993, 9, 1),
+                LocalDate.of(1996, 7, 1), null));
+        organization.addPeriod(new Period("Инженер (программист Fortran, C)", LocalDate.of(1987, 9, 1),
+                LocalDate.of(1993, 7, 1), null));
+        education.add(organization);
         resume.setSection(SectionType.EDUCATION, education);
-
-
-
 
         printResume(resume);
     }
