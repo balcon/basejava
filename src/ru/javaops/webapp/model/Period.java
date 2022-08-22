@@ -38,9 +38,7 @@ public class Period {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Period period = (Period) o;
-
         if (!title.equals(period.title)) return false;
         if (!startDate.equals(period.startDate)) return false;
         if (!Objects.equals(endDate, period.endDate)) return false;
