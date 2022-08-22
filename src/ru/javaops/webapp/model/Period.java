@@ -18,14 +18,6 @@ public class Period {
         this.description = description;
     }
 
-    public Period(String title, LocalDate startDate, String description) {
-        this(title, startDate, null, description);
-    }
-//
-//    public Period(String title, LocalDate startDate, LocalDate endDate) {
-//        this(title, startDate, endDate, "");
-//    }
-
     public String getTitle() {
         return title;
     }
@@ -42,5 +34,25 @@ public class Period {
         return description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Period period = (Period) o;
+
+        if (!title.equals(period.title)) return false;
+        if (!startDate.equals(period.startDate)) return false;
+        if (!Objects.equals(endDate, period.endDate)) return false;
+        return Objects.equals(description, period.description);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + startDate.hashCode();
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
+    }
 }

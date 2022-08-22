@@ -44,13 +44,15 @@ public class Organization {
         Organization that = (Organization) o;
 
         if (!name.equals(that.name)) return false;
-        return website.equals(that.website);
+        if (!website.equals(that.website)) return false;
+        return periods.equals(that.periods);
     }
 
     @Override
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + website.hashCode();
+        result = 31 * result + periods.hashCode();
         return result;
     }
 }
