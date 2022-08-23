@@ -24,6 +24,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         this.directory = directory;
     }
 
+    @SuppressWarnings("all")
     @Override
     protected void doSave(File file, Resume resume) {
         try {
@@ -48,11 +49,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         doWrite(file, resume);
     }
 
+    @SuppressWarnings("all")
     @Override
     protected void doDelete(File file) {
         file.delete();
     }
 
+
+    @SuppressWarnings("all")
     @Override
     protected List<Resume> doCopyAll() {
         List<Resume> resumes = new ArrayList<>();
@@ -72,6 +76,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         return file.exists();
     }
 
+    @SuppressWarnings("all")
     @Override
     public void clear() {
         for (File file : directory.listFiles()) {
@@ -79,6 +84,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
+    @SuppressWarnings("all")
     @Override
     public int getSize() {
         return directory.listFiles().length;
