@@ -12,7 +12,6 @@ public class OrganizationSection extends AbstractSection {
         organizations.add(organization);
     }
 
-    @Override
     public List<Organization> getContent() {
         return organizations;
     }

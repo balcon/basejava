@@ -23,13 +23,13 @@ public class ResumeTestData {
             switch (sectionType) {
                 case OBJECTIVE:
                 case PERSONAL:
-                    String text = resume.getSection(sectionType).getContent();
+                    String text = ((TextSection) resume.getSection(sectionType)).getContent();
                     System.out.println(title);
                     System.out.println(text);
                     break;
                 case ACHIEVEMENT:
                 case QUALIFICATION:
-                    List<String> lines = resume.getSection(sectionType).getContent();
+                    List<String> lines = ((ListTextSection) resume.getSection(sectionType)).getContent();
                     System.out.println(title);
                     for (String line : lines) {
                         System.out.println("* " + line);
@@ -37,7 +37,7 @@ public class ResumeTestData {
                     break;
                 case EXPERIENCE:
                 case EDUCATION:
-                    List<Organization> organizations = resume.getSection(sectionType).getContent();
+                    List<Organization> organizations = ((OrganizationSection) resume.getSection(sectionType)).getContent();
 
                     System.out.println(title);
                     for (Organization organization : organizations) {
