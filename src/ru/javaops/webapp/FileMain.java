@@ -1,7 +1,8 @@
-package ru.javaops.webapp.storage;
+package ru.javaops.webapp;
 
 import java.io.File;
 
+@SuppressWarnings("all")
 public class FileMain {
     static void get(File file) {
         System.out.println(file.getPath());
