@@ -2,6 +2,7 @@ package ru.javaops.webapp.storage;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.javaops.webapp.ResumeTestData;
 import ru.javaops.webapp.exception.ExistsStorageException;
 import ru.javaops.webapp.exception.NotExistsStorageException;
 import ru.javaops.webapp.model.Resume;
@@ -17,11 +18,11 @@ public abstract class AbstractStorageTest {
     private static final String UUID_4 = "uuid4";
     private static final String UUID_NOT_EXISTS = "uuid_not_exists";
 
-    protected static final Resume RESUME_1 = new Resume(UUID_1, "John Doe");
-    protected static final Resume RESUME_2 = new Resume(UUID_2, "John Doe");
-    protected static final Resume RESUME_3 = new Resume(UUID_3, "Homer Simpson");
-    protected static final Resume RESUME_4 = new Resume(UUID_4, "Philip Fry");
-    protected static final Resume RESUME_NOT_EXISTS = new Resume(UUID_NOT_EXISTS, "Anonymous");
+    protected static final Resume RESUME_1 = ResumeTestData.buildResume(UUID_1, "John Doe");
+    protected static final Resume RESUME_2 = ResumeTestData.buildResume(UUID_2, "John Doe");
+    protected static final Resume RESUME_3 = ResumeTestData.buildResume(UUID_3, "Homer Simpson");
+    protected static final Resume RESUME_4 = ResumeTestData.buildResume(UUID_4, "Philip Fry");
+    protected static final Resume RESUME_NOT_EXISTS = ResumeTestData.buildResume(UUID_NOT_EXISTS, "Anonymous");
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -72,7 +73,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume resume = new Resume(UUID_1, "Jimmy White");
+        Resume resume = ResumeTestData.buildResume(UUID_1, "Jimmy White");
         storage.update(resume);
         assertSame(resume, storage.get(UUID_1));
     }
