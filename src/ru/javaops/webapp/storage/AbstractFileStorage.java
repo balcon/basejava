@@ -24,44 +24,52 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         this.directory = directory;
     }
 
-    @SuppressWarnings("all")
+    protected abstract void doWrite(File file, Resume resume) throws IOException;
+
+    protected abstract Resume doRead(File file) throws IOException;
+
     @Override
     protected void doSave(File file, Resume resume) {
         try {
             file.createNewFile();
-            doWrite(file, resume);
         } catch (IOException e) {
-            throw new StorageException("IO error [" + file.getName() + "]", e);
+            throw new StorageException("Create error with [" + file.getName() + "]", e);
         }
-    }
+        doUpdate(file, resume);
 
-    protected abstract void doWrite(File file, Resume resume);
+    }
 
     @Override
     protected Resume doGet(File file) {
-        return doRead(file);
+        try {
+            return doRead(file);
+        } catch (IOException e) {
+            throw new StorageException("Read error with [" + file.getName() + "]", e);
+        }
     }
-
-    protected abstract Resume doRead(File file);
 
     @Override
     protected void doUpdate(File file, Resume resume) {
-        doWrite(file, resume);
+        try {
+            doWrite(file, resume);
+        } catch (IOException e) {
+            throw new StorageException("Write error with [" + file.getName() + "]", e);
+        }
     }
 
-    @SuppressWarnings("all")
     @Override
     protected void doDelete(File file) {
-        file.delete();
+        if (!file.delete()) {
+            throw new StorageException("Delete error with [" + file.getName() + "]");
+        }
     }
 
 
-    @SuppressWarnings("all")
     @Override
     protected List<Resume> doCopyAll() {
         List<Resume> resumes = new ArrayList<>();
-        for (File file : directory.listFiles()) {
-            resumes.add(doRead(file));
+        for (File file : getFiles()) {
+            resumes.add(doGet(file));
         }
         return resumes;
     }
@@ -76,17 +84,23 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         return file.exists();
     }
 
-    @SuppressWarnings("all")
     @Override
     public void clear() {
-        for (File file : directory.listFiles()) {
-            file.delete();
+        for (File file : getFiles()) {
+            doDelete(file);
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public int getSize() {
-        return directory.listFiles().length;
+        return getFiles().length;
+    }
+
+    private File[] getFiles() {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Read files error in [" + directory.getName() + "]");
+        }
+        return files;
     }
 }
