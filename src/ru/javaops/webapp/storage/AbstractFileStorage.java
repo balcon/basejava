@@ -31,7 +31,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doSave(File file, Resume resume) {
         try {
-            file.createNewFile();
+            if (!file.createNewFile()) {
+                throw new StorageException("Create error with [" + file.getName() + "]");
+            }
         } catch (IOException e) {
             throw new StorageException("Create error with [" + file.getName() + "]", e);
         }
