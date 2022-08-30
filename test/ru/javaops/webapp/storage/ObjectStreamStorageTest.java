@@ -1,6 +1,6 @@
 package ru.javaops.webapp.storage;
 
-import org.junit.Before;
+import org.junit.After;
 
 import java.io.File;
 
@@ -9,10 +9,8 @@ public class ObjectStreamStorageTest extends AbstractStorageTest {
         super(new ObjectStreamStorage(new File("storage_test")));
     }
 
-    @Override
-    @Before
-    public void setUp() {
+    @After
+    public void tearDown() {
         storage.clear();
-        super.setUp();
     }
 }
