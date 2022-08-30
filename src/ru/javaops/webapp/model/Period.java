@@ -1,9 +1,12 @@
 package ru.javaops.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Period {
+public class Period implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final String title;
     private final LocalDate startDate;
     private final LocalDate endDate;

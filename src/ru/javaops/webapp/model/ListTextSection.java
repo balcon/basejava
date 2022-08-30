@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListTextSection extends AbstractSection {
+    private static final long serialVersionUID = 1L;
+
     private final List<String> content = new ArrayList<>();
 
     public void add(String content) {
