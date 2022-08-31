@@ -2,11 +2,12 @@ package ru.javaops.webapp.storage;
 
 import org.junit.After;
 import org.junit.Before;
+import ru.javaops.webapp.storage.serializers.ObjectStreamSerializer;
 
 public class ObjectStreamPathStorageTest extends AbstractStorageTest {
 
     public ObjectStreamPathStorageTest() {
-        super(new PathStorage("storage_test", new ObjectStreamSerialization()));
+        super(new PathStorage("storage_test", new ObjectStreamSerializer()));
     }
 
     @Override
