@@ -12,15 +12,14 @@ public class FileStorage extends AbstractStorage<File> {
     private final File directory;
     private final SerializationType serializationType;
 
-    public FileStorage(String directoryPath, SerializationType serializationType) {
-        Objects.requireNonNull(directoryPath);
-        File directory = new File(directoryPath);
-        String path = directory.getAbsolutePath();
+    public FileStorage(String path, SerializationType serializationType) {
+        Objects.requireNonNull(path);
+        File directory = new File(path);
         if (!directory.isDirectory()) {
-            throw new StorageException("[" + path + "] isn't directory");
+            throw new StorageException("[" + directory.getAbsolutePath() + "] isn't directory");
         }
         if (!directory.canRead() || !directory.canWrite()) {
-            throw new StorageException("[" + path + "] isn't readable/writable");
+            throw new StorageException("[" + directory.getAbsolutePath() + "] isn't readable/writable");
         }
         this.directory = directory;
         this.serializationType = serializationType;
