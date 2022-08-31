@@ -40,7 +40,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File file) {
         try {
-            return serializationType.doRead(new BufferedInputStream(new FileInputStream(file)));
+            return doRead(file);
         } catch (IOException e) {
             throw new StorageException("Read error with [" + file.getName() + "]", e);
         }
@@ -49,7 +49,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(File file, Resume resume) {
         try {
-            serializationType.doWrite(new BufferedOutputStream(new FileOutputStream(file)), resume);
+            doWrite(file, resume);
         } catch (IOException e) {
             throw new StorageException("Write error with [" + file.getName() + "]", e);
         }
@@ -100,5 +100,13 @@ public class FileStorage extends AbstractStorage<File> {
             throw new StorageException("Read files error in [" + directory.getName() + "]");
         }
         return files;
+    }
+
+    private Resume doRead(File file) throws IOException {
+        return serializationType.doRead(new BufferedInputStream(new FileInputStream(file)));
+    }
+
+    private void doWrite(File file, Resume resume) throws IOException {
+        serializationType.doWrite(new BufferedOutputStream(new FileOutputStream(file)), resume);
     }
 }
