@@ -3,8 +3,9 @@ package ru.javaops.webapp.storage;
 import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.model.Resume;
 
-import java.io.*;
-import java.nio.file.DirectoryStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,9 +18,9 @@ public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
     private final SerializationType serializationType;
 
-    // TODO modify with nio
     public PathStorage(String path, SerializationType serializationType) {
         Objects.requireNonNull(path);
+        Objects.requireNonNull(serializationType);
         Path directory = Paths.get(path);
         if (!Files.isDirectory(directory)) {
             throw new StorageException("[" + directory.toAbsolutePath() + "] isn't directory");
@@ -31,7 +32,6 @@ public class PathStorage extends AbstractStorage<Path> {
         this.serializationType = serializationType;
     }
 
-    // TODO modify with nio
     @Override
     protected final void doSave(Path path, Resume resume) {
         try {
@@ -42,7 +42,6 @@ public class PathStorage extends AbstractStorage<Path> {
         doUpdate(path, resume);
     }
 
-    // TODO modify with nio
     @Override
     protected final Resume doGet(Path path) {
         try {
@@ -52,7 +51,6 @@ public class PathStorage extends AbstractStorage<Path> {
         }
     }
 
-    // TODO modify with nio
     @Override
     protected final void doUpdate(Path path, Resume resume) {
         try {
@@ -62,7 +60,6 @@ public class PathStorage extends AbstractStorage<Path> {
         }
     }
 
-    // TODO modify with nio
     @Override
     protected final void doDelete(Path path) {
         try {
@@ -109,30 +106,12 @@ public class PathStorage extends AbstractStorage<Path> {
         }
     }
 
-    // TODO modify with nio
-    private Path[] getPaths() {
-        Path[] arrayPaths = new Path[0];
-        try {
-            List<Path> listPaths = new ArrayList<>();
-            DirectoryStream<Path> paths = Files.newDirectoryStream(directory);
-            for (Path path : paths) {
-                listPaths.add(path);
-            }
-            arrayPaths = listPaths.toArray(arrayPaths);
-        } catch (IOException e) {
-            throw new StorageException("Read paths error in [" + directory.toAbsolutePath() + "]");
-        }
-        return arrayPaths;
-    }
-
-    // TODO modify with nio
     private Resume doRead(Path path) throws IOException {
-        return serializationType.doRead(new BufferedInputStream(new FileInputStream(path.toString())));
+        return serializationType.doRead(new BufferedInputStream(Files.newInputStream(path)));
     }
 
-    // TODO modify with nio
     private void doWrite(Path path, Resume resume) throws IOException {
-        serializationType.doWrite(new BufferedOutputStream(new FileOutputStream(path.toString())), resume);
+        serializationType.doWrite(new BufferedOutputStream(Files.newOutputStream(path)), resume);
     }
 
 }

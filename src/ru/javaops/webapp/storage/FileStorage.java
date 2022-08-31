@@ -14,6 +14,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     public FileStorage(String path, SerializationType serializationType) {
         Objects.requireNonNull(path);
+        Objects.requireNonNull(serializationType);
         File directory = new File(path);
         if (!directory.isDirectory()) {
             throw new StorageException("[" + directory.getAbsolutePath() + "] isn't directory");
