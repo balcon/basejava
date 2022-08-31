@@ -76,11 +76,9 @@ public class PathStorage extends AbstractStorage<Path> {
         return resumes;
     }
 
-    // TODO modify with nio
     @Override
     protected final Path getSearchKey(String uuid) {
-        // TODO need better, remove toString
-        return Paths.get(directory.toString(), uuid);
+        return directory.resolve(uuid);
     }
 
     @Override
