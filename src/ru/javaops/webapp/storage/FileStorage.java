@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private final File directory;
+    private final SerializationType serializationType;
 
-    public AbstractFileStorage(File directory) {
-        Objects.requireNonNull(directory);
+    public FileStorage(String directoryPath, SerializationType serializationType) {
+        Objects.requireNonNull(directoryPath);
+        File directory = new File(directoryPath);
         String path = directory.getAbsolutePath();
         if (!directory.isDirectory()) {
             throw new StorageException("[" + path + "] isn't directory");
@@ -21,11 +23,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new StorageException("[" + path + "] isn't readable/writable");
         }
         this.directory = directory;
+        this.serializationType = serializationType;
     }
-
-    protected abstract void doWrite(OutputStream outputStream, Resume resume) throws IOException;
-
-    protected abstract Resume doRead(InputStream inputStream) throws IOException;
 
     @Override
     protected void doSave(File file, Resume resume) {
@@ -42,7 +41,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File file) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(file)));
+            return serializationType.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Read error with [" + file.getName() + "]", e);
         }
@@ -51,7 +50,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(File file, Resume resume) {
         try {
-            doWrite(new BufferedOutputStream(new FileOutputStream(file)), resume);
+            serializationType.doWrite(new BufferedOutputStream(new FileOutputStream(file)), resume);
         } catch (IOException e) {
             throw new StorageException("Write error with [" + file.getName() + "]", e);
         }
