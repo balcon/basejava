@@ -26,7 +26,7 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void doSave(File file, Resume resume) {
+    protected final void doSave(File file, Resume resume) {
         try {
             //noinspection ResultOfMethodCallIgnored
             file.createNewFile();
@@ -38,7 +38,7 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume doGet(File file) {
+    protected final Resume doGet(File file) {
         try {
             return doRead(file);
         } catch (IOException e) {
@@ -47,7 +47,7 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void doUpdate(File file, Resume resume) {
+    protected final void doUpdate(File file, Resume resume) {
         try {
             doWrite(file, resume);
         } catch (IOException e) {
@@ -56,7 +56,7 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void doDelete(File file) {
+    protected final void doDelete(File file) {
         if (!file.delete()) {
             throw new StorageException("Delete error with [" + file.getName() + "]");
         }
@@ -64,7 +64,7 @@ public class FileStorage extends AbstractStorage<File> {
 
 
     @Override
-    protected List<Resume> doCopyAll() {
+    protected final List<Resume> doCopyAll() {
         List<Resume> resumes = new ArrayList<>();
         for (File file : getFiles()) {
             resumes.add(doGet(file));
@@ -73,24 +73,24 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected File getSearchKey(String uuid) {
+    protected final File getSearchKey(String uuid) {
         return new File(directory, uuid);
     }
 
     @Override
-    protected boolean isExist(File file) {
+    protected final boolean isExist(File file) {
         return file.exists();
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
         for (File file : getFiles()) {
             doDelete(file);
         }
     }
 
     @Override
-    public int getSize() {
+    public final int getSize() {
         return getFiles().length;
     }
 
