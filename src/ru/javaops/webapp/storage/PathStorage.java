@@ -11,14 +11,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
     private final SerializationType serializationType;
 
-    public PathStorage(String directoryPath, SerializationType serializationType) {
-        Objects.requireNonNull(directoryPath);
-        Path directory = Paths.get(directoryPath);
+    // TODO modify with nio
+    public PathStorage(String path, SerializationType serializationType) {
+        Objects.requireNonNull(path);
+        Path directory = Paths.get(path);
         if (!Files.isDirectory(directory)) {
             throw new StorageException("[" + directory.toAbsolutePath() + "] isn't directory");
         }
@@ -29,6 +31,7 @@ public class PathStorage extends AbstractStorage<Path> {
         this.serializationType = serializationType;
     }
 
+    // TODO modify with nio
     @Override
     protected void doSave(Path path, Resume resume) {
         try {
@@ -39,24 +42,27 @@ public class PathStorage extends AbstractStorage<Path> {
         doUpdate(path, resume);
     }
 
+    // TODO modify with nio
     @Override
     protected Resume doGet(Path path) {
         try {
-            return serializationType.doRead(new BufferedInputStream(new FileInputStream(path.toString())));
+            return doRead(path);
         } catch (IOException e) {
             throw new StorageException("Read error with [" + path.toAbsolutePath() + "]", e);
         }
     }
 
+    // TODO modify with nio
     @Override
     protected void doUpdate(Path path, Resume resume) {
         try {
-            serializationType.doWrite(new BufferedOutputStream(new FileOutputStream(path.toString())), resume);
+            doWrite(path, resume);
         } catch (IOException e) {
             throw new StorageException("Write error with [" + path.toAbsolutePath() + "]", e);
         }
     }
 
+    // TODO modify with nio
     @Override
     protected void doDelete(Path path) {
         try {
@@ -66,16 +72,14 @@ public class PathStorage extends AbstractStorage<Path> {
         }
     }
 
-
     @Override
     protected List<Resume> doCopyAll() {
         List<Resume> resumes = new ArrayList<>();
-        for (Path path : getPaths()) {
-            resumes.add(doGet(path));
-        }
+        getFileList().map(this::doGet).forEach(resumes::add);
         return resumes;
     }
 
+    // TODO modify with nio
     @Override
     protected Path getSearchKey(String uuid) {
         // TODO need better, remove toString
@@ -89,18 +93,25 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        for (Path path : getPaths()) {
-            doDelete(path);
-        }
+        getFileList().forEach(this::doDelete);
     }
 
     @Override
     public int getSize() {
-        return getPaths().length;
+        return (int) getFileList().count();
     }
 
+    private Stream<Path> getFileList() {
+        try {
+            return Files.list(directory);
+        } catch (IOException e) {
+            throw new StorageException("Get list of files error in [" + directory.toAbsolutePath() + "]", e);
+        }
+    }
+
+    // TODO modify with nio
     private Path[] getPaths() {
-        Path[] arrayPaths=new Path[0];
+        Path[] arrayPaths = new Path[0];
         try {
             List<Path> listPaths = new ArrayList<>();
             DirectoryStream<Path> paths = Files.newDirectoryStream(directory);
@@ -112,6 +123,16 @@ public class PathStorage extends AbstractStorage<Path> {
             throw new StorageException("Read paths error in [" + directory.toAbsolutePath() + "]");
         }
         return arrayPaths;
+    }
+
+    // TODO modify with nio
+    private Resume doRead(Path path) throws IOException {
+        return serializationType.doRead(new BufferedInputStream(new FileInputStream(path.toString())));
+    }
+
+    // TODO modify with nio
+    private void doWrite(Path path, Resume resume) throws IOException {
+        serializationType.doWrite(new BufferedOutputStream(new FileOutputStream(path.toString())), resume);
     }
 
 }
