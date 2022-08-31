@@ -1,0 +1,14 @@
+name: tg-notify
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Update status
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.CHAT_ID }}
+        token: ${{ secrets.BOT_ID }}
+        format: markdown
+        message: New commit in *balcon/basejava*.
+          [${{github.sha}}@${{ github.ref }}]
