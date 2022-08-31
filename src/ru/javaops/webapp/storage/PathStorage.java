@@ -33,7 +33,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     // TODO modify with nio
     @Override
-    protected void doSave(Path path, Resume resume) {
+    protected final void doSave(Path path, Resume resume) {
         try {
             Files.createFile(path);
         } catch (IOException e) {
@@ -44,7 +44,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     // TODO modify with nio
     @Override
-    protected Resume doGet(Path path) {
+    protected final Resume doGet(Path path) {
         try {
             return doRead(path);
         } catch (IOException e) {
@@ -54,7 +54,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     // TODO modify with nio
     @Override
-    protected void doUpdate(Path path, Resume resume) {
+    protected final void doUpdate(Path path, Resume resume) {
         try {
             doWrite(path, resume);
         } catch (IOException e) {
@@ -64,7 +64,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     // TODO modify with nio
     @Override
-    protected void doDelete(Path path) {
+    protected final void doDelete(Path path) {
         try {
             Files.delete(path);
         } catch (IOException e) {
@@ -73,7 +73,7 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected List<Resume> doCopyAll() {
+    protected final List<Resume> doCopyAll() {
         List<Resume> resumes = new ArrayList<>();
         getFileList().map(this::doGet).forEach(resumes::add);
         return resumes;
@@ -81,23 +81,23 @@ public class PathStorage extends AbstractStorage<Path> {
 
     // TODO modify with nio
     @Override
-    protected Path getSearchKey(String uuid) {
+    protected final Path getSearchKey(String uuid) {
         // TODO need better, remove toString
         return Paths.get(directory.toString(), uuid);
     }
 
     @Override
-    protected boolean isExist(Path path) {
+    protected final boolean isExist(Path path) {
         return Files.exists(path);
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
         getFileList().forEach(this::doDelete);
     }
 
     @Override
-    public int getSize() {
+    public final int getSize() {
         return (int) getFileList().count();
     }
 
