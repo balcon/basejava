@@ -108,6 +108,7 @@ public class ResumeTestData {
                     System.out.println(title);
                     for (Organization organization : organizations) {
                         System.out.println(organization.getName());
+                        System.out.println(organization.getHomepage());
                         for (Period period : organization.getPeriods()) {
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
                             String startDateStr = period.getStartDate().format(formatter);
@@ -132,8 +133,8 @@ public class ResumeTestData {
 
     public static void main(String[] args) {
         Resume resume = buildResume("uuid_1", "Григорий Кислин");
-       // printResume(resume);
+        printResume(resume);
 
-        System.out.println(resume);
+      //  System.out.println(resume);
     }
 }
