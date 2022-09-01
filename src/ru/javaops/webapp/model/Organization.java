@@ -9,22 +9,22 @@ public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final String name;
-    private String website;
+    private String homepage;
     private final List<Period> periods = new ArrayList<>();
 
-    public Organization(String name, String website) {
+    public Organization(String name, String homepage) {
         Objects.requireNonNull(name);
-        Objects.requireNonNull(website);
+        Objects.requireNonNull(homepage);
         this.name = name;
-        this.website = website;
+        this.homepage = homepage;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getWebsite() {
-        return website;
+    public String getHomepage() {
+        return homepage;
     }
 
     public List<Period> getPeriods() {
@@ -35,8 +35,8 @@ public class Organization implements Serializable {
         periods.add(period);
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
     }
 
     @Override
@@ -47,14 +47,14 @@ public class Organization implements Serializable {
         Organization that = (Organization) o;
 
         if (!name.equals(that.name)) return false;
-        if (!website.equals(that.website)) return false;
+        if (!homepage.equals(that.homepage)) return false;
         return periods.equals(that.periods);
     }
 
     @Override
     public int hashCode() {
         int result = name.hashCode();
-        result = 31 * result + website.hashCode();
+        result = 31 * result + homepage.hashCode();
         result = 31 * result + periods.hashCode();
         return result;
     }
