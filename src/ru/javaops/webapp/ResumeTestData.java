@@ -135,6 +135,8 @@ public class ResumeTestData {
 
     public static void main(String[] args) {
         Resume resume = buildResume("uuid_1", "Григорий Кислин");
-        printResume(resume);
+       // printResume(resume);
+
+        System.out.println(resume);
     }
 }
