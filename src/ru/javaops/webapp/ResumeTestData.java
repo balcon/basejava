@@ -91,22 +91,19 @@ public class ResumeTestData {
         for (SectionType sectionType : SectionType.values()) {
             String title = sectionType.getTitle();
             switch (sectionType) {
-                case OBJECTIVE:
-                case PERSONAL:
+                case OBJECTIVE, PERSONAL -> {
                     String text = ((TextSection) resume.getSection(sectionType)).getContent();
                     System.out.println(title);
                     System.out.println(text);
-                    break;
-                case ACHIEVEMENT:
-                case QUALIFICATION:
+                }
+                case ACHIEVEMENT, QUALIFICATION -> {
                     List<String> lines = ((ListTextSection) resume.getSection(sectionType)).getContent();
                     System.out.println(title);
                     for (String line : lines) {
                         System.out.println("* " + line);
                     }
-                    break;
-                case EXPERIENCE:
-                case EDUCATION:
+                }
+                case EXPERIENCE, EDUCATION -> {
                     List<Organization> organizations = ((OrganizationSection) resume.getSection(sectionType)).getContent();
                     System.out.println(title);
                     for (Organization organization : organizations) {
@@ -128,7 +125,7 @@ public class ResumeTestData {
                             }
                         }
                     }
-                    break;
+                }
             }
         }
     }
