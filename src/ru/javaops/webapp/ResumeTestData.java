@@ -58,19 +58,19 @@ public class ResumeTestData {
                         "IN платформе Siemens @vantage (Java, Unix)."));
         experience.add(organization);
         organization = new Organization("Java Online Projects", "http://javaops.ru/");
-        organization.addPeriod(new Period("Автор проекта.", dateOf(10, 2013), null,
+        organization.addPeriod(new Period("Автор проекта.", dateOf(10, 2013),
                 "Создание, организация и проведение Java онлайн проектов и стажировок."));
         experience.add(organization);
         resume.setSection(SectionType.EXPERIENCE, experience);
 
         OrganizationSection education = new OrganizationSection();
         organization = new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/");
-        organization.addPeriod(new Period("Закончил с отличием", dateOf(9, 1984), dateOf(6, 1987), null));
+        organization.addPeriod(new Period("Закончил с отличием", dateOf(9, 1984), dateOf(6, 1987)));
         education.add(organization);
         organization = new Organization("Санкт-Петербургский национальный исследовательский университет информационных " +
                 "технологий, механики и оптики", "http://www.ifmo.ru/");
-        organization.addPeriod(new Period("Аспирантура (программист С, С++)", dateOf(9, 1993), dateOf(7, 1996), null));
-        organization.addPeriod(new Period("Инженер (программист Fortran, C)", dateOf(9, 1987), dateOf(7, 1993), null));
+        organization.addPeriod(new Period("Аспирантура (программист С, С++)", dateOf(9, 1993), dateOf(7, 1996)));
+        organization.addPeriod(new Period("Инженер (программист Fortran, C)", dateOf(9, 1987), dateOf(7, 1993)));
         education.add(organization);
         resume.setSection(SectionType.EDUCATION, education);
 
@@ -135,6 +135,6 @@ public class ResumeTestData {
         Resume resume = buildResume("uuid_1", "Григорий Кислин");
         printResume(resume);
 
-      //  System.out.println(resume);
+        //  System.out.println(resume);
     }
 }
