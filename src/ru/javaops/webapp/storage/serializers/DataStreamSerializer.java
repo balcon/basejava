@@ -3,6 +3,7 @@ package ru.javaops.webapp.storage.serializers;
 import ru.javaops.webapp.model.*;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +26,11 @@ public class DataStreamSerializer implements StreamSerializer {
                 switch (section.getKey()) {
                     case OBJECTIVE, PERSONAL -> {
                         output.writeUTF(section.getKey().name());
-                        output.writeUTF(((TextSection) section.getValue()).getContent());
+                        output.writeUTF(((TextSection) section.getValue()).getText());
                     }
                     case ACHIEVEMENT, QUALIFICATION -> {
                         output.writeUTF(section.getKey().name());
-                        List<String> textList = ((ListTextSection) section.getValue()).getContent();
+                        List<String> textList = ((ListTextSection) section.getValue()).getTextList();
                         output.writeInt(textList.size());
                         for (String text : textList) {
                             output.writeUTF(text);
@@ -47,8 +48,8 @@ public class DataStreamSerializer implements StreamSerializer {
                             for (Period period : periods) {
                                 output.writeUTF(period.getTitle());
                                 output.writeUTF(period.getStartDate().toString());
-                                output.writeUTF(period.getEndDate()!=null?period.getEndDate().toString():"NULL");
-                                output.writeUTF(period.getDescription()!=null?period.getDescription():"NULL");
+                                output.writeUTF(period.getEndDate().toString());
+                                output.writeUTF(period.getDescription());
                             }
                         }
                     }
@@ -68,14 +69,38 @@ public class DataStreamSerializer implements StreamSerializer {
             for (int i = 0; i < contactsSize; i++) {
                 resume.setContact(ContactType.valueOf(input.readUTF()), input.readUTF());
             }
-//            int sectionsSize = input.readInt();
-//            for (int i = 0; i < sectionsSize; i++) {
-//                SectionType sectionType = SectionType.valueOf(input.readUTF());
-//                switch (sectionType) {
-//                    case OBJECTIVE, PERSONAL -> resume.setSection(sectionType, new TextSection(input.readUTF()));
-//
-//                }
-//            }
+            int sectionsSize = input.readInt();
+            for (int i = 0; i < sectionsSize; i++) {
+                SectionType sectionType = SectionType.valueOf(input.readUTF());
+                switch (sectionType) {
+                    case OBJECTIVE, PERSONAL -> resume.setSection(sectionType, new TextSection(input.readUTF()));
+                    case ACHIEVEMENT, QUALIFICATION -> {
+                        ListTextSection listTextSection = new ListTextSection();
+                        int listSize = input.readInt();
+                        for (int j = 0; j < listSize; j++) {
+                            listTextSection.add(input.readUTF());
+                        }
+                        resume.setSection(sectionType, listTextSection);
+                    }
+                    case EXPERIENCE, EDUCATION -> {
+                        OrganizationSection organizationSection = new OrganizationSection();
+                        int organizationsSize = input.readInt();
+                        for (int j = 0; j < organizationsSize; j++) {
+                            Organization organization = new Organization(input.readUTF(), input.readUTF());
+                            int periodsSize = input.readInt();
+                            for (int k = 0; k < periodsSize; k++) {
+                                String title = input.readUTF();
+                                LocalDate startDate = LocalDate.parse(input.readUTF());
+                                LocalDate endDate = LocalDate.parse(input.readUTF());
+                                String description = input.readUTF();
+                                organization.addPeriod(new Period(title, startDate, endDate, description));
+                            }
+                            organizationSection.add(organization);
+                        }
+                        resume.setSection(sectionType, organizationSection);
+                    }
+                }
+            }
             return resume;
         }
     }
