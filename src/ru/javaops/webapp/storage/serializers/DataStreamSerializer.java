@@ -23,13 +23,10 @@ public class DataStreamSerializer implements StreamSerializer {
             Map<SectionType, AbstractSection> sections = resume.getSections();
             output.writeInt(sections.size());
             for (Map.Entry<SectionType, AbstractSection> section : sections.entrySet()) {
+                output.writeUTF(section.getKey().name());
                 switch (section.getKey()) {
-                    case OBJECTIVE, PERSONAL -> {
-                        output.writeUTF(section.getKey().name());
-                        output.writeUTF(((TextSection) section.getValue()).getText());
-                    }
+                    case OBJECTIVE, PERSONAL -> output.writeUTF(((TextSection) section.getValue()).getText());
                     case ACHIEVEMENT, QUALIFICATION -> {
-                        output.writeUTF(section.getKey().name());
                         List<String> textList = ((ListTextSection) section.getValue()).getTextList();
                         output.writeInt(textList.size());
                         for (String text : textList) {
@@ -37,7 +34,6 @@ public class DataStreamSerializer implements StreamSerializer {
                         }
                     }
                     case EXPERIENCE, EDUCATION -> {
-                        output.writeUTF(section.getKey().name());
                         List<Organization> organizations = ((OrganizationSection) section.getValue()).getContent();
                         output.writeInt(organizations.size());
                         for (Organization organization : organizations) {
