@@ -33,10 +33,6 @@ public class Period implements Serializable {
         this(title, startDate, NOW, description);
     }
 
-    public Period(String title, LocalDate startDate) {
-        this(title, startDate, NOW);
-    }
-
     public String getTitle() {
         return title;
     }
@@ -75,11 +71,6 @@ public class Period implements Serializable {
 
     @Override
     public String toString() {
-        return "Period{" +
-                "title='" + title + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", description='" + description + '\'' +
-                '}';
+        return title + ": " + startDate + " - " + endDate + ", " + description;
     }
 }

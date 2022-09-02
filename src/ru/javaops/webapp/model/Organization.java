@@ -58,4 +58,9 @@ public class Organization implements Serializable {
         result = 31 * result + periods.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return String.join(", ", name, homepage, periods.toString());
+    }
 }

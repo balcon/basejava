@@ -7,15 +7,15 @@ import java.util.Objects;
 public class ListTextSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
 
-    private final List<String> content = new ArrayList<>();
+    private final List<String> textList = new ArrayList<>();
 
-    public void add(String content) {
-        Objects.requireNonNull(content);
-        this.content.add(content);
+    public void add(String text) {
+        Objects.requireNonNull(text);
+        this.textList.add(text);
     }
 
-    public List<String> getContent() {
-        return content;
+    public List<String> getTextList() {
+        return textList;
     }
 
     @Override
@@ -23,11 +23,16 @@ public class ListTextSection extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListTextSection that = (ListTextSection) o;
-        return content.equals(that.content);
+        return textList.equals(that.textList);
     }
 
     @Override
     public int hashCode() {
-        return content.hashCode();
+        return textList.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return textList.toString();
     }
 }

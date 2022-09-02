@@ -92,12 +92,12 @@ public class ResumeTestData {
             String title = sectionType.getTitle();
             switch (sectionType) {
                 case OBJECTIVE, PERSONAL -> {
-                    String text = ((TextSection) resume.getSection(sectionType)).getContent();
+                    String text = ((TextSection) resume.getSection(sectionType)).getText();
                     System.out.println(title);
                     System.out.println(text);
                 }
                 case ACHIEVEMENT, QUALIFICATION -> {
-                    List<String> lines = ((ListTextSection) resume.getSection(sectionType)).getContent();
+                    List<String> lines = ((ListTextSection) resume.getSection(sectionType)).getTextList();
                     System.out.println(title);
                     for (String line : lines) {
                         System.out.println("* " + line);
@@ -133,8 +133,8 @@ public class ResumeTestData {
 
     public static void main(String[] args) {
         Resume resume = buildResume("uuid_1", "Григорий Кислин");
-        printResume(resume);
+        //printResume(resume);
 
-        //  System.out.println(resume);
+        System.out.println(resume);
     }
 }

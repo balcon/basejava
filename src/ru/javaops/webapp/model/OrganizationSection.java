@@ -30,4 +30,9 @@ public class OrganizationSection extends AbstractSection {
     public int hashCode() {
         return organizations.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return organizations.toString();
+    }
 }
