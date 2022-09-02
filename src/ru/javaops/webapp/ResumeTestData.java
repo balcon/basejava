@@ -114,14 +114,14 @@ public class ResumeTestData {
                             String startDateStr = period.getStartDate().format(formatter);
                             LocalDate endDate = period.getEndDate();
                             String endDateStr;
-                            if (endDate == null) {
+                            if (endDate.equals(Period.NOW)) {
                                 endDateStr = "Сейчас";
                             } else {
                                 endDateStr = period.getEndDate().format(formatter);
                             }
                             System.out.println(startDateStr + " - " + endDateStr + " " + period.getTitle());
                             String description = period.getDescription();
-                            if (description != null) {
+                            if (!description.equals("")) {
                                 System.out.println(description);
                             }
                         }
@@ -133,8 +133,8 @@ public class ResumeTestData {
 
     public static void main(String[] args) {
         Resume resume = buildResume("uuid_1", "Григорий Кислин");
-        //printResume(resume);
+        printResume(resume);
 
-        System.out.println(resume);
+        //System.out.println(resume);
     }
 }
