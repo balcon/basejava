@@ -91,11 +91,11 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private static <T> List<T> readWithException(DataInputStream input,
                                                  SupplierWithException<T> action) throws IOException {
-        List<T> objects = new ArrayList<>();
+        List<T> list = new ArrayList<>();
         int size = input.readInt();
         for (int i = 0; i < size; i++) {
-            objects.add(action.get());
+            list.add(action.get());
         }
-        return objects;
+        return list;
     }
 }
