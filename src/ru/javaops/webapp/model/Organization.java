@@ -12,7 +12,7 @@ public class Organization implements Serializable {
 
     private final String name;
     private final String homepage;
-    private final List<Period> periods = new ArrayList<>();
+    private List<Period> periods = new ArrayList<>();
 
     public Organization(String name, String homepage) {
         this.name = Objects.requireNonNull(name);
@@ -33,6 +33,10 @@ public class Organization implements Serializable {
 
     public void addPeriod(Period period) {
         periods.add(period);
+    }
+
+    public void setPeriods(List<Period> periods) {
+        this.periods = periods;
     }
 
     @Override

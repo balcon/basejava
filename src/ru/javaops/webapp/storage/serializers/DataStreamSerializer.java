@@ -2,12 +2,13 @@ package ru.javaops.webapp.storage.serializers;
 
 import ru.javaops.webapp.model.*;
 import ru.javaops.webapp.storage.function.ConsumerWithException;
+import ru.javaops.webapp.storage.function.SupplierWithException;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class DataStreamSerializer implements StreamSerializer {
     @Override
@@ -19,9 +20,7 @@ public class DataStreamSerializer implements StreamSerializer {
                 output.writeUTF(entry.getKey().name());
                 output.writeUTF(entry.getValue());
             });
-            Map<SectionType, AbstractSection> sections = resume.getSections();
-            output.writeInt(sections.size());
-            for (Map.Entry<SectionType, AbstractSection> section : sections.entrySet()) {
+            writeWithException(resume.getSections().entrySet(), output, (section) -> {
                 output.writeUTF(section.getKey().name());
                 switch (section.getKey()) {
                     case OBJECTIVE, PERSONAL -> output.writeUTF(((TextSection) section.getValue()).getText());
@@ -42,9 +41,8 @@ public class DataStreamSerializer implements StreamSerializer {
                             });
                         });
                     }
-
                 }
-            }
+            });
         }
     }
 
@@ -76,14 +74,13 @@ public class DataStreamSerializer implements StreamSerializer {
                         int organizationsSize = input.readInt();
                         for (int j = 0; j < organizationsSize; j++) {
                             Organization organization = new Organization(input.readUTF(), input.readUTF());
-                            int periodsSize = input.readInt();
-                            for (int k = 0; k < periodsSize; k++) {
-                                String title = input.readUTF();
-                                LocalDate startDate = LocalDate.parse(input.readUTF());
-                                LocalDate endDate = LocalDate.parse(input.readUTF());
-                                String description = input.readUTF();
-                                organization.addPeriod(new Period(title, startDate, endDate, description));
-                            }
+                            List<Period> periods = new ArrayList<>();
+                            readWithException(periods, input, () ->
+                                    new Period(input.readUTF(),
+                                            LocalDate.parse(input.readUTF()),
+                                            LocalDate.parse(input.readUTF()),
+                                            input.readUTF()));
+                            organization.setPeriods(periods);
                             organizationSection.add(organization);
                         }
                         resume.setSection(sectionType, organizationSection);
@@ -100,6 +97,15 @@ public class DataStreamSerializer implements StreamSerializer {
         output.writeInt(collection.size());
         for (T object : collection) {
             action.accept(object);
+        }
+    }
+
+    private static <T> void readWithException(Collection<T> collection,
+                                              DataInputStream input,
+                                              SupplierWithException<T> action) throws IOException {
+        int size = input.readInt();
+        for (int i = 0; i < size; i++) {
+            collection.add(action.get());
         }
     }
 }
