@@ -1,10 +1,12 @@
 package ru.javaops.webapp.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Period implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public static final LocalDate NOW = LocalDate.of(1, 1, 1);
@@ -15,22 +17,10 @@ public class Period implements Serializable {
     private final String description;
 
     public Period(String title, LocalDate startDate, LocalDate endDate, String description) {
-        Objects.requireNonNull(title);
-        Objects.requireNonNull(startDate);
-        Objects.requireNonNull(endDate);
-        Objects.requireNonNull(description);
-        this.title = title;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.description = description;
-    }
-
-    public Period(String title, LocalDate startDate, LocalDate endDate) {
-        this(title, startDate, endDate, "");
-    }
-
-    public Period(String title, LocalDate startDate, String description) {
-        this(title, startDate, NOW, description);
+        this.title = Objects.requireNonNull(title);
+        this.startDate = Objects.requireNonNull(startDate);
+        this.endDate = Objects.requireNonNullElse(endDate, NOW);
+        this.description = Objects.toString(description, "");
     }
 
     public String getTitle() {

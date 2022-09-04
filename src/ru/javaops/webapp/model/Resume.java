@@ -1,5 +1,6 @@
 package ru.javaops.webapp.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.UUID;
  * Initial resume class
  */
 public class Resume implements Comparable<Resume>, Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final String uuid;
@@ -18,10 +20,8 @@ public class Resume implements Comparable<Resume>, Serializable {
     private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String uuid, String fullName) {
-        Objects.requireNonNull(uuid);
-        Objects.requireNonNull(fullName);
-        this.uuid = uuid;
-        this.fullName = fullName;
+        this.uuid = Objects.requireNonNull(uuid);
+        this.fullName = Objects.requireNonNull(fullName);
     }
 
     public Resume(String fullName) {
@@ -56,7 +56,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         return contacts;
     }
 
-    public Map<SectionType, AbstractSection> getSections(){
+    public Map<SectionType, AbstractSection> getSections() {
         return sections;
     }
 
