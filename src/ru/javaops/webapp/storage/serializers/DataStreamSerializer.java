@@ -8,6 +8,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class DataStreamSerializer implements StreamSerializer {
@@ -51,45 +52,33 @@ public class DataStreamSerializer implements StreamSerializer {
         try (DataInputStream input = new DataInputStream(inputStream)) {
             String uuid = input.readUTF();
             String fullName = input.readUTF();
-            int contactsSize = input.readInt();
             Resume resume = new Resume(uuid, fullName);
+            int contactsSize = input.readInt();
             for (int i = 0; i < contactsSize; i++) {
                 resume.setContact(ContactType.valueOf(input.readUTF()), input.readUTF());
             }
-            int sectionsSize = input.readInt();
-            for (int i = 0; i < sectionsSize; i++) {
+            readWithException(input, () -> {
                 SectionType sectionType = SectionType.valueOf(input.readUTF());
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL -> resume.setSection(sectionType, new TextSection(input.readUTF()));
-                    case ACHIEVEMENT, QUALIFICATION -> {
-                        ListTextSection listTextSection = new ListTextSection();
-                        int listSize = input.readInt();
-                        for (int j = 0; j < listSize; j++) {
-                            listTextSection.add(input.readUTF());
-                        }
-                        resume.setSection(sectionType, listTextSection);
-                    }
+                    case ACHIEVEMENT, QUALIFICATION -> resume.setSection(sectionType,
+                            new ListTextSection(readWithException(input, input::readUTF)));
                     case EXPERIENCE, EDUCATION -> {
-                        OrganizationSection organizationSection = new OrganizationSection();
-                        int organizationsSize = input.readInt();
-                        for (int j = 0; j < organizationsSize; j++) {
-                            Organization organization = new Organization(input.readUTF(), input.readUTF());
-                            List<Period> periods = new ArrayList<>();
-                            readWithException(periods, input, () ->
-                                    new Period(input.readUTF(),
-                                            LocalDate.parse(input.readUTF()),
-                                            LocalDate.parse(input.readUTF()),
-                                            input.readUTF()));
-                            organization.setPeriods(periods);
-                            organizationSection.add(organization);
-                        }
-                        resume.setSection(sectionType, organizationSection);
+                        List<Organization> organizations = readWithException(input, () ->
+                                new Organization(input.readUTF(), input.readUTF(), readWithException(input, () ->
+                                        new Period(input.readUTF(),
+                                                LocalDate.parse(input.readUTF()),
+                                                LocalDate.parse(input.readUTF()),
+                                                input.readUTF()))));
+                        resume.setSection(sectionType, new OrganizationSection(organizations));
                     }
                 }
-            }
+                return Collections.emptyList();
+            });
             return resume;
         }
     }
+
 
     private static <T> void writeWithException(Collection<T> collection,
                                                DataOutputStream output,
@@ -100,12 +89,13 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private static <T> void readWithException(Collection<T> collection,
-                                              DataInputStream input,
-                                              SupplierWithException<T> action) throws IOException {
+    private static <T> List<T> readWithException(DataInputStream input,
+                                                 SupplierWithException<T> action) throws IOException {
+        List<T> objects = new ArrayList<>();
         int size = input.readInt();
         for (int i = 0; i < size; i++) {
-            collection.add(action.get());
+            objects.add(action.get());
         }
+        return objects;
     }
 }

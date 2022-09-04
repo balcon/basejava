@@ -19,6 +19,12 @@ public class Organization implements Serializable {
         this.homepage = Objects.toString(homepage, "");
     }
 
+    public Organization(String name, String homepage, List<Period> periods) {
+        this(name, homepage);
+        this.periods = periods;
+    }
+
+
     public String getName() {
         return name;
     }

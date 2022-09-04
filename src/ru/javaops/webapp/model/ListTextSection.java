@@ -9,7 +9,15 @@ public class ListTextSection extends AbstractSection {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final List<String> textList = new ArrayList<>();
+    private final List<String> textList;
+
+    public ListTextSection() {
+        textList = new ArrayList<>();
+    }
+
+    public ListTextSection(List<String> listText) {
+        this.textList = listText;
+    }
 
     public void add(String text) {
         this.textList.add(Objects.requireNonNull(text));
