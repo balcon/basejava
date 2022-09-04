@@ -10,15 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DataStreamSerializer implements StreamSerializer {
-    private static <T> void writeWithException(Collection<T> collection,
-                                               DataOutputStream output,
-                                               ConsumerWithException<T> action) throws IOException {
-        output.writeInt(collection.size());
-        for (T object : collection) {
-            action.accept(object);
-        }
-    }
-
     @Override
     public void doWrite(OutputStream outputStream, Resume resume) throws IOException {
         try (DataOutputStream output = new DataOutputStream(outputStream)) {
@@ -100,6 +91,15 @@ public class DataStreamSerializer implements StreamSerializer {
                 }
             }
             return resume;
+        }
+    }
+
+    private static <T> void writeWithException(Collection<T> collection,
+                                               DataOutputStream output,
+                                               ConsumerWithException<T> action) throws IOException {
+        output.writeInt(collection.size());
+        for (T object : collection) {
+            action.accept(object);
         }
     }
 }
