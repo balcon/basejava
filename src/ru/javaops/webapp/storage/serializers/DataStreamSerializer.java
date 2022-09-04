@@ -53,10 +53,10 @@ public class DataStreamSerializer implements StreamSerializer {
             String uuid = input.readUTF();
             String fullName = input.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int contactsSize = input.readInt();
-            for (int i = 0; i < contactsSize; i++) {
+            readWithException(input, ()-> {
                 resume.setContact(ContactType.valueOf(input.readUTF()), input.readUTF());
-            }
+                return Collections.emptyList();
+            });
             readWithException(input, () -> {
                 SectionType sectionType = SectionType.valueOf(input.readUTF());
                 switch (sectionType) {
