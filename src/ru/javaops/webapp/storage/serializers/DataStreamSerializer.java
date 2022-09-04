@@ -1,25 +1,33 @@
 package ru.javaops.webapp.storage.serializers;
 
 import ru.javaops.webapp.model.*;
+import ru.javaops.webapp.storage.function.ConsumerWithException;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class DataStreamSerializer implements StreamSerializer {
+    private static <T> void writeWithException(Collection<T> collection,
+                                               DataOutputStream output,
+                                               ConsumerWithException<T> action) throws IOException {
+        output.writeInt(collection.size());
+        for (T object : collection) {
+            action.accept(object);
+        }
+    }
 
     @Override
     public void doWrite(OutputStream outputStream, Resume resume) throws IOException {
         try (DataOutputStream output = new DataOutputStream(outputStream)) {
             output.writeUTF(resume.getUuid());
             output.writeUTF(resume.getFullName());
-            Map<ContactType, String> contacts = resume.getContacts();
-            output.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> contact : contacts.entrySet()) {
-                output.writeUTF(contact.getKey().name());
-                output.writeUTF(contact.getValue());
-            }
+            writeWithException(resume.getContacts().entrySet(), output, (entry) -> {
+                output.writeUTF(entry.getKey().name());
+                output.writeUTF(entry.getValue());
+            });
             Map<SectionType, AbstractSection> sections = resume.getSections();
             output.writeInt(sections.size());
             for (Map.Entry<SectionType, AbstractSection> section : sections.entrySet()) {
@@ -28,26 +36,20 @@ public class DataStreamSerializer implements StreamSerializer {
                     case OBJECTIVE, PERSONAL -> output.writeUTF(((TextSection) section.getValue()).getText());
                     case ACHIEVEMENT, QUALIFICATION -> {
                         List<String> textList = ((ListTextSection) section.getValue()).getTextList();
-                        output.writeInt(textList.size());
-                        for (String text : textList) {
-                            output.writeUTF(text);
-                        }
+                        writeWithException(textList, output, output::writeUTF);
                     }
                     case EXPERIENCE, EDUCATION -> {
                         List<Organization> organizations = ((OrganizationSection) section.getValue()).getContent();
-                        output.writeInt(organizations.size());
-                        for (Organization organization : organizations) {
+                        writeWithException(organizations, output, (organization) -> {
                             output.writeUTF(organization.getName());
                             output.writeUTF(organization.getHomepage());
-                            List<Period> periods = organization.getPeriods();
-                            output.writeInt(periods.size());
-                            for (Period period : periods) {
+                            writeWithException(organization.getPeriods(), output, (period) -> {
                                 output.writeUTF(period.getTitle());
                                 output.writeUTF(period.getStartDate().toString());
                                 output.writeUTF(period.getEndDate().toString());
                                 output.writeUTF(period.getDescription());
-                            }
-                        }
+                            });
+                        });
                     }
 
                 }
