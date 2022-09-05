@@ -2,13 +2,13 @@ package ru.javaops.webapp.storage.serializers;
 
 import ru.javaops.webapp.model.*;
 import ru.javaops.webapp.storage.function.ConsumerWithException;
+import ru.javaops.webapp.storage.function.ExecutorWithException;
 import ru.javaops.webapp.storage.function.SupplierWithException;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class DataStreamSerializer implements StreamSerializer {
@@ -53,19 +53,17 @@ public class DataStreamSerializer implements StreamSerializer {
             String uuid = input.readUTF();
             String fullName = input.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            readWithException(input, ()-> {
-                resume.setContact(ContactType.valueOf(input.readUTF()), input.readUTF());
-                return Collections.emptyList();
-            });
+            readWithException(input, () ->
+                    resume.setContact(ContactType.valueOf(input.readUTF()), input.readUTF()));
             readWithException(input, () -> {
                 SectionType sectionType = SectionType.valueOf(input.readUTF());
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL -> resume.setSection(sectionType, new TextSection(input.readUTF()));
                     case ACHIEVEMENT, QUALIFICATION -> resume.setSection(sectionType,
-                            new ListTextSection(readWithException(input, input::readUTF)));
+                            new ListTextSection(readListWithException(input, input::readUTF)));
                     case EXPERIENCE, EDUCATION -> {
-                        List<Organization> organizations = readWithException(input, () ->
-                                new Organization(input.readUTF(), input.readUTF(), readWithException(input, () ->
+                        List<Organization> organizations = readListWithException(input, () ->
+                                new Organization(input.readUTF(), input.readUTF(), readListWithException(input, () ->
                                         new Period(input.readUTF(),
                                                 LocalDate.parse(input.readUTF()),
                                                 LocalDate.parse(input.readUTF()),
@@ -73,7 +71,6 @@ public class DataStreamSerializer implements StreamSerializer {
                         resume.setSection(sectionType, new OrganizationSection(organizations));
                     }
                 }
-                return Collections.emptyList();
             });
             return resume;
         }
@@ -89,13 +86,20 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private static <T> List<T> readWithException(DataInputStream input,
-                                                 SupplierWithException<T> action) throws IOException {
+    private static <T> List<T> readListWithException(DataInputStream input,
+                                                     SupplierWithException<T> action) throws IOException {
         List<T> list = new ArrayList<>();
         int size = input.readInt();
         for (int i = 0; i < size; i++) {
             list.add(action.get());
         }
         return list;
+    }
+
+    private static void readWithException(DataInputStream input, ExecutorWithException action) throws IOException {
+        int size = input.readInt();
+        for (int i = 0; i < size; i++) {
+            action.execute();
+        }
     }
 }
