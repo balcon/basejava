@@ -10,6 +10,7 @@ jobs:
         to: ${{ secrets.CHAT_ID }}
         token: ${{ secrets.BOT_ID }}
         format: markdown
+        disable_web_page_preview: true
         message: |
                  ${{ github.repository }}, new commit:
                  *${{ github.event.commits[0].message }}*
