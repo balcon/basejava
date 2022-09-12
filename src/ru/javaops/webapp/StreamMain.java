@@ -17,8 +17,7 @@ public class StreamMain {
         return Arrays.stream(values)
                 .distinct()
                 .sorted()
-                .reduce((x, y) -> x * 10 + y)
-                .getAsInt();
+                .reduce(0,(x, y) -> x * 10 + y);
     }
 
     static List<Integer> oddOrEven(List<Integer> integers) {
