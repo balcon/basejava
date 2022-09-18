@@ -1,4 +1,4 @@
-package ru.javaops.webapp.util;
+package ru.javaops.webapp.storage.util;
 
 import java.io.FileReader;
 import java.io.IOException;
