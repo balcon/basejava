@@ -2,11 +2,12 @@ package ru.javaops.webapp.storage.util;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
 
 public class Config {
     private static final String PROPERTIES_PATH =
-            Config.class.getClassLoader().getResource("application.properties").getPath();
+            Objects.requireNonNull(Config.class.getClassLoader().getResource("application.properties")).getPath();
     private static final Properties PROPERTIES = new Properties();
 
     static {
