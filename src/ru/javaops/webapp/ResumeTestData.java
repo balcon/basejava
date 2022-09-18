@@ -13,6 +13,10 @@ public class ResumeTestData {
     }
 
     public static Resume buildResume(String uuid, String fullName) {
+        return new Resume(uuid, fullName);
+    }
+
+    public static Resume buildResume_(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
 
         resume.setContact(ContactType.PHONE, "+7(921) 855-0482");
