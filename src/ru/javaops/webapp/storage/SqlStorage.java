@@ -1,13 +1,11 @@
 package ru.javaops.webapp.storage;
 
+import ru.javaops.webapp.exception.NotExistsStorageException;
 import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.model.Resume;
 import ru.javaops.webapp.util.Config;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -23,7 +21,13 @@ public class SqlStorage implements Storage {
 
     @Override
     public void clear() {
-
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+             PreparedStatement statement =
+                     connection.prepareStatement("DELETE FROM resume")) {
+            statement.execute();
+        } catch (SQLException e) {
+            throw new StorageException("DB error", e);
+        }
     }
 
     @Override
@@ -35,13 +39,24 @@ public class SqlStorage implements Storage {
             statement.setString(2, resume.getFullName());
             statement.execute();
         } catch (SQLException e) {
-            throw new StorageException("DB read error", e);
+            throw new StorageException("DB error", e);
         }
     }
 
     @Override
     public Resume get(String uuid) {
-        return null;
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+             PreparedStatement statement =
+                     connection.prepareStatement("SELECT uuid, full_name FROM resume WHERE uuid=?")) {
+            statement.setString(1, uuid);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                throw new NotExistsStorageException(uuid);
+            }
+            return new Resume(uuid, resultSet.getString("full_name"));
+        } catch (SQLException e) {
+            throw new StorageException("DB error", e);
+        }
     }
 
     @Override
