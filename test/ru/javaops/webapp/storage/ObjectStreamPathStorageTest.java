@@ -1,9 +1,10 @@
 package ru.javaops.webapp.storage;
 
 import ru.javaops.webapp.storage.serializers.ObjectStreamSerializer;
+import ru.javaops.webapp.storage.util.Config;
 
 public class ObjectStreamPathStorageTest extends AbstractFileSystemStorageTest {
     public ObjectStreamPathStorageTest() {
-        super(new PathStorage("storage_test", new ObjectStreamSerializer()));
+        super(new PathStorage(Config.get("storage_test.dir"), new ObjectStreamSerializer()));
     }
 }
