@@ -20,7 +20,7 @@ public class Config {
     private Config() {
     }
 
-    private String get(String key) {
+    public static String get(String key) {
         return PROPERTIES.getProperty(key);
     }
 }
