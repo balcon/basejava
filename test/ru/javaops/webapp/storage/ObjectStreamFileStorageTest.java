@@ -5,6 +5,6 @@ import ru.javaops.webapp.storage.util.Config;
 
 public class ObjectStreamFileStorageTest extends AbstractFileSystemStorageTest {
     public ObjectStreamFileStorageTest() {
-        super(new FileStorage(Config.get("storage_test.dir"), new ObjectStreamSerializer()));
+        super(new FileStorage(Config.get().getStorageTestDir(), new ObjectStreamSerializer()));
     }
 }

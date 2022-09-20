@@ -1,10 +1,11 @@
 package ru.javaops.webapp.storage;
 
 import org.junit.Before;
+import ru.javaops.webapp.storage.util.Config;
 
 public class SqlStorageTest extends AbstractStorageTest {
     public SqlStorageTest() {
-        super(new SqlStorage());
+        super(Config.get().getStorage());
     }
 
     @Override
