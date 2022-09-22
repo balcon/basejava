@@ -3,6 +3,7 @@ package ru.javaops.webapp.storage.util;
 import ru.javaops.webapp.exception.ExistsStorageException;
 import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.storage.function.ExecutorSql;
+import ru.javaops.webapp.storage.function.TransactExecutorSql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,14 +16,35 @@ public class SqlHelper {
         this.connectionFactory = connectionFactory;
     }
 
-    public <T> T executeQuery(String query, ExecutorSql<T> action) {
-        try (Connection connection = connectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(query)) {
+    public <T> T execute(String query, ExecutorSql<T> action) {
+        try (Connection connection = connectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
             return action.execute(statement);
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23505")) { // unique_violation
-                throw new ExistsStorageException("some_uuid");
-            }
-            throw new StorageException("Database error", e);
+            throw checkSqlState(e);
         }
+    }
+
+    public <T> T transactExecute(TransactExecutorSql<T> action) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            try {
+                connection.setAutoCommit(false);
+                T result = action.execute(connection);
+                connection.commit();
+                return result;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw checkSqlState(e);
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
+    }
+
+    private StorageException checkSqlState(SQLException e) {
+        if (e.getSQLState().equals("23505")) { // unique_violation
+            return new ExistsStorageException("some_uuid");
+        }
+        return new StorageException(e);
     }
 }

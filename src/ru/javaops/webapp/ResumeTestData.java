@@ -13,7 +13,15 @@ public class ResumeTestData {
     }
 
     public static Resume buildResume(String uuid, String fullName) {
-        return new Resume(uuid, fullName);
+        Resume resume = new Resume(uuid, fullName);
+        resume.setContact(ContactType.PHONE, "+7(921) 855-0482");
+        resume.setContact(ContactType.SKYPE, "skype:grigory.kislin");
+        resume.setContact(ContactType.MAIL, "gkislin@yandex.ru");
+        resume.setContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        resume.setContact(ContactType.GITHUB, "https://github.com/gkislin");
+        resume.setContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+        resume.setContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        return resume;
     }
 
     public static Resume buildResume_(String uuid, String fullName) {
