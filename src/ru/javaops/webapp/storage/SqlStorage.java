@@ -129,9 +129,9 @@ public class SqlStorage implements Storage {
         });
     }
 
-    private void setStatement(PreparedStatement statement, String... fields) throws SQLException {
-        for (int i = 0; i < fields.length; i++) {
-            statement.setString(i + 1, fields[i]);
+    private void setStatement(PreparedStatement statement, String... values) throws SQLException {
+        for (int i = 0; i < values.length; i++) {
+            statement.setString(i + 1, values[i]);
         }
     }
 
