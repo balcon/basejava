@@ -16,22 +16,21 @@ public class SqlHelper {
         this.connectionFactory = connectionFactory;
     }
 
-    public <T> T execute(String query, ExecutorSql<T> action) {
+    public <T> T execute(String query, ExecutorSql<T> executor) {
         try (Connection connection = connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            return action.execute(statement);
+            return executor.execute(statement);
         } catch (SQLException e) {
             throw checkSqlState(e);
         }
     }
 
-    public <T> T transactExecute(TransactExecutorSql<T> action) {
+    public void transactExecute(TransactExecutorSql executor) {
         try (Connection connection = connectionFactory.getConnection()) {
             try {
                 connection.setAutoCommit(false);
-                T result = action.execute(connection);
+                executor.execute(connection);
                 connection.commit();
-                return result;
             } catch (SQLException e) {
                 connection.rollback();
                 throw checkSqlState(e);

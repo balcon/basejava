@@ -5,9 +5,11 @@ import org.junit.Test;
 import ru.javaops.webapp.ResumeTestData;
 import ru.javaops.webapp.exception.ExistsStorageException;
 import ru.javaops.webapp.exception.NotExistsStorageException;
+import ru.javaops.webapp.model.ContactType;
 import ru.javaops.webapp.model.Resume;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
     protected final Storage storage;
@@ -74,6 +76,8 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         Resume resume = ResumeTestData.buildResume(UUID_1, "Jimmy White");
+        resume.setContact(ContactType.SKYPE, "New Skype");
+//        resume.setSection(SectionType.PERSONAL, new TextSection("New Personal"));
         storage.update(resume);
         assertEquals(resume, storage.get(UUID_1));
     }
