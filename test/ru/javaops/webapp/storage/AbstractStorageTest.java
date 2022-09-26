@@ -22,7 +22,7 @@ public abstract class AbstractStorageTest {
 
     protected static final Resume RESUME_1 = ResumeTestData.buildResume(UUID_1, "John Doe");
     protected static final Resume RESUME_2 = ResumeTestData.buildResume(UUID_2, "John Doe");
-    protected static final Resume RESUME_3 = ResumeTestData.buildResume(UUID_3, "Homer Simpson");
+    protected static final Resume RESUME_3 = new Resume(UUID_3, "Homer Simpson"); // empty contacts
     protected static final Resume RESUME_4 = ResumeTestData.buildResume(UUID_4, "Philip Fry");
     protected static final Resume RESUME_NOT_EXISTS = ResumeTestData.buildResume(UUID_NOT_EXISTS, "Anonymous");
 
@@ -75,7 +75,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume resume = ResumeTestData.buildResume(UUID_1, "Jimmy White");
+        Resume resume = new Resume(UUID_1, "Jimmy White");
         resume.setContact(ContactType.SKYPE, "New Skype");
 //        resume.setSection(SectionType.PERSONAL, new TextSection("New Personal"));
         storage.update(resume);
