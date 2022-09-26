@@ -1,6 +1,7 @@
 package ru.javaops.webapp.storage;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.javaops.webapp.ResumeTestData;
 import ru.javaops.webapp.exception.ExistsStorageException;
@@ -75,7 +76,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume resume = ResumeTestData.buildResume(UUID_1, "Jimmy White");
+        Resume resume = new Resume(UUID_1, "Jimmy White");
         resume.setContact(ContactType.SKYPE, "New Skype");
 //        resume.setSection(SectionType.PERSONAL, new TextSection("New Personal"));
         storage.update(resume);
