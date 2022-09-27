@@ -1,6 +1,7 @@
 package ru.javaops.webapp.storage;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.javaops.webapp.ResumeTestData;
 import ru.javaops.webapp.exception.ExistsStorageException;
