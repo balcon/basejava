@@ -1,13 +1,14 @@
 package ru.javaops.webapp.storage;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ru.javaops.webapp.ResumeTestData;
 import ru.javaops.webapp.exception.ExistsStorageException;
 import ru.javaops.webapp.exception.NotExistsStorageException;
 import ru.javaops.webapp.model.ContactType;
 import ru.javaops.webapp.model.Resume;
+import ru.javaops.webapp.model.SectionType;
+import ru.javaops.webapp.model.TextSection;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -78,7 +79,8 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume resume = new Resume(UUID_1, "Jimmy White");
         resume.setContact(ContactType.SKYPE, "New Skype");
-//        resume.setSection(SectionType.PERSONAL, new TextSection("New Personal"));
+        resume.setSection(SectionType.OBJECTIVE, new TextSection("New Objective"));
+        resume.setSection(SectionType.PERSONAL, new TextSection("New Personal"));
         storage.update(resume);
         assertEquals(resume, storage.get(UUID_1));
     }
