@@ -34,6 +34,7 @@ public class SqlStorage implements Storage {
                 statement.execute();
             }
             insertContacts(resume, connection);
+            return null;
         });
     }
 
@@ -71,6 +72,7 @@ public class SqlStorage implements Storage {
                 statement.execute();
             }
             insertContacts(resume, connection);
+            return null;
         });
     }
 
@@ -87,6 +89,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
+//        return getAllSortedV2();
         return sqlHelper.execute("SELECT * FROM resume r " +
                 "LEFT JOIN contact c ON c.resume_uuid = r.uuid " +
                 "ORDER BY full_name, uuid", statement -> {
@@ -111,6 +114,31 @@ public class SqlStorage implements Storage {
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
+        });
+    }
+
+    private List<Resume> getAllSortedV2() {
+        return sqlHelper.transactExecute(connection -> {
+            Map<String, Resume> resumes = new LinkedHashMap<>();
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM resume ORDER BY full_name, uuid")) {
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    Resume resume = getResume(resultSet);
+                    resumes.put(resume.getUuid(), resume);
+                }
+            }
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM contact")) {
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    String resumeUuid = resultSet.getString("resume_uuid").strip();
+                    String contactType = resultSet.getString("type");
+                    String contactValue = resultSet.getString("value");
+                    resumes.get(resumeUuid).setContact(ContactType.valueOf(contactType), contactValue);
+                }
+            }
+            return new ArrayList<>(resumes.values());
         });
     }
 
