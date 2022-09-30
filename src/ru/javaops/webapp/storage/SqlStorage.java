@@ -168,9 +168,9 @@ public class SqlStorage implements Storage {
         return new Resume(resultSet.getString("uuid").strip(), resultSet.getString("full_name"));
     }
 
-    private void clearContent(Resume resume, String table, Connection connection) throws SQLException{
+    private void clearContent(Resume resume, String table, Connection connection) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(
-                "DELETE FROM "+table+" WHERE resume_uuid=?")) {
+                "DELETE FROM " + table + " WHERE resume_uuid=?")) {
             setStatement(statement, resume.getUuid());
             statement.execute();
         }
