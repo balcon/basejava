@@ -2,6 +2,7 @@ package ru.javaops.webapp.storage;
 
 import ru.javaops.webapp.exception.NotExistsStorageException;
 import ru.javaops.webapp.model.*;
+import ru.javaops.webapp.storage.util.JsonParser;
 import ru.javaops.webapp.storage.util.SqlHelper;
 
 import java.sql.*;
@@ -155,13 +156,7 @@ public class SqlStorage implements Storage {
     private void setSection(Resume resume, ResultSet resultSet) throws SQLException {
         SectionType sectionType = SectionType.valueOf(resultSet.getString("type"));
         String sectionValue = resultSet.getString("value");
-        switch (sectionType) {
-            case OBJECTIVE, PERSONAL -> resume.setSection(sectionType, new TextSection(sectionValue));
-            case ACHIEVEMENT, QUALIFICATION -> {
-                List<String> lines = Arrays.asList(sectionValue.split("\n"));
-                resume.setSection(sectionType, new ListTextSection(lines));
-            }
-        }
+        resume.setSection(sectionType, JsonParser.read(sectionValue));
     }
 
     private Resume getResume(ResultSet resultSet) throws SQLException {
@@ -191,12 +186,7 @@ public class SqlStorage implements Storage {
         try (PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO section (resume_uuid, type, value) VALUES (?,?,?)")) {
             for (Map.Entry<SectionType, AbstractSection> section : resume.getSections().entrySet()) {
-                String value = switch (section.getKey()) {
-                    case OBJECTIVE, PERSONAL -> ((TextSection) section.getValue()).getText();
-                    case ACHIEVEMENT, QUALIFICATION ->
-                            String.join("\n", ((ListTextSection) section.getValue()).getTextList());
-                    case EXPERIENCE, EDUCATION -> null;
-                };
+                String value = JsonParser.write(section.getValue());
                 setStatement(statement, resume.getUuid(), section.getKey().name(), value);
                 statement.addBatch();
             }

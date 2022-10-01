@@ -5,9 +5,18 @@ import ru.javaops.webapp.model.AbstractSection;
 
 import java.lang.reflect.Type;
 
-public class JsonAbstractSectionAdapter implements JsonSerializer<AbstractSection>, JsonDeserializer<AbstractSection> {
+public class JsonSectionAdapter implements JsonSerializer<AbstractSection>, JsonDeserializer<AbstractSection> {
     private static final String CLASSNAME = "CLASSNAME";
     private static final String INSTANCE = "INSTANCE";
+
+    @Override
+    public JsonElement serialize(AbstractSection section, Type type, JsonSerializationContext context) {
+        JsonObject retValue = new JsonObject();
+        retValue.addProperty(CLASSNAME, section.getClass().getName());
+        JsonElement elem = context.serialize(section);
+        retValue.add(INSTANCE, elem);
+        return retValue;
+    }
 
     @Override
     public AbstractSection deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
@@ -21,14 +30,5 @@ public class JsonAbstractSectionAdapter implements JsonSerializer<AbstractSectio
         } catch (ClassNotFoundException e) {
             throw new JsonParseException(e.getMessage());
         }
-    }
-
-    @Override
-    public JsonElement serialize(AbstractSection section, Type type, JsonSerializationContext context) {
-        JsonObject retValue = new JsonObject();
-        retValue.addProperty(CLASSNAME, section.getClass().getName());
-        JsonElement elem = context.serialize(section);
-        retValue.add(INSTANCE, elem);
-        return retValue;
     }
 }

@@ -46,33 +46,33 @@ public class ResumeTestData {
         qualification.add("Python: Django.");
         resume.setSection(SectionType.QUALIFICATION, qualification);
 
-//        Organization organization;
-//        OrganizationSection experience = new OrganizationSection();
-//        organization = new Organization("Alcatel", "http://www.alcatel.ru/");
-//        organization.addPeriod(new Period("Инженер по аппаратному и программному тестированию", dateOf(9, 1997), dateOf(1, 2005)
-//                , "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."));
-//        experience.add(organization);
-//        organization = new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html");
-//        organization.addPeriod(new Period("Разработчик ПО", dateOf(1, 2005), dateOf(2, 2007),
-//                "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной " +
-//                        "IN платформе Siemens @vantage (Java, Unix)."));
-//        experience.add(organization);
-//        organization = new Organization("Java Online Projects", "http://javaops.ru/");
-//        organization.addPeriod(new Period("Автор проекта.", dateOf(10, 2013), null,
-//                "Создание, организация и проведение Java онлайн проектов и стажировок."));
-//        experience.add(organization);
-//        resume.setSection(SectionType.EXPERIENCE, experience);
-//
-//        OrganizationSection education = new OrganizationSection();
-//        organization = new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/");
-//        organization.addPeriod(new Period("Закончил с отличием", dateOf(9, 1984), dateOf(6, 1987), null));
-//        education.add(organization);
-//        organization = new Organization("Санкт-Петербургский национальный исследовательский университет информационных " +
-//                "технологий, механики и оптики", "http://www.ifmo.ru/");
-//        organization.addPeriod(new Period("Аспирантура (программист С, С++)", dateOf(9, 1993), dateOf(7, 1996), null));
-//        organization.addPeriod(new Period("Инженер (программист Fortran, C)", dateOf(9, 1987), dateOf(7, 1993), null));
-//        education.add(organization);
-//        resume.setSection(SectionType.EDUCATION, education);
+        Organization organization;
+        OrganizationSection experience = new OrganizationSection();
+        organization = new Organization("Alcatel", "http://www.alcatel.ru/");
+        organization.addPeriod(new Period("Инженер по аппаратному и программному тестированию", dateOf(9, 1997), dateOf(1, 2005)
+                , "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."));
+        experience.add(organization);
+        organization = new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html");
+        organization.addPeriod(new Period("Разработчик ПО", dateOf(1, 2005), dateOf(2, 2007),
+                "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной " +
+                        "IN платформе Siemens @vantage (Java, Unix)."));
+        experience.add(organization);
+        organization = new Organization("Java Online Projects", "http://javaops.ru/");
+        organization.addPeriod(new Period("Автор проекта.", dateOf(10, 2013), null,
+                "Создание, организация и проведение Java онлайн проектов и стажировок."));
+        experience.add(organization);
+        resume.setSection(SectionType.EXPERIENCE, experience);
+
+        OrganizationSection education = new OrganizationSection();
+        organization = new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/");
+        organization.addPeriod(new Period("Закончил с отличием", dateOf(9, 1984), dateOf(6, 1987), null));
+        education.add(organization);
+        organization = new Organization("Санкт-Петербургский национальный исследовательский университет информационных " +
+                "технологий, механики и оптики", "http://www.ifmo.ru/");
+        organization.addPeriod(new Period("Аспирантура (программист С, С++)", dateOf(9, 1993), dateOf(7, 1996), null));
+        organization.addPeriod(new Period("Инженер (программист Fortran, C)", dateOf(9, 1987), dateOf(7, 1993), null));
+        education.add(organization);
+        resume.setSection(SectionType.EDUCATION, education);
 
         return resume;
     }
