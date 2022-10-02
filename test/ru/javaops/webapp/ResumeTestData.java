@@ -16,7 +16,7 @@ public class ResumeTestData {
         Resume resume = new Resume(uuid, fullName);
 
         resume.setContact(ContactType.PHONE, "+7(921) 855-0482");
-        resume.setContact(ContactType.SKYPE, "skype:grigory.kislin");
+        resume.setContact(ContactType.SKYPE, "grigory.kislin");
         resume.setContact(ContactType.MAIL, "gkislin@yandex.ru");
         resume.setContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
         resume.setContact(ContactType.GITHUB, "https://github.com/gkislin");
