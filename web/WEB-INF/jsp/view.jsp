@@ -12,7 +12,7 @@
 <h2>${resume.fullName}</h2>
 <hr>
 <c:forEach var="contact" items="${resume.contacts}">
-    ${Hyperlink.of(contact)}<br>
+    ${Hyperlink.of(contact.key, contact.value)}<br>
 </c:forEach>
 <hr>
 <c:forEach var="section" items="${resume.sections}">

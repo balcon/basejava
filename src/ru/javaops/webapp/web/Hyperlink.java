@@ -2,12 +2,8 @@ package ru.javaops.webapp.web;
 
 import ru.javaops.webapp.model.ContactType;
 
-import java.util.Map.Entry;
-
 public class Hyperlink {
-    public static String of(Entry<ContactType, String> contact) {
-        ContactType type = contact.getKey();
-        String value = contact.getValue();
+    public static String of(ContactType type, String value) {
         return switch (type) {
             case PHONE -> actionLink(type, value, "tel:");
             case SKYPE -> actionLink(type, value, "skype:");
