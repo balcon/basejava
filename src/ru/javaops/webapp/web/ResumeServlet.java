@@ -1,5 +1,6 @@
 package ru.javaops.webapp.web;
 
+import ru.javaops.webapp.model.ContactType;
 import ru.javaops.webapp.model.Resume;
 import ru.javaops.webapp.storage.Storage;
 import ru.javaops.webapp.storage.util.Config;
@@ -40,10 +41,18 @@ public class ResumeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("utf-8");
         String uuid = req.getParameter("uuid");
         String fullName = req.getParameter("fullName");
         Resume resume = new Resume(uuid, fullName);
+        for (ContactType contactType : ContactType.values()) {
+            String value = req.getParameter(contactType.name());
+            if (value != null || value.trim().length() != 0) {
+                resume.setContact(contactType, value);
+            }
+        }
         storage.update(resume);
+        resp.sendRedirect("resumes");
     }
 }
 
