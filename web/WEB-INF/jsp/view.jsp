@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="ru.javaops.webapp.model.SectionType" %>
+<%@ page import="ru.javaops.webapp.model.Period" %>
 <%@ page import="ru.javaops.webapp.web.Hyperlink" %>
 <jsp:useBean id="resume" scope="request" type="ru.javaops.webapp.model.Resume"/>
 <html>
@@ -40,7 +42,14 @@
             <c:forEach var="organization" items="${organizationSection.content}">
                 <h4><a href="${organization.homepage}">${organization.name}</a></h4>
                 <c:forEach var="period" items="${organization.periods}">
-                    ${period.startDate}-${period.endDate}<br>
+                    <fmt:parseDate value="${period.startDate}" pattern="yyyy-MM-dd" var="startDate"/>
+                    <fmt:formatDate value="${startDate}" var="start" pattern="MM.yyyy"/>
+                    <fmt:parseDate value="${period.endDate}" pattern="yyyy-MM-dd" var="endDate"/>
+                    <fmt:formatDate value="${endDate}" var="end" pattern="MM.yyyy"/>
+                    <c:if test="${period.endDate.equals(Period.NOW)}">
+                        <c:set var="end" value="Настоящее время"/>
+                    </c:if>
+                    ${start} - ${end}<br>
                     <h5>${period.title}</h5>
                     ${period.description}
                 </c:forEach>
