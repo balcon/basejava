@@ -4,6 +4,7 @@ import ru.javaops.webapp.model.Resume;
 import ru.javaops.webapp.storage.Storage;
 import ru.javaops.webapp.storage.util.Config;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,19 +20,19 @@ public class ResumeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        List<Resume> resumes = storage.getAllSorted();
-        StringBuilder str = new StringBuilder();
-        str.append("<table border=1><tr><th>Uuid</th><th>Full name</th></tr>");
-        for (Resume resume : resumes) {
-            str.append("<tr><td>").append(resume.getUuid()).append("</td>");
-            str.append("<td>").append(resume.getFullName()).append("</td></tr>");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String uuid = request.getParameter("uuid");
+        if (uuid == null) {
+            List<Resume> resumes = storage.getAllSorted();
+            request.setAttribute("resumes", resumes);
+            request.getRequestDispatcher("WEB-INF/jsp/list.jsp").forward(request, response);
+        } else {
+            Resume resume = storage.get(uuid);
+            request.setAttribute("resume", resume);
+            request.getRequestDispatcher("WEB-INF/jsp/view.jsp").forward(request, response);
         }
-        str.append("</table>");
-
-        resp.setContentType("text/html;charset=utf-8");
-        resp.getWriter().write(str.toString());
     }
-
 }
+
+
 
