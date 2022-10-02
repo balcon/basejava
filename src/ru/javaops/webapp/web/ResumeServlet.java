@@ -20,17 +20,30 @@ public class ResumeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String uuid = request.getParameter("uuid");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String uuid = req.getParameter("uuid");
         if (uuid == null) {
             List<Resume> resumes = storage.getAllSorted();
-            request.setAttribute("resumes", resumes);
-            request.getRequestDispatcher("WEB-INF/jsp/list.jsp").forward(request, response);
+            req.setAttribute("resumes", resumes);
+            req.getRequestDispatcher("WEB-INF/jsp/list.jsp").forward(req, resp);
         } else {
+            String action = req.getParameter("action");
             Resume resume = storage.get(uuid);
-            request.setAttribute("resume", resume);
-            request.getRequestDispatcher("WEB-INF/jsp/view.jsp").forward(request, response);
+            req.setAttribute("resume", resume);
+            if (action == null) {
+                req.getRequestDispatcher("WEB-INF/jsp/view.jsp").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("WEB-INF/jsp/edit.jsp").forward(req, resp);
+            }
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uuid = req.getParameter("uuid");
+        String fullName = req.getParameter("fullName");
+        Resume resume = new Resume(uuid, fullName);
+        storage.update(resume);
     }
 }
 
