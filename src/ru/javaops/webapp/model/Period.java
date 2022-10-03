@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Period implements Serializable {
+public class Period implements Serializable, Comparable<Period> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -62,5 +62,10 @@ public class Period implements Serializable {
     @Override
     public String toString() {
         return title + ": " + startDate + " - " + endDate + ", " + description;
+    }
+
+    @Override
+    public int compareTo(Period o) {
+        return startDate.compareTo(o.startDate);
     }
 }

@@ -2,9 +2,7 @@ package ru.javaops.webapp.model;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Organization implements Serializable {
     @Serial
@@ -24,7 +22,6 @@ public class Organization implements Serializable {
         this.periods = periods;
     }
 
-
     public String getName() {
         return name;
     }
@@ -34,15 +31,12 @@ public class Organization implements Serializable {
     }
 
     public List<Period> getPeriods() {
+        periods.sort(Comparator.comparing(Period::getStartDate).reversed());
         return periods;
     }
 
     public void addPeriod(Period period) {
         periods.add(period);
-    }
-
-    public void setPeriods(List<Period> periods) {
-        this.periods = periods;
     }
 
     @Override

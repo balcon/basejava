@@ -53,9 +53,11 @@ public class ResumeTestData {
                 , "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."));
         experience.add(organization);
         organization = new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html");
-        organization.addPeriod(new Period("Разработчик ПО", dateOf(1, 2005), dateOf(2, 2007),
+        organization.addPeriod(new Period("Разработчик ПО", dateOf(1, 2005), dateOf(2, 2006),
                 "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной " +
                         "IN платформе Siemens @vantage (Java, Unix)."));
+        organization.addPeriod(new Period("Разработчик ПО (TEST)", dateOf(2, 2006), dateOf(2, 2007),
+                "Случайное описание для другого периода"));
         experience.add(organization);
         organization = new Organization("Java Online Projects", "http://javaops.ru/");
         organization.addPeriod(new Period("Автор проекта.", dateOf(10, 2013), null,
