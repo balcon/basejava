@@ -21,7 +21,6 @@
 </c:forEach>
 <c:forEach var="section" items="${resume.sections}">
     <c:set var="type" value="${section.key}"/>
-
     <c:choose>
         <c:when test="${type==SectionType.OBJECTIVE || type==SectionType.PERSONAL}">
             <h3>${type.title}</h3>
@@ -41,21 +40,33 @@
             <c:set var="organizationSection" value="${section.value}"/>
             <jsp:useBean id="organizationSection" type="ru.javaops.webapp.model.OrganizationSection"/>
             <h3>${type.title}</h3>
-            <c:forEach var="organization" items="${organizationSection.content}">
-                <h4><a href="${organization.homepage}">${organization.name}</a></h4>
-                <c:forEach var="period" items="${organization.periods}">
-                    <fmt:parseDate value="${period.startDate}" pattern="yyyy-MM-dd" var="startDate"/>
-                    <fmt:formatDate value="${startDate}" var="start" pattern="MM.yyyy"/>
-                    <fmt:parseDate value="${period.endDate}" pattern="yyyy-MM-dd" var="endDate"/>
-                    <fmt:formatDate value="${endDate}" var="end" pattern="MM.yyyy"/>
-                    <c:if test="${period.endDate.equals(Period.NOW)}">
-                        <c:set var="end" value="Настоящее время"/>
-                    </c:if>
-                    ${start} - ${end}<br>
-                    <h5>${period.title}</h5>
-                    ${period.description}
+            <table>
+                <c:forEach var="organization" items="${organizationSection.content}">
+                    <tr>
+                        <td></td>
+                        <td><a href="${organization.homepage}">${organization.name}</a></td>
+                    </tr>
+                    <c:forEach var="period" items="${organization.periods}">
+                        <fmt:parseDate value="${period.startDate}" pattern="yyyy-MM-dd" var="startDate"/>
+                        <fmt:formatDate value="${startDate}" var="start" pattern="MM.yyyy"/>
+                        <fmt:parseDate value="${period.endDate}" pattern="yyyy-MM-dd" var="endDate"/>
+                        <fmt:formatDate value="${endDate}" var="end" pattern="MM.yyyy"/>
+                        <c:if test="${period.endDate.equals(Period.NOW)}">
+                            <c:set var="end" value="Сейчас"/>
+                        </c:if>
+                        <tr>
+                            <td>${start} - ${end}</td>
+                            <td><b>${period.title}</b></td>
+                        </tr>
+                        <c:if test="${!period.description.isEmpty()}">
+                            <tr>
+                                <td></td>
+                                <td>${period.description}<td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
                 </c:forEach>
-            </c:forEach>
+            </table>
         </c:when>
     </c:choose>
 </c:forEach>
