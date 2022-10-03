@@ -7,7 +7,7 @@
     <title>Title</title>
 </head>
 <body>
-<a href=<c:url value="resumes?action=create"/>>Создать резюме</a>
+<p><a href=<c:url value="resumes?action=create"/>>Создать резюме</a></p>
 <c:if test="${resumes.size()!=0}">
     <table border=1>
         <tr>

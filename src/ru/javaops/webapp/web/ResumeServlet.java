@@ -86,6 +86,17 @@ public class ResumeServlet extends HttpServlet {
         if (uuid == null || uuid.isEmpty()) {
             storage.save(resume);
         } else {
+            //TODO implemet edit organizations
+            Resume resumeFromBase = storage.get(uuid);
+            AbstractSection experience = resumeFromBase.getSection(SectionType.EXPERIENCE);
+            AbstractSection education = resumeFromBase.getSection(SectionType.EDUCATION);
+            if (experience != null) {
+                resume.setSection(SectionType.EXPERIENCE, experience);
+            }
+            if (experience != null) {
+                resume.setSection(SectionType.EDUCATION, education);
+            }
+
             storage.update(resume);
         }
 
