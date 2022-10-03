@@ -11,7 +11,7 @@
 </head>
 <body>
 <a href="<c:url value="/resumes"/>">Назад</a>
-<a href=<c:url value="resumes?uuid=${resume.uuid}&action=edit"/>>Edit</a><br>
+<a href=<c:url value="resumes?uuid=${resume.uuid}&action=edit"/>>Редактировать</a><br>
 <h2>${resume.fullName}</h2>
 <hr>
 <c:forEach var="contact" items="${resume.contacts}">

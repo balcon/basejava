@@ -55,8 +55,8 @@
         </c:choose>
     </c:forEach>
     <p>
-        <button type="submit">Save</button>
-        <button onclick="window.location.hash='';">Cancel</button>
+        <button type="submit">Сохранить</button>
+        <button onclick="window.location.hash='';">Отмена</button>
     </p>
 </form>
 </body>

@@ -7,7 +7,7 @@
     <title>Title</title>
 </head>
 <body>
-<a href=<c:url value="resumes?action=create"/>>New resume</a>
+<a href=<c:url value="resumes?action=create"/>>Создать резюме</a>
 <c:if test="${resumes.size()!=0}">
     <table border=1>
         <tr>
@@ -23,8 +23,8 @@
                 <td><a href=<c:url value="resumes?uuid=${resume.uuid}"/>>${resume.fullName}</a></td>
                 <td>${resume.getContact(ContactType.MAIL)}</td>
                 <td>${resume.getContact(ContactType.PHONE)}</td>
-                <td><a href=<c:url value="resumes?uuid=${resume.uuid}&action=edit"/>>Edit</a></td>
-                <td><a href=<c:url value="resumes?uuid=${resume.uuid}&action=delete"/>>Delete</a></td>
+                <td><a href=<c:url value="resumes?uuid=${resume.uuid}&action=edit"/>>Редактировать</a></td>
+                <td><a href=<c:url value="resumes?uuid=${resume.uuid}&action=delete"/>>Удалить</a></td>
             </tr>
         </c:forEach>
     </table>
