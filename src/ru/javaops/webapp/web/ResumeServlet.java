@@ -33,21 +33,26 @@ public class ResumeServlet extends HttpServlet {
             req.setAttribute("resume", resume);
             if (action == null) {
                 req.getRequestDispatcher("WEB-INF/jsp/view.jsp").forward(req, resp);
-            } else {
-                req.getRequestDispatcher("WEB-INF/jsp/edit.jsp").forward(req, resp);
+            }
+            switch (action) {
+                case "edit" -> req.getRequestDispatcher("WEB-INF/jsp/edit.jsp").forward(req, resp);
+                case "delete" -> {
+                    storage.delete(uuid);
+                    resp.sendRedirect("resumes");
+                }
             }
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("utf-8");
         String uuid = req.getParameter("uuid");
         String fullName = req.getParameter("fullName");
         Resume resume = new Resume(uuid, fullName);
         for (ContactType contactType : ContactType.values()) {
             String value = req.getParameter(contactType.name());
-            if (value != null || value.trim().length() != 0) {
+            if (value != null && value.trim().length() != 0) {
                 resume.setContact(contactType, value);
             }
         }

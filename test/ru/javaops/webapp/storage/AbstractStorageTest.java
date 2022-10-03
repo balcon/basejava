@@ -10,8 +10,7 @@ import ru.javaops.webapp.model.Resume;
 import ru.javaops.webapp.model.SectionType;
 import ru.javaops.webapp.model.TextSection;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
     protected final Storage storage;
@@ -82,7 +81,10 @@ public abstract class AbstractStorageTest {
         resume.setSection(SectionType.OBJECTIVE, new TextSection("New Objective"));
         resume.setSection(SectionType.PERSONAL, new TextSection("New Personal"));
         storage.update(resume);
-        assertEquals(resume, storage.get(UUID_1));
+        Resume resumeAfterUpdate = storage.get(UUID_1);
+        assertEquals(resume, resumeAfterUpdate);
+        assertTrue(resumeAfterUpdate.getContacts().containsKey(ContactType.SKYPE));
+        assertFalse(resumeAfterUpdate.getContacts().containsKey(ContactType.PHONE));
     }
 
     @Test(expected = NotExistsStorageException.class)

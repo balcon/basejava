@@ -14,7 +14,9 @@
 <h2>${resume.fullName}</h2>
 <hr>
 <c:forEach var="contact" items="${resume.contacts}">
-    ${Hyperlink.of(contact.key, contact.value)}<br>
+    <c:if test="${contact.value!=null}">
+        ${Hyperlink.of(contact.key, contact.value)}<br>
+    </c:if>
 </c:forEach>
 <hr>
 <c:forEach var="section" items="${resume.sections}">

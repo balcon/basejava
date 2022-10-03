@@ -12,6 +12,7 @@
         <th>${ContactType.MAIL.title}</th>
         <th>${ContactType.PHONE.title}</th>
         <th></th>
+        <th></th>
     </tr>
     <jsp:useBean id="resumes" scope="request" type="java.util.List"/>
     <c:forEach var="resume" items="${resumes}">
@@ -21,6 +22,7 @@
             <td>${resume.getContact(ContactType.MAIL)}</td>
             <td>${resume.getContact(ContactType.PHONE)}</td>
             <td><a href=<c:url value="resumes?uuid=${resume.uuid}&action=edit"/>>Edit</a></td>
+            <td><a href=<c:url value="resumes?uuid=${resume.uuid}&action=delete"/>>Delete</a></td>
         </tr>
     </c:forEach>
 </table>
