@@ -89,7 +89,7 @@ public class ResumeServlet extends HttpServlet {
             storage.update(resume);
         }
 
-        resp.sendRedirect("resumes?uuid=" + uuid);
+        resp.sendRedirect("resumes?uuid=" + resume.getUuid());
     }
 }
 
