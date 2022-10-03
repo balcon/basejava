@@ -6,7 +6,8 @@
     <title>Title</title>
 </head>
 <body>
-<table border="1">
+<a href=<c:url value="resumes?action=create"/>>New resume</a>
+<table border=1>
     <tr>
         <th>ФИО</th>
         <th>${ContactType.MAIL.title}</th>

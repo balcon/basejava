@@ -10,7 +10,8 @@
     <title>${resume.fullName}</title>
 </head>
 <body>
-<a href="<c:url value="/resumes"/>">Назад</a> <br>
+<a href="<c:url value="/resumes"/>">Назад</a>
+<a href=<c:url value="resumes?uuid=${resume.uuid}&action=edit"/>>Edit</a><br>
 <h2>${resume.fullName}</h2>
 <hr>
 <c:forEach var="contact" items="${resume.contacts}">
@@ -18,7 +19,6 @@
         ${Hyperlink.of(contact.key, contact.value)}<br>
     </c:if>
 </c:forEach>
-<hr>
 <c:forEach var="section" items="${resume.sections}">
     <c:set var="type" value="${section.key}"/>
 

@@ -1,7 +1,6 @@
 package ru.javaops.webapp.web;
 
-import ru.javaops.webapp.model.ContactType;
-import ru.javaops.webapp.model.Resume;
+import ru.javaops.webapp.model.*;
 import ru.javaops.webapp.storage.Storage;
 import ru.javaops.webapp.storage.util.Config;
 
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
@@ -23,18 +23,21 @@ public class ResumeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String uuid = req.getParameter("uuid");
+        String action = req.getParameter("action");
         if (uuid == null) {
-            List<Resume> resumes = storage.getAllSorted();
-            req.setAttribute("resumes", resumes);
-            req.getRequestDispatcher("WEB-INF/jsp/list.jsp").forward(req, resp);
+            if (action == null) {
+                List<Resume> resumes = storage.getAllSorted();
+                req.setAttribute("resumes", resumes);
+                req.getRequestDispatcher("WEB-INF/jsp/list.jsp").forward(req, resp);
+            } else if (action.equals("create")) {
+                req.getRequestDispatcher("WEB-INF/jsp/edit.jsp").forward(req, resp);
+            }
         } else {
-            String action = req.getParameter("action");
             Resume resume = storage.get(uuid);
             req.setAttribute("resume", resume);
             if (action == null) {
                 req.getRequestDispatcher("WEB-INF/jsp/view.jsp").forward(req, resp);
-            }
-            switch (action) {
+            } else switch (action) {
                 case "edit" -> req.getRequestDispatcher("WEB-INF/jsp/edit.jsp").forward(req, resp);
                 case "delete" -> {
                     storage.delete(uuid);
@@ -49,15 +52,44 @@ public class ResumeServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         String uuid = req.getParameter("uuid");
         String fullName = req.getParameter("fullName");
-        Resume resume = new Resume(uuid, fullName);
+        Resume resume;
+        if (uuid == null || uuid.isEmpty()) {
+            resume = new Resume(fullName);
+        } else {
+            resume = new Resume(uuid, fullName);
+        }
         for (ContactType contactType : ContactType.values()) {
             String value = req.getParameter(contactType.name());
-            if (value != null && value.trim().length() != 0) {
+            if (value != null && !value.trim().isEmpty()) {
                 resume.setContact(contactType, value);
             }
         }
-        storage.update(resume);
-        resp.sendRedirect("resumes");
+        for (SectionType sectionType : SectionType.values()) {
+            String value = req.getParameter(sectionType.name());
+            if (value != null && !value.trim().isEmpty()) {
+                switch (sectionType) {
+                    case OBJECTIVE, PERSONAL -> {
+                        String text = value.replace("\n", " ").replace("\r", "");
+                        resume.setSection(sectionType, new TextSection(text));
+
+                    }
+                    case ACHIEVEMENT, QUALIFICATION -> {
+                        ListTextSection section = new ListTextSection();
+                        Arrays.stream(value.replace("\r", "").split("\n"))
+                                .filter(s -> !s.trim().isEmpty())
+                                .forEach(section::add);
+                        resume.setSection(sectionType, section);
+                    }
+                }
+            }
+        }
+        if (uuid == null || uuid.isEmpty()) {
+            storage.save(resume);
+        } else {
+            storage.update(resume);
+        }
+
+        resp.sendRedirect("resumes?uuid=" + uuid);
     }
 }
 
