@@ -1,6 +1,5 @@
 package ru.javaops.webapp.web;
 
-import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.model.*;
 import ru.javaops.webapp.storage.Storage;
 import ru.javaops.webapp.storage.util.Config;
@@ -53,9 +52,6 @@ public class ResumeServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         String uuid = req.getParameter("uuid");
         String fullName = req.getParameter("fullName");
-        if (fullName==null||fullName.trim().isEmpty()){
-            throw new StorageException("Name can't be empty");
-        }
         Resume resume;
         if (uuid == null || uuid.isEmpty()) {
             resume = new Resume(fullName);

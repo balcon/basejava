@@ -13,7 +13,7 @@
 <a href="<c:url value="/resumes"/>">Назад</a> <br>
 <form action="resumes" method="post">
     <input name="uuid" type="hidden" value="${resume.uuid}">
-    <p><label>ФИО:<input name="fullName" type="text" value="${resume.fullName}"></label></p>
+    <p><label>ФИО:<input name="fullName" type="text" value="${resume.fullName}" required></label></p>
     <table>
         <c:forEach var="cType" items="${ContactType.values()}">
             <jsp:useBean id="cType" type="ru.javaops.webapp.model.ContactType"/>
@@ -56,7 +56,8 @@
     </c:forEach>
     <p>
         <button type="submit">Сохранить</button>
-        <button onclick="window.location.hash='';">Отмена</button>
+<%--        TODO --%>
+<%--        <button type="reset" onclick="window.location.hash='';">Отмена</button>--%>
     </p>
 </form>
 </body>
