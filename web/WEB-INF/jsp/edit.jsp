@@ -2,11 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ru.javaops.webapp.model.ContactType" %>
 <%@ page import="ru.javaops.webapp.model.SectionType" %>
-<c:if test="${resume!=null}">
-    <jsp:useBean id="resume" scope="request" type="ru.javaops.webapp.model.Resume"/>
-</c:if>
 <html>
 <head>
+    <%--@elvariable id="resume" type="ru.javaops.webapp.model.Resume"--%>
     <title>${resume.fullName}</title>
 </head>
 <body>
@@ -16,7 +14,7 @@
     <p><label>ФИО:<input name="fullName" type="text" value="${resume.fullName}" required></label></p>
     <table>
         <c:forEach var="cType" items="${ContactType.values()}">
-            <jsp:useBean id="cType" type="ru.javaops.webapp.model.ContactType"/>
+            <%--@elvariable id="cType" type="ru.javaops.webapp.model.ContactType"--%>
             <tr>
                 <td><b><label for="${cType.name()}">${cType.title}:</label></b></td>
                 <td>
@@ -27,13 +25,11 @@
         </c:forEach>
     </table>
     <c:forEach var="sType" items="${SectionType.values()}">
-        <jsp:useBean id="sType" type="ru.javaops.webapp.model.SectionType"/>
+        <%--@elvariable id="sType" type="ru.javaops.webapp.model.SectionType"--%>
         <c:choose>
             <c:when test="${sType.equals(SectionType.OBJECTIVE)||sType.equals(SectionType.PERSONAL)}">
                 <c:set var="textSection" value="${resume.getSection(sType)}"/>
-                <c:if test="${textSection!=null}">
-                    <jsp:useBean id="textSection" type="ru.javaops.webapp.model.TextSection"/>
-                </c:if>
+                <%--@elvariable id="textSection" type="ru.javaops.webapp.model.TextSection"--%>
                 <p>
                     <b><label for="${sType.name()}">${sType.title}</label></b><br>
                     <textarea name="${sType.name()}" id="${sType.name()}" rows="4"
@@ -42,9 +38,7 @@
             </c:when>
             <c:when test="${sType.equals(SectionType.ACHIEVEMENT)||sType.equals(SectionType.QUALIFICATION)}">
                 <c:set var="listTextSection" value="${resume.getSection(sType)}"/>
-                <c:if test="${listTextSection!=null}">
-                    <jsp:useBean id="listTextSection" type="ru.javaops.webapp.model.ListTextSection"/>
-                </c:if>
+                <%--@elvariable id="listTextSection" type="ru.javaops.webapp.model.ListTextSection"--%>
                 <p>
                     <b><label for="${sType.name()}">${sType.title}</label></b><br>
                     <textarea name="${sType.name()}" id="${sType.name()}" rows="8" cols="80"
@@ -56,8 +50,8 @@
     </c:forEach>
     <p>
         <button type="submit">Сохранить</button>
-<%--        TODO --%>
-<%--        <button type="reset" onclick="window.location.hash='';">Отмена</button>--%>
+        <%--        TODO --%>
+        <%--        <button type="reset" onclick="window.location.hash='';">Отмена</button>--%>
     </p>
 </form>
 </body>

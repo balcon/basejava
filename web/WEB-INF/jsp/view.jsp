@@ -4,9 +4,9 @@
 <%@ page import="ru.javaops.webapp.model.SectionType" %>
 <%@ page import="ru.javaops.webapp.model.Period" %>
 <%@ page import="ru.javaops.webapp.web.Hyperlink" %>
-<jsp:useBean id="resume" scope="request" type="ru.javaops.webapp.model.Resume"/>
 <html>
 <head>
+    <%--@elvariable id="resume" type="ru.javaops.webapp.model.Resume"--%>
     <title>${resume.fullName}</title>
 </head>
 <body>
@@ -23,12 +23,14 @@
     <c:set var="type" value="${section.key}"/>
     <c:choose>
         <c:when test="${type==SectionType.OBJECTIVE || type==SectionType.PERSONAL}">
+            <c:set var="textSection" value="${section.value}"/>
+            <%--@elvariable id="textSection" type="ru.javaops.webapp.model.TextSection"--%>
             <h3>${type.title}</h3>
-            ${section.value}
+            ${textSection.text}
         </c:when>
         <c:when test="${type==SectionType.ACHIEVEMENT || type==SectionType.QUALIFICATION}">
             <c:set var="listTextSection" value="${section.value}"/>
-            <jsp:useBean id="listTextSection" type="ru.javaops.webapp.model.ListTextSection"/>
+            <%--@elvariable id="listTextSection" type="ru.javaops.webapp.model.ListTextSection"--%>
             <h3>${type.title}</h3>
             <ul>
                 <c:forEach var="line" items="${listTextSection.textList}">
@@ -38,7 +40,7 @@
         </c:when>
         <c:when test="${type==SectionType.EXPERIENCE || type==SectionType.EDUCATION}">
             <c:set var="organizationSection" value="${section.value}"/>
-            <jsp:useBean id="organizationSection" type="ru.javaops.webapp.model.OrganizationSection"/>
+            <%--@elvariable id="organizationSection" type="ru.javaops.webapp.model.OrganizationSection"--%>
             <h3>${type.title}</h3>
             <table>
                 <c:forEach var="organization" items="${organizationSection.content}">
@@ -58,10 +60,12 @@
                             <td>${start} - ${end}</td>
                             <td><b>${period.title}</b></td>
                         </tr>
-                        <c:if test="${!period.description.isEmpty()}">
+                        <c:if test="${period.description.length()!=0}">
                             <tr>
                                 <td></td>
-                                <td>${period.description}<td>
+                                <td>
+                                        ${period.description}
+                                <td>
                             </tr>
                         </c:if>
                     </c:forEach>

@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ru.javaops.webapp.model.ContactType" %>
-<jsp:useBean id="resumes" scope="request" type="java.util.List"/>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
 <p><a href=<c:url value="resumes?action=create"/>>Создать резюме</a></p>
+<%--@elvariable id="resumes" type="java.util.List"--%>
 <c:if test="${resumes.size()!=0}">
     <table border=1>
         <tr>
@@ -18,7 +18,7 @@
             <th></th>
         </tr>
         <c:forEach var="resume" items="${resumes}">
-            <jsp:useBean id="resume" type="ru.javaops.webapp.model.Resume"/>
+            <%--@elvariable id="resume" type="ru.javaops.webapp.model.Resume"--%>
             <tr>
                 <td><a href=<c:url value="resumes?uuid=${resume.uuid}"/>>${resume.fullName}</a></td>
                 <td>${resume.getContact(ContactType.MAIL)}</td>
