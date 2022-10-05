@@ -27,7 +27,7 @@
     <c:forEach var="sType" items="${SectionType.values()}">
         <%--@elvariable id="sType" type="ru.javaops.webapp.model.SectionType"--%>
         <c:choose>
-            <c:when test="${sType.equals(SectionType.OBJECTIVE)||sType.equals(SectionType.PERSONAL)}">
+            <c:when test="${sType == SectionType.OBJECTIVE || sType == SectionType.PERSONAL}">
                 <c:set var="textSection" value="${resume.getSection(sType)}"/>
                 <%--@elvariable id="textSection" type="ru.javaops.webapp.model.TextSection"--%>
                 <p>
@@ -36,7 +36,7 @@
                               cols="80">${textSection.text}</textarea>
                 </p>
             </c:when>
-            <c:when test="${sType.equals(SectionType.ACHIEVEMENT)||sType.equals(SectionType.QUALIFICATION)}">
+            <c:when test="${sType == SectionType.ACHIEVEMENT || sType == SectionType.QUALIFICATION}">
                 <c:set var="listTextSection" value="${resume.getSection(sType)}"/>
                 <%--@elvariable id="listTextSection" type="ru.javaops.webapp.model.ListTextSection"--%>
                 <p>

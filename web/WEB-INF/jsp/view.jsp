@@ -22,13 +22,13 @@
 <c:forEach var="section" items="${resume.sections}">
     <c:set var="type" value="${section.key}"/>
     <c:choose>
-        <c:when test="${type==SectionType.OBJECTIVE || type==SectionType.PERSONAL}">
+        <c:when test="${type == SectionType.OBJECTIVE || type == SectionType.PERSONAL}">
             <c:set var="textSection" value="${section.value}"/>
             <%--@elvariable id="textSection" type="ru.javaops.webapp.model.TextSection"--%>
             <h3>${type.title}</h3>
             ${textSection.text}
         </c:when>
-        <c:when test="${type==SectionType.ACHIEVEMENT || type==SectionType.QUALIFICATION}">
+        <c:when test="${type == SectionType.ACHIEVEMENT || type == SectionType.QUALIFICATION}">
             <c:set var="listTextSection" value="${section.value}"/>
             <%--@elvariable id="listTextSection" type="ru.javaops.webapp.model.ListTextSection"--%>
             <h3>${type.title}</h3>
@@ -38,7 +38,7 @@
                 </c:forEach>
             </ul>
         </c:when>
-        <c:when test="${type==SectionType.EXPERIENCE || type==SectionType.EDUCATION}">
+        <c:when test="${type == SectionType.EXPERIENCE || type == SectionType.EDUCATION}">
             <c:set var="organizationSection" value="${section.value}"/>
             <%--@elvariable id="organizationSection" type="ru.javaops.webapp.model.OrganizationSection"--%>
             <h3>${type.title}</h3>
