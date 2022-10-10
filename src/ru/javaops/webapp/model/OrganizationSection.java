@@ -23,6 +23,9 @@ public class OrganizationSection extends AbstractSection {
     }
 
     public List<Organization> getContent() {
+        return organizations;
+    }
+    public List<Organization> getSortedContent() {
         organizations.sort(((o1, o2) -> o2.getPeriods().get(0).compareTo(o1.getPeriods().get(0))));
         return organizations;
     }
