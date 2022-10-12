@@ -65,21 +65,36 @@ public class ResumeServlet extends HttpServlet {
             }
         }
         for (SectionType sectionType : SectionType.values()) {
-            String value = req.getParameter(sectionType.name());
-            if (value != null && !value.trim().isEmpty()) {
-                switch (sectionType) {
-                    case OBJECTIVE, PERSONAL -> {
+            switch (sectionType) {
+                case OBJECTIVE, PERSONAL -> {
+                    String value = req.getParameter(sectionType.name());
+                    if (value != null && !value.trim().isEmpty()) {
                         String text = value.replace("\n", " ").replace("\r", "");
                         resume.setSection(sectionType, new TextSection(text));
-
                     }
-                    case ACHIEVEMENT, QUALIFICATION -> {
+
+                }
+                case ACHIEVEMENT, QUALIFICATION -> {
+                    String value = req.getParameter(sectionType.name());
+                    if (value != null && !value.trim().isEmpty()) {
                         ListTextSection section = new ListTextSection();
                         Arrays.stream(value.replace("\r", "").split("\n"))
                                 .filter(s -> !s.trim().isEmpty())
                                 .forEach(section::add);
                         resume.setSection(sectionType, section);
                     }
+                }
+                case EXPERIENCE -> {
+                    OrganizationSection section = new OrganizationSection();
+                    String sName = sectionType.name();
+                    int orgCount = Integer.parseInt(req.getParameter(sName + "_count"));
+                    for (int i = 0; i < orgCount; i++) {
+                        String name = req.getParameter(sName + "_" + i + "_name");
+                        String homepage = req.getParameter(sName + "_" + i + "_homepage");
+                        Organization organization = new Organization(name, homepage);
+                        section.add(organization);
+                    }
+                    resume.setSection(sectionType, section);
                 }
             }
         }
@@ -88,12 +103,12 @@ public class ResumeServlet extends HttpServlet {
         } else {
             //TODO implemet edit organizations
             Resume resumeFromBase = storage.get(uuid);
-            AbstractSection experience = resumeFromBase.getSection(SectionType.EXPERIENCE);
+//            AbstractSection experience = resumeFromBase.getSection(SectionType.EXPERIENCE);
             AbstractSection education = resumeFromBase.getSection(SectionType.EDUCATION);
-            if (experience != null) {
-                resume.setSection(SectionType.EXPERIENCE, experience);
-            }
-            if (experience != null) {
+//            if (experience != null) {
+//                resume.setSection(SectionType.EXPERIENCE, experience);
+//            }
+            if (education != null) {
                 resume.setSection(SectionType.EDUCATION, education);
             }
 
