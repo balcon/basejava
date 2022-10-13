@@ -125,6 +125,7 @@ public class ResumeServlet extends HttpServlet {
             for (int j = 0; j < periodsCount; j++) {
                 addPeriod(req, organization, orgIndex+"_"+j);
             }
+            addPeriod(req, organization,orgIndex+"_new");
             section.add(organization);
         }
     }
