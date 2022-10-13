@@ -43,7 +43,8 @@
             <%--@elvariable id="organizationSection" type="ru.javaops.webapp.model.OrganizationSection"--%>
             <h3>${type.title}</h3>
             <table>
-                <c:forEach var="organization" items="${organizationSection.sortedContent}">
+<%--                TODO must be sorted content--%>
+                <c:forEach var="organization" items="${organizationSection.content}">
                     <tr>
                         <td></td>
                         <td><a href="${organization.homepage}">${organization.name}</a></td>
