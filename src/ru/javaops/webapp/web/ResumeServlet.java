@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -89,10 +90,26 @@ public class ResumeServlet extends HttpServlet {
                     String sName = sectionType.name();
                     int orgCount = Integer.parseInt(req.getParameter(sName + "_count"));
                     for (int i = 0; i < orgCount; i++) {
-                        String name = req.getParameter(sName + "_" + i + "_name");
-                        String homepage = req.getParameter(sName + "_" + i + "_homepage");
-                        Organization organization = new Organization(name, homepage);
-                        section.add(organization);
+                        String orgIndex = sName + "_" + i;
+                        String name = req.getParameter(orgIndex + "_name");
+                        String homepage = req.getParameter(orgIndex + "_homepage");
+                        if (!name.trim().isEmpty()) {
+                            Organization organization = new Organization(name, homepage);
+                            int periodsCount = Integer.parseInt((req.getParameter(orgIndex + "_periodsCount")));
+                            for (int j = 0; j < periodsCount; j++) {
+                                String periodIndex = orgIndex + "_" + j;
+                                String title = req.getParameter(periodIndex + "_title");
+                                String description = req.getParameter(periodIndex + "_description");
+                                String startDateStr = req.getParameter(periodIndex + "_startDate");
+                                String endDateStr = req.getParameter(periodIndex + "_endDate");
+                                if (!title.trim().isEmpty() && !startDateStr.trim().isEmpty()) {
+                                    LocalDate startDate = LocalDate.parse(startDateStr);
+                                    LocalDate endDate = endDateStr.isEmpty() ? Period.NOW : LocalDate.parse(endDateStr);
+                                    organization.addPeriod(new Period(title, startDate, endDate, description));
+                                }
+                            }
+                            section.add(organization);
+                        }
                     }
                     resume.setSection(sectionType, section);
                 }
