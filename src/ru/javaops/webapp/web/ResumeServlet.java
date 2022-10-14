@@ -116,25 +116,25 @@ public class ResumeServlet extends HttpServlet {
         resp.sendRedirect("resumes?uuid=" + resume.getUuid());
     }
 
-    private static void addOrganization(HttpServletRequest req, OrganizationSection section, String orgIndex) {
-        String name = req.getParameter(orgIndex + "_name");
-        String homepage = req.getParameter(orgIndex + "_homepage");
+    private static void addOrganization(HttpServletRequest req, OrganizationSection section, String orgPrefix) {
+        String name = req.getParameter(orgPrefix + "_name");
+        String homepage = req.getParameter(orgPrefix + "_homepage");
         if (!name.trim().isEmpty()) {
             Organization organization = new Organization(name, homepage);
-            int periodsCount = Integer.parseInt((req.getParameter(orgIndex + "_periodsCount")));
+            int periodsCount = Integer.parseInt((req.getParameter(orgPrefix + "_periodsCount")));
             for (int j = 0; j < periodsCount; j++) {
-                addPeriod(req, organization, orgIndex+"_"+j);
+                addPeriod(req, organization, orgPrefix+"_"+j);
             }
-            addPeriod(req, organization,orgIndex+"_new");
+            addPeriod(req, organization,orgPrefix+"_new");
             section.add(organization);
         }
     }
 
-    private static void addPeriod(HttpServletRequest req, Organization organization, String periodIndex) {
-        String title = req.getParameter(periodIndex + "_title");
-        String description = req.getParameter(periodIndex + "_description");
-        String startDateStr = req.getParameter(periodIndex + "_startDate");
-        String endDateStr = req.getParameter(periodIndex + "_endDate");
+    private static void addPeriod(HttpServletRequest req, Organization organization, String periodPrefix) {
+        String title = req.getParameter(periodPrefix + "_title");
+        String description = req.getParameter(periodPrefix + "_description").replace("\n", " ").replace("\r", "");
+        String startDateStr = req.getParameter(periodPrefix + "_startDate");
+        String endDateStr = req.getParameter(periodPrefix + "_endDate");
         if (!title.trim().isEmpty() && !startDateStr.trim().isEmpty()) {
             LocalDate startDate = LocalDate.parse(startDateStr);
             LocalDate endDate = endDateStr.isEmpty() ? Period.NOW : LocalDate.parse(endDateStr);

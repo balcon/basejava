@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page import="ru.javaops.webapp.model.ContactType" %>
 <%@ page import="ru.javaops.webapp.model.SectionType" %>
-<%@ page import="ru.javaops.webapp.model.Period" %>
 <html>
 <head>
     <%--@elvariable id="resume" type="ru.javaops.webapp.model.Resume"--%>
@@ -58,106 +58,39 @@
                 <c:forEach var="organization" varStatus="index" items="${orgSection.content}">
                     <table>
                         <tr>
-                            <c:set var="orgIndex" value="${sType.name()}_${index.index}"/>
-                            <td><b><label for="${orgIndex}_name">Организация</label></b></td>
+                            <c:set var="orgPrefix" value="${sType.name()}_${index.index}"/>
+                            <td><b><label for="${orgPrefix}_name">Организация</label></b></td>
                             <td>
-                                <input name="${orgIndex}_name" id="${orgIndex}_name"
+                                <input name="${orgPrefix}_name" id="${orgPrefix}_name"
                                        type="text" size="50" value="${organization.name}">
                             </td>
                         </tr>
                         <tr>
-                            <td><b><label for="${orgIndex}_homepage">Домашняя страница</label></b></td>
+                            <td><b><label for="${orgPrefix}_homepage">Домашняя страница</label></b></td>
                             <td>
-                                <input name="${orgIndex}_homepage" id="${orgIndex}_homepage"
+                                <input name="${orgPrefix}_homepage" id="${orgPrefix}_homepage"
                                        type="text" size="50" value="${organization.homepage}">
                             </td>
                         </tr>
                         <!-- --- PERIODS --- -->
-                        <input name="${orgIndex}_periodsCount" type="hidden" value="${organization.periods.size()}">
+                        <input name="${orgPrefix}_periodsCount" type="hidden" value="${organization.periods.size()}">
                         <c:if test="${sType==SectionType.EXPERIENCE}">
                             <c:set var="titleLabel" value="Должность"/>
                         </c:if>
                         <c:if test="${sType==SectionType.EDUCATION}">
-                            <c:set var="titleLabel" value="Специальность"/>
+                            <c:set var="titleLabel" value="Курс"/>
                         </c:if>
                         <c:forEach var="period" varStatus="index" items="${organization.periods}">
-                            <c:set var="periodIndex" value="${orgIndex}_${index.index}"/>
-                            <tr>
-                                <td><b><label for="${periodIndex}_title">${titleLabel}</label></b></td>
-                                <td>
-                                    <input name="${periodIndex}_title" id="${periodIndex}_title"
-                                           type="text" size="50" value="${period.title}">
-                                </td>
-                            </tr>
-                            <c:if test="${sType==SectionType.EXPERIENCE}">
-                                <tr>
-                                    <td><b><label for="${periodIndex}_description">Обязанности</label></b></td>
-                                    <td>
-                                    <textarea name="${periodIndex}_description" id="${periodIndex}_description"
-                                              rows="4" cols="47">${period.description}</textarea>
-                                    </td>
-                                </tr>
-                            </c:if>
-                            <tr>
-                                <td><b><label for="${periodIndex}_startDate">Начало</label></b></td>
-                                <td>
-                                    <input name="${periodIndex}_startDate" id="${periodIndex}_startDate"
-                                           placeholder="yyyy-mm-dd" type="date" size="50" value="${period.startDate}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><b><label for="${periodIndex}_endDate">Конец</label></b></td>
-                                <td>
-                                    <c:set var="endDate" value="${period.endDate}"/>
-                                    <c:if test="${endDate.equals(Period.NOW)}">
-                                        <c:set var="endDate" value=""/>
-                                    </c:if>
-                                    <input name="${periodIndex}_endDate" id="${periodIndex}_endDate"
-                                           placeholder="yyyy-mm-dd" type="date" size="50" value="${endDate}">
-                                </td>
-                            </tr>
+                            <t:period period="${period}" periodPrefix="${orgPrefix}_${index.index}"
+                                      sectionType="${sType}" titleLabel="${titleLabel}"/>
                         </c:forEach>
                     </table>
                     <!-- --- NEW PERIOD --- -->
                     <details>
-                        <summary>Новая ${titleLabel.toLowerCase()} в ${organization.name}</summary>
+                        <summary>Добавить ${titleLabel.toLowerCase()} в ${organization.name}</summary>
                         <table>
-                            <c:set var="periodIndex" value="${orgIndex}_new"/>
-                            <tr>
-                                <td><b><label for="${periodIndex}_title">${titleLabel}</label></b></td>
-                                <td>
-                                    <input name="${periodIndex}_title" id="${periodIndex}_title"
-                                           type="text" size="50" value="${period.title}">
-                                </td>
-                            </tr>
-                            <c:if test="${sType==SectionType.EXPERIENCE}">
-                                <tr>
-                                    <td><b><label for="${periodIndex}_description">Обязанности</label></b></td>
-                                    <td>
-                                                        <textarea name="${periodIndex}_description"
-                                                                  id="${periodIndex}_description"
-                                                                  rows="4" cols="47">${period.description}</textarea>
-                                    </td>
-                                </tr>
-                            </c:if>
-                            <tr>
-                                <td><b><label for="${periodIndex}_startDate">Начало</label></b></td>
-                                <td>
-                                    <input name="${periodIndex}_startDate" id="${periodIndex}_startDate"
-                                           placeholder="yyyy-mm-dd" type="date" size="50" value="${period.startDate}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><b><label for="${periodIndex}_endDate">Конец</label></b></td>
-                                <td>
-                                    <c:set var="endDate" value="${period.endDate}"/>
-                                    <c:if test="${endDate.equals(Period.NOW)}">
-                                        <c:set var="endDate" value=""/>
-                                    </c:if>
-                                    <input name="${periodIndex}_endDate" id="${periodIndex}_endDate"
-                                           placeholder="yyyy-mm-dd" type="date" size="50" value="${endDate}">
-                                </td>
-                            </tr>
+                            <t:period periodPrefix="${orgPrefix}_new" sectionType="${sType}"
+                                      titleLabel="${titleLabel}"/>
                         </table>
                     </details>
                 </c:forEach>

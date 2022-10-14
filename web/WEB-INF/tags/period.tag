@@ -1,47 +1,44 @@
+<%@ tag pageEncoding="UTF-8" %>
+<%@ tag import="ru.javaops.webapp.model.Period" %>
+<%@ tag import="ru.javaops.webapp.model.SectionType" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ attribute name="sType" %>
-<%--@elvariable id="period" type="ru.javaops.webapp.model.Period"--%>
-<%@ attribute name="period" %>
-<%@ attribute name="periodIndex" %>
+<%@ attribute name="period" type="ru.javaops.webapp.model.Period" %>
+<%--<%@ attribute name="sectionType" required="true" %>--%>
+<%@ attribute name="sectionType" type="ru.javaops.webapp.model.SectionType" required="true" %>
+<%@ attribute name="periodPrefix" required="true" %>
+<%@ attribute name="titleLabel" required="true" %>
 
-<c:if test="${sType.equals(\"EXPERIENCE\")}">
-    <c:set var="titleLabel" value="Должность"/>
-</c:if>
-<c:if test="${sType.equals(\"EDUCATION\")}">
-    <c:set var="titleLabel" value="Специальность"/>
-</c:if>
 <tr>
-    <td><b><label for="${periodIndex}_title">${titleLabel}</label></b></td>
+    <td><b><label for="${periodPrefix}_title">${titleLabel}</label></b></td>
     <td>
-        <input name="${periodIndex}_title" id="${periodIndex}_title"
+        <input name="${periodPrefix}_title" id="${periodPrefix}_title"
                type="text" size="50" value="${period.title}">
     </td>
 </tr>
-<c:if test="${sType.equals(\"EXPERIENCE\")}">
+<c:if test="${sectionType==SectionType.EXPERIENCE}">
     <tr>
-        <td><b><label for="${periodIndex}_description">Обязанности</label></b></td>
+        <td><b><label for="${periodPrefix}_description">Обязанности</label></b></td>
         <td>
-            <textarea name="${periodIndex}_description" id="${periodIndex}_description"
-                      rows="4" cols="47">${period.description}</textarea>
+                                    <textarea name="${periodPrefix}_description" id="${periodPrefix}_description"
+                                              rows="4" cols="47">${period.description}</textarea>
         </td>
     </tr>
 </c:if>
 <tr>
-    <td><b><label for="${periodIndex}_startDate">Начало</label></b></td>
+    <td><b><label for="${periodPrefix}_startDate">Начало</label></b></td>
     <td>
-        <input name="${periodIndex}_startDate" id="${periodIndex}_startDate"
+        <input name="${periodPrefix}_startDate" id="${periodPrefix}_startDate"
                placeholder="yyyy-mm-dd" type="date" size="50" value="${period.startDate}">
     </td>
 </tr>
 <tr>
-    <td><b><label for="${periodIndex}_endDate">Конец</label></b></td>
+    <td><b><label for="${periodPrefix}_endDate">Конец</label></b></td>
     <td>
         <c:set var="endDate" value="${period.endDate}"/>
-        <%--@elvariable id="Period" type="ru.javaops.webapp.model.Period"--%>
         <c:if test="${endDate.equals(Period.NOW)}">
             <c:set var="endDate" value=""/>
         </c:if>
-        <input name="${periodIndex}_endDate" id="${periodIndex}_endDate"
-               placeholder="yyyy-mm-dd" type="text" size="50" value="${endDate}">
+        <input name="${periodPrefix}_endDate" id="${periodPrefix}_endDate"
+               placeholder="yyyy-mm-dd" type="date" size="50" value="${endDate}">
     </td>
 </tr>
