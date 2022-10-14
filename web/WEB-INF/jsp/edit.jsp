@@ -95,6 +95,7 @@
     </c:forEach>
     <p>
         <button type="submit">Сохранить</button>
+        <%--        TODO CANCEL BUTTON--%>
         <button type="button" onclick="window.location.hash='';">Отмена</button>
     </p>
 </form>

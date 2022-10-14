@@ -85,14 +85,17 @@ public class ResumeServlet extends HttpServlet {
                         resume.setSection(sectionType, section);
                     }
                 }
-                case EXPERIENCE -> {
+                case EXPERIENCE, EDUCATION -> {
                     OrganizationSection section = new OrganizationSection();
                     String sName = sectionType.name();
-                    int orgCount = Integer.parseInt(req.getParameter(sName + "_count"));
-                    for (int i = 0; i < orgCount; i++) {
-                        addOrganization(req, section, sName + "_" + i);
+                    String organizationCount = req.getParameter(sName + "_count");
+                    if (!organizationCount.isEmpty()) {
+                        int count = Integer.parseInt(organizationCount);
+                        for (int i = 0; i < count; i++) {
+                            addOrganization(req, section, sName + "_" + i);
+                        }
                     }
-                    addOrganization(req, section, sName+"_new");
+                    addOrganization(req, section, sName + "_new");
                     resume.setSection(sectionType, section);
                 }
             }
@@ -101,15 +104,15 @@ public class ResumeServlet extends HttpServlet {
             storage.save(resume);
         } else {
             //TODO implemet edit organizations
-            Resume resumeFromBase = storage.get(uuid);
+//            Resume resumeFromBase = storage.get(uuid);
 //            AbstractSection experience = resumeFromBase.getSection(SectionType.EXPERIENCE);
-            AbstractSection education = resumeFromBase.getSection(SectionType.EDUCATION);
+//            AbstractSection education = resumeFromBase.getSection(SectionType.EDUCATION);
 //            if (experience != null) {
 //                resume.setSection(SectionType.EXPERIENCE, experience);
+////            }
+//            if (education != null) {
+//                resume.setSection(SectionType.EDUCATION, education);
 //            }
-            if (education != null) {
-                resume.setSection(SectionType.EDUCATION, education);
-            }
 
             storage.update(resume);
         }
@@ -123,13 +126,14 @@ public class ResumeServlet extends HttpServlet {
         if (!name.trim().isEmpty()) {
             Organization organization = new Organization(name, homepage);
             String periodsCount = req.getParameter(orgPrefix + "_periodsCount");
-            if (periodsCount!=null) {
+            if (periodsCount != null) {
                 int count = Integer.parseInt(periodsCount);
                 for (int j = 0; j < count; j++) {
                     addPeriod(req, organization, orgPrefix + "_" + j);
                 }
             }
             addPeriod(req, organization, orgPrefix + "_new");
+            // TODO remove org if periods empty
             section.add(organization);
         }
     }

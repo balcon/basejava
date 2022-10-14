@@ -39,6 +39,7 @@
             </ul>
         </c:when>
         <c:when test="${type == SectionType.EXPERIENCE || type == SectionType.EDUCATION}">
+            <%-- TODO hide if empty --%>
             <c:set var="organizationSection" value="${section.value}"/>
             <%--@elvariable id="organizationSection" type="ru.javaops.webapp.model.OrganizationSection"--%>
             <h3>${type.title}</h3>
