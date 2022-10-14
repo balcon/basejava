@@ -15,8 +15,8 @@
     <p><label>ФИО:<input name="fullName" type="text" size="40" value="${resume.fullName}" required></label></p>
     <!-- --- CONTACTS --- -->
     <table>
+        <%--@elvariable id="cType" type="ru.javaops.webapp.model.ContactType"--%>
         <c:forEach var="cType" items="${ContactType.values()}">
-            <%--@elvariable id="cType" type="ru.javaops.webapp.model.ContactType"--%>
             <tr>
                 <td><b><label for="${cType.name()}">${cType.title}:</label></b></td>
                 <td>
@@ -27,12 +27,12 @@
         </c:forEach>
     </table>
     <!-- --- SECTIONS --- -->
+    <%--@elvariable id="sType" type="ru.javaops.webapp.model.SectionType"--%>
     <c:forEach var="sType" items="${SectionType.values()}">
-        <%--@elvariable id="sType" type="ru.javaops.webapp.model.SectionType"--%>
         <c:choose>
             <c:when test="${sType == SectionType.OBJECTIVE || sType == SectionType.PERSONAL}">
-                <c:set var="textSection" value="${resume.getSection(sType)}"/>
                 <%--@elvariable id="textSection" type="ru.javaops.webapp.model.TextSection"--%>
+                <c:set var="textSection" value="${resume.getSection(sType)}"/>
                 <p>
                     <b><label for="${sType.name()}">${sType.title}</label></b><br>
                     <textarea name="${sType.name()}" id="${sType.name()}" rows="4"
@@ -40,8 +40,8 @@
                 </p>
             </c:when>
             <c:when test="${sType == SectionType.ACHIEVEMENT || sType == SectionType.QUALIFICATION}">
-                <c:set var="listTextSection" value="${resume.getSection(sType)}"/>
                 <%--@elvariable id="listTextSection" type="ru.javaops.webapp.model.ListTextSection"--%>
+                <c:set var="listTextSection" value="${resume.getSection(sType)}"/>
                 <p>
                     <b><label for="${sType.name()}">${sType.title}</label></b><br>
                     <textarea name="${sType.name()}" id="${sType.name()}" rows="8" cols="80"
@@ -52,8 +52,8 @@
             <c:when test="${sType == SectionType.EXPERIENCE || sType == SectionType.EDUCATION}">
                 <!-- --- ORGANIZATIONS --- -->
                 <h4>${sType.title}</h4>
-                <c:set var="orgSection" value="${resume.getSection(sType)}"/>
                 <%--@elvariable id="orgSection" type="ru.javaops.webapp.model.OrganizationSection"--%>
+                <c:set var="orgSection" value="${resume.getSection(sType)}"/>
                 <input name="${sType.name()}_count" type="hidden" value="${orgSection.content.size()}">
                 <c:forEach var="organization" varStatus="index" items="${orgSection.content}">
                     <table>
@@ -99,8 +99,7 @@
     </c:forEach>
     <p>
         <button type="submit">Сохранить</button>
-        <%--        TODO --%>
-        <%--        <button type="reset" onclick="window.location.hash='';">Отмена</button>--%>
+        <button type="button" onclick="window.location.hash='';">Отмена</button>
     </p>
 </form>
 </body>
