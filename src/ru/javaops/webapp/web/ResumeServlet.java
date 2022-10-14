@@ -90,8 +90,9 @@ public class ResumeServlet extends HttpServlet {
                     String sName = sectionType.name();
                     int orgCount = Integer.parseInt(req.getParameter(sName + "_count"));
                     for (int i = 0; i < orgCount; i++) {
-                        addOrganization(req, section, sName+"_"+i);
+                        addOrganization(req, section, sName + "_" + i);
                     }
+                    addOrganization(req, section, sName+"_new");
                     resume.setSection(sectionType, section);
                 }
             }
@@ -121,11 +122,14 @@ public class ResumeServlet extends HttpServlet {
         String homepage = req.getParameter(orgPrefix + "_homepage");
         if (!name.trim().isEmpty()) {
             Organization organization = new Organization(name, homepage);
-            int periodsCount = Integer.parseInt((req.getParameter(orgPrefix + "_periodsCount")));
-            for (int j = 0; j < periodsCount; j++) {
-                addPeriod(req, organization, orgPrefix+"_"+j);
+            String periodsCount = req.getParameter(orgPrefix + "_periodsCount");
+            if (periodsCount!=null) {
+                int count = Integer.parseInt(periodsCount);
+                for (int j = 0; j < count; j++) {
+                    addPeriod(req, organization, orgPrefix + "_" + j);
+                }
             }
-            addPeriod(req, organization,orgPrefix+"_new");
+            addPeriod(req, organization, orgPrefix + "_new");
             section.add(organization);
         }
     }

@@ -51,35 +51,31 @@
             </c:when>
             <c:when test="${sType == SectionType.EXPERIENCE || sType == SectionType.EDUCATION}">
                 <!-- --- ORGANIZATIONS --- -->
+                <c:if test="${sType==SectionType.EXPERIENCE}">
+                    <c:set var="titleLabel" value="Должность"/>
+                </c:if>
+                <c:if test="${sType==SectionType.EDUCATION}">
+                    <c:set var="titleLabel" value="Курс"/>
+                </c:if>
                 <h4>${sType.title}</h4>
+                <!-- --- ADD NEW ORGANIZATION --- -->
+                <details>
+                    <summary>Добавить ${sType.title.toLowerCase()}</summary>
+                    <table>
+                        <c:set var="prefixNew" value="${sType.name()}_new"/>
+                        <t:organization orgPrefix="${prefixNew}"/>
+                        <t:period sectionType="${sType}" periodPrefix="${prefixNew}_new" titleLabel="${titleLabel}"/>
+                    </table>
+                </details>
                 <%--@elvariable id="orgSection" type="ru.javaops.webapp.model.OrganizationSection"--%>
                 <c:set var="orgSection" value="${resume.getSection(sType)}"/>
                 <input name="${sType.name()}_count" type="hidden" value="${orgSection.content.size()}">
                 <c:forEach var="organization" varStatus="index" items="${orgSection.content}">
                     <table>
-                        <tr>
-                            <c:set var="orgPrefix" value="${sType.name()}_${index.index}"/>
-                            <td><b><label for="${orgPrefix}_name">Организация</label></b></td>
-                            <td>
-                                <input name="${orgPrefix}_name" id="${orgPrefix}_name"
-                                       type="text" size="50" value="${organization.name}">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><b><label for="${orgPrefix}_homepage">Домашняя страница</label></b></td>
-                            <td>
-                                <input name="${orgPrefix}_homepage" id="${orgPrefix}_homepage"
-                                       type="text" size="50" value="${organization.homepage}">
-                            </td>
-                        </tr>
+                        <c:set var="orgPrefix" value="${sType.name()}_${index.index}"/>
+                        <t:organization organization="${organization}" orgPrefix="${orgPrefix}"/>
                         <!-- --- PERIODS --- -->
                         <input name="${orgPrefix}_periodsCount" type="hidden" value="${organization.periods.size()}">
-                        <c:if test="${sType==SectionType.EXPERIENCE}">
-                            <c:set var="titleLabel" value="Должность"/>
-                        </c:if>
-                        <c:if test="${sType==SectionType.EDUCATION}">
-                            <c:set var="titleLabel" value="Курс"/>
-                        </c:if>
                         <c:forEach var="period" varStatus="index" items="${organization.periods}">
                             <t:period period="${period}" periodPrefix="${orgPrefix}_${index.index}"
                                       sectionType="${sType}" titleLabel="${titleLabel}"/>

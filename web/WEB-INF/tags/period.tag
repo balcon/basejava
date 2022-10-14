@@ -3,7 +3,6 @@
 <%@ tag import="ru.javaops.webapp.model.SectionType" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ attribute name="period" type="ru.javaops.webapp.model.Period" %>
-<%--<%@ attribute name="sectionType" required="true" %>--%>
 <%@ attribute name="sectionType" type="ru.javaops.webapp.model.SectionType" required="true" %>
 <%@ attribute name="periodPrefix" required="true" %>
 <%@ attribute name="titleLabel" required="true" %>
