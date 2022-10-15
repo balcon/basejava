@@ -3,7 +3,7 @@
 <%@ page import="ru.javaops.webapp.model.ContactType" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Список резюме</title>
 </head>
 <body>
 <p><a href=<c:url value="resumes?action=create"/>>Создать резюме</a></p>

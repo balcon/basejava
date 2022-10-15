@@ -9,7 +9,7 @@
     <title>${resume.fullName}</title>
 </head>
 <body>
-<a href="<c:url value="/resumes"/>">Назад</a> <br>
+<a href="<c:url value="/resumes"/>">К списку резюме</a> <br>
 <form action="resumes" method="post">
     <input name="uuid" type="hidden" value="${resume.uuid}">
     <p><label>ФИО:<input name="fullName" type="text" size="40" value="${resume.fullName}" required></label></p>
@@ -55,7 +55,7 @@
                     <c:set var="titleLabel" value="Должность"/>
                 </c:if>
                 <c:if test="${sType==SectionType.EDUCATION}">
-                    <c:set var="titleLabel" value="Курс"/>
+                    <c:set var="titleLabel" value="Курс обучения"/>
                 </c:if>
                 <h4>${sType.title}</h4>
                 <!-- --- ADD NEW ORGANIZATION --- -->
