@@ -96,7 +96,9 @@ public class ResumeServlet extends HttpServlet {
                         }
                     }
                     addOrganization(req, section, sName + "_new");
-                    resume.setSection(sectionType, section);
+                    if (!section.getContent().isEmpty()) {
+                        resume.setSection(sectionType, section);
+                    }
                 }
             }
         }

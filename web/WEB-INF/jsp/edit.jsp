@@ -64,6 +64,7 @@
                     <table>
                         <c:set var="prefixNew" value="${sType.name()}_new"/>
                         <t:organization orgPrefix="${prefixNew}"/>
+                        <tr style="height: 10px"></tr>
                         <t:period sectionType="${sType}" periodPrefix="${prefixNew}_new" titleLabel="${titleLabel}"/>
                     </table>
                 </details>
