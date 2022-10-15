@@ -47,7 +47,7 @@
                 <c:forEach var="organization" items="${organizationSection.sortedContent}">
                     <tr>
                         <td></td>
-                        <td><a href="${organization.homepage}">${organization.name}</a></td>
+                        <td>${Hyperlink.of(organization)}</td>
                     </tr>
                     <c:forEach var="period" items="${organization.periods}">
                         <fmt:parseDate value="${period.startDate}" pattern="yyyy-MM-dd" var="startDate"/>
@@ -70,6 +70,7 @@
                             </tr>
                         </c:if>
                     </c:forEach>
+                    <tr><td colspan="2"><hr></td></tr>
                 </c:forEach>
             </table>
         </c:when>

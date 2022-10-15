@@ -103,17 +103,6 @@ public class ResumeServlet extends HttpServlet {
         if (uuid == null || uuid.isEmpty()) {
             storage.save(resume);
         } else {
-            //TODO implemet edit organizations
-//            Resume resumeFromBase = storage.get(uuid);
-//            AbstractSection experience = resumeFromBase.getSection(SectionType.EXPERIENCE);
-//            AbstractSection education = resumeFromBase.getSection(SectionType.EDUCATION);
-//            if (experience != null) {
-//                resume.setSection(SectionType.EXPERIENCE, experience);
-////            }
-//            if (education != null) {
-//                resume.setSection(SectionType.EDUCATION, education);
-//            }
-
             storage.update(resume);
         }
 
@@ -133,14 +122,16 @@ public class ResumeServlet extends HttpServlet {
                 }
             }
             addPeriod(req, organization, orgPrefix + "_new");
-            // TODO remove org if periods empty
-            section.add(organization);
+            if (!organization.getPeriods().isEmpty()) {
+                section.add(organization);
+            }
         }
     }
 
     private static void addPeriod(HttpServletRequest req, Organization organization, String periodPrefix) {
         String title = req.getParameter(periodPrefix + "_title");
-        String description = req.getParameter(periodPrefix + "_description").replace("\n", " ").replace("\r", "");
+        String description = req.getParameter(periodPrefix + "_description");
+        description = description != null ? description.replace("\n", " ").replace("\r", "") : null;
         String startDateStr = req.getParameter(periodPrefix + "_startDate");
         String endDateStr = req.getParameter(periodPrefix + "_endDate");
         if (!title.trim().isEmpty() && !startDateStr.trim().isEmpty()) {

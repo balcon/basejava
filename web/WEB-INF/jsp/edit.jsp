@@ -72,11 +72,17 @@
                 <input name="${sType.name()}_count" type="hidden" value="${orgSection.content.size()}">
                 <c:forEach var="organization" varStatus="index" items="${orgSection.content}">
                     <table>
+                        <tr>
+                            <td colspan="2">
+                                <hr>
+                            </td>
+                        </tr>
                         <c:set var="orgPrefix" value="${sType.name()}_${index.index}"/>
                         <t:organization organization="${organization}" orgPrefix="${orgPrefix}"/>
                         <!-- --- PERIODS --- -->
                         <input name="${orgPrefix}_periodsCount" type="hidden" value="${organization.periods.size()}">
                         <c:forEach var="period" varStatus="index" items="${organization.periods}">
+                            <tr style="height: 10px"></tr>
                             <t:period period="${period}" periodPrefix="${orgPrefix}_${index.index}"
                                       sectionType="${sType}" titleLabel="${titleLabel}"/>
                         </c:forEach>
@@ -95,9 +101,16 @@
     </c:forEach>
     <p>
         <button type="submit">Сохранить</button>
-        <%--        TODO CANCEL BUTTON--%>
-        <button type="button" onclick="window.location.hash='';">Отмена</button>
+        <button type="button" onclick="history.back()">Отмена</button>
     </p>
 </form>
+<script>
+    function clearPeriod(prefix) {
+        document.getElementById(prefix + "_title").value = "";
+        document.getElementById(prefix + "_startDate").value = "";
+        document.getElementById(prefix + "_endDate").value = "";
+        document.getElementById(prefix + "_description").value = "";
+    }
+</script>
 </body>
 </html>

@@ -12,6 +12,7 @@
     <td>
         <input name="${periodPrefix}_title" id="${periodPrefix}_title"
                type="text" size="50" value="${period.title}">
+        <button type="button" onclick="clearPeriod('${periodPrefix}')">X</button>
     </td>
 </tr>
 <c:if test="${sectionType==SectionType.EXPERIENCE}">
