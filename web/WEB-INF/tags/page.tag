@@ -26,6 +26,8 @@
         </a>
     </div>
 </nav>
-<jsp:doBody/>
+<div class="container" style="margin-top: 10pt">
+    <jsp:doBody/>
+</div>
 </body>
 </html>
