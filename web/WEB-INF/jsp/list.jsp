@@ -13,7 +13,8 @@
                 <tr>
                     <th style="vertical-align: middle">${index.count}</th>
                     <td><a class="button is-white" href="resumes?uuid=${resume.uuid}">${resume.fullName}</a></td>
-                    <td style="vertical-align: middle">${resume.getSection(SectionType.OBJECTIVE)}</td>
+                    <td><a class="button is-white" href="resumes?uuid=${resume.uuid}">
+                            ${resume.getSection(SectionType.OBJECTIVE)}</a></td>
                     <td>
                         <c:set var="mail" value="${resume.getContact(ContactType.MAIL)}"/>
                         <a class="button is-white" href="mailto:${mail}">

@@ -13,8 +13,8 @@
 <body>
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <a class="navbar-item" href="https://github.com/balcon/basejava">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Logo-Logo.svg" width="112" height="28">
         </a>
         <a class="navbar-item" href="<c:url value="/resumes"/>">
             <span class="icon"><i class="fa fa-list"></i></span>
