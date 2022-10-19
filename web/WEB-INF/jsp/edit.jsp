@@ -5,6 +5,7 @@
 <%@ page import="ru.javaops.webapp.model.ContactType" %>
 <%@ page import="ru.javaops.webapp.model.SectionType" %>
 <%@ page import="ru.javaops.webapp.web.Hyperlink" %>
+
 <%--@elvariable id="resume" type="ru.javaops.webapp.model.Resume"--%>
 <c:set var="title" value="Новое резюме"/>
 <c:if test="${resume!=null}">
@@ -21,7 +22,7 @@
                     <input class="input is-primary" type="text" id="fullName"
                            name="fullName" value="${resume.fullName}" required>
                 </div>
-                    <%--                <p class="help">Обязательно для заполнения</p>--%>
+                <p class="help">Обязательно для заполнения</p>
             </div>
 
             <!-- --- CONTACTS --- -->
@@ -51,15 +52,19 @@
                         <c:set var="textSection" value="${resume.getSection(sType)}"/>
                         <div class="field">
                             <label class="label" for="${sType.name()}">${sType.title}</label>
-                            <div class="control">
-                                <c:if test="${sType == SectionType.OBJECTIVE}">
+                            <c:if test="${sType == SectionType.OBJECTIVE}">
+                                <div class="control">
                                     <input class="input is-primary" type="text" id="${sType.name()}"
                                            name="${sType.name()}" value="${textSection.text}" required>
-                                </c:if><c:if test="${sType == SectionType.PERSONAL}">
-                                <textarea class="textarea has-fixed-size" id="${sType.name()}"
-                                          name="${sType.name()}">${textSection.text}</textarea>
+                                </div>
+                                <p class="help">Обязательно для заполнения</p>
                             </c:if>
-                            </div>
+                            <c:if test="${sType == SectionType.PERSONAL}">
+                                <div class="control">
+                                    <textarea class="textarea has-fixed-size" id="${sType.name()}"
+                                              name="${sType.name()}">${textSection.text}</textarea>
+                                </div>
+                            </c:if>
                         </div>
                     </c:when>
                     <c:when test="${sType == SectionType.ACHIEVEMENT || sType == SectionType.QUALIFICATION}">
@@ -107,45 +112,42 @@
                         <c:set var="orgSection" value="${resume.getSection(sType)}"/>
                         <input name="${sType.name()}_count" type="hidden" value="${orgSection.content.size()}">
                         <c:forEach var="organization" varStatus="index" items="${orgSection.content}">
-                            <%--                            <table>--%>
-                            <%--                                <tr>--%>
-                            <%--                                    <td colspan="2">--%>
-                            <%--                                        <hr>--%>
-                            <%--                                    </td>--%>
-                            <%--                                </tr>--%>
                             <c:set var="orgPrefix" value="${sType.name()}_${index.index}"/>
-                            <div class="box">
-                                <button class="delete is-pulled-right"></button>
-                                <t:organization organization="${organization}" orgPrefix="${orgPrefix}"/>
-                                <!-- --- PERIODS --- -->
-                                <input name="${orgPrefix}_periodsCount" type="hidden"
-                                       value="${organization.periods.size()}">
-                                <c:forEach var="period" varStatus="index" items="${organization.periods}">
-                                    <div id="${orgPrefix}_${index.index}_box">
-                                        <div class="box">
-                                            <button class="delete is-pulled-right" type="button"
-                                                    onclick="clearPeriod('${orgPrefix}_${index.index}')"></button>
-                                            <br>
-                                            <t:period period="${period}" periodPrefix="${orgPrefix}_${index.index}"
-                                                      sectionType="${sType}" titleLabel="${titleLabel}"/>
+                            <div id="${orgPrefix}_box">
+                                <div class="box">
+                                    <button class="delete is-pulled-right" type="button"
+                                            onclick="clearOrg('${orgPrefix}')"></button>
+                                    <t:organization organization="${organization}" orgPrefix="${orgPrefix}"/>
+                                    <!-- --- PERIODS --- -->
+                                    <input name="${orgPrefix}_periodsCount" type="hidden"
+                                           value="${organization.periods.size()}">
+                                    <c:forEach var="period" varStatus="index" items="${organization.periods}">
+                                        <div id="${orgPrefix}_${index.index}_box">
+                                            <div class="box">
+                                                <button class="delete is-pulled-right" type="button"
+                                                        onclick="clearPeriod('${orgPrefix}_${index.index}')"></button>
+                                                <br>
+                                                <t:period period="${period}" periodPrefix="${orgPrefix}_${index.index}"
+                                                          sectionType="${sType}" titleLabel="${titleLabel}"/>
+                                            </div>
+                                            <p></p>
                                         </div>
-                                        <p></p>
-                                    </div>
-                                </c:forEach>
+                                    </c:forEach>
 
-                                <!-- --- NEW PERIOD --- -->
-                                <button class="button is-small is-primary" type="button"
-                                        id="${orgPrefix}_new_btn" onclick="showBlock('${orgPrefix}_new')">
-                                    <span class="icon"><i class="fa fa-plus"></i></span>
-                                    <span>Добавить ${titleLabel.toLowerCase()} в ${organization.name}</span>
-                                </button>
-                                <div id="${orgPrefix}_new" hidden>
-                                    <div class="box">
-                                        <div class="label has-text-primary">
-                                            Добавить ${titleLabel.toLowerCase()} в ${organization.name}
+                                    <!-- --- NEW PERIOD --- -->
+                                    <button class="button is-small is-primary" type="button"
+                                            id="${orgPrefix}_new_btn" onclick="showBlock('${orgPrefix}_new')">
+                                        <span class="icon"><i class="fa fa-plus"></i></span>
+                                        <span>Добавить ${titleLabel.toLowerCase()} в ${organization.name}</span>
+                                    </button>
+                                    <div id="${orgPrefix}_new" hidden>
+                                        <div class="box">
+                                            <div class="label has-text-primary">
+                                                Добавить ${titleLabel.toLowerCase()} в ${organization.name}
+                                            </div>
+                                            <t:period periodPrefix="${orgPrefix}_new" sectionType="${sType}"
+                                                      titleLabel="${titleLabel}"/>
                                         </div>
-                                        <t:period periodPrefix="${orgPrefix}_new" sectionType="${sType}"
-                                                  titleLabel="${titleLabel}"/>
                                     </div>
                                 </div>
                             </div>
@@ -153,6 +155,7 @@
                     </c:when>
                 </c:choose>
             </c:forEach>
+            <br>
             <button class="button is-primary is-hovered" type="submit">
                 <span class="icon"><i class="fa fa-floppy-disk"></i></span>
                 <span>Сохранить</span>
@@ -167,6 +170,11 @@
         function clearPeriod(prefix) {
             document.getElementById(prefix + "_box").hidden = true;
             document.getElementById(prefix + "_title").value = "";
+        }
+
+        function clearOrg(prefix) {
+            document.getElementById(prefix + "_box").hidden = true;
+            document.getElementById(prefix + "_name").value = "";
         }
 
         function showBlock(blockId) {
