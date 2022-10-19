@@ -72,7 +72,7 @@
                             <p>${type.title}</p>
                         </div>
                         <div class="message-body">
-                            <c:forEach var="organization" items="${organizationSection.sortedContent}">
+                            <c:forEach var="organization" items="${organizationSection.content}">
                                 <article class="panel is-primary">
                                     <p class="panel-heading">
                                         <a class="button is-text title is-6" href="${organization.homepage}">
