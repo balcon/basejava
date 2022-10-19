@@ -99,7 +99,6 @@
                         </button>
                         <div id="${sType.name()}_new" hidden>
                             <div class="box">
-                                <div class="label has-text-primary">Добавить ${sType.title.toLowerCase()}</div>
                                 <c:set var="prefixNew" value="${sType.name()}_new"/>
                                 <t:organization orgPrefix="${prefixNew}"/>
                                 <tr style="height: 10px"></tr>
@@ -142,9 +141,6 @@
                                     </button>
                                     <div id="${orgPrefix}_new" hidden>
                                         <div class="box">
-                                            <div class="label has-text-primary">
-                                                Добавить ${titleLabel.toLowerCase()} в ${organization.name}
-                                            </div>
                                             <t:period periodPrefix="${orgPrefix}_new" sectionType="${sType}"
                                                       titleLabel="${titleLabel}"/>
                                         </div>
@@ -178,7 +174,7 @@
         }
 
         function showBlock(blockId) {
-            document.getElementById(blockId + "_btn").remove();
+            document.getElementById(blockId + "_btn").disabled = true;
             document.getElementById(blockId).hidden = false;
         }
     </script>
