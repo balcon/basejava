@@ -138,8 +138,16 @@ public class ResumeServlet extends HttpServlet {
         String endDateStr = req.getParameter(periodPrefix + "_endDate");
         if (!title.trim().isEmpty() && !startDateStr.trim().isEmpty()) {
             LocalDate startDate = LocalDate.parse(startDateStr);
-            // TODO If date close to now() - write NOW
-            LocalDate endDate = endDateStr.isEmpty() ? Period.NOW : LocalDate.parse(endDateStr);
+            LocalDate endDate;
+            if (endDateStr.isEmpty()) {
+                endDate = Period.NOW;
+            } else {
+                endDate = LocalDate.parse(endDateStr);
+                LocalDate now = LocalDate.now();
+                if (endDate.getYear() == now.getYear() && endDate.getMonthValue() == now.getMonthValue()) {
+                    endDate = Period.NOW;
+                }
+            }
             organization.addPeriod(new Period(title, startDate, endDate, description));
         }
     }
