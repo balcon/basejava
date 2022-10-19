@@ -8,6 +8,7 @@
     <title>${title}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
+    <link rel="icon" href="https://www.favicon.by/ico/6347231329473.ico" />
 </head>
 
 <body>
